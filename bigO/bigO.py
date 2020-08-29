@@ -2,6 +2,7 @@ import math
 from random import randrange
 from time import time
 from win10toast import ToastNotifier
+from typing import Any, List, Tuple, Callable
 
 
 class bigO:
@@ -30,7 +31,7 @@ class bigO:
     def str(self):
         return self.complexity2str(self.cplx)
 
-    def complexity2str(self, cplx):
+    def complexity2str(self, cplx: int) -> str:
         def switch(cplx):
             return {
                 self.ON: "O(N)",
@@ -43,7 +44,7 @@ class bigO:
 
         return switch(cplx)
 
-    def fittingCurve(self, cplx):
+    def fittingCurve(self, cplx: int) -> Callable:
         def bigO_ON(n):
             return n
 
@@ -74,7 +75,7 @@ class bigO:
 
         return switch(cplx)
 
-    def minimalLeastSq(self, arr, times, function):
+    def minimalLeastSq(self, arr: List[Any], times: float, function: Callable):
         # sigmaGn = 0.0
         sigmaGnSquared = 0.0
         sigmaTime = 0.0
@@ -104,7 +105,7 @@ class bigO:
 
         return result
 
-    def estimate(self, n, times):
+    def estimate(self, n: List[int], times: List[float]):
         bestFit = bigO()
 
         if len(n) != len(times):
@@ -123,12 +124,18 @@ class bigO:
 
         return bestFit, None
 
-    def test(self, functionName, array):
+    def test(self, functionName: Callable, array: str) -> Tuple[str, str, List[Any]]:
         """Big-O calculator
 
         Args:
-            functionName ([function]): a function to call
-            array ([string]): "random", "sorted", "reversed", "partial"
+            functionName (Callable): a function to call |
+            array (string): "random", "sorted", "reversed", "partial"
+
+        Returns:
+            complexity (string) : ex) O(N)
+            _ (string) : Error message else None
+            result (array) : Result of sorted array
+
         """
 
         def genRandomArray(size):
@@ -158,9 +165,10 @@ class bigO:
 
         bigOtest = bigO()
 
-        sizes = [10, 100, 1000, 10000, 50000]
+        sizes = [10, 100, 1000, 10000, 100000]
         maxIter = 5
         times = []
+        result = []
 
         toaster = ToastNotifier()
         print(f"Running {functionName.__name__}({array} array)...")

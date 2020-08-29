@@ -20,14 +20,13 @@ You can call which array to test
 Big-O calculator
 
 Args:
-    functionName ([string]): function name to call
+    functionName ([Callable]): a function to call
     array ([string]): "random", "sorted", "reversed", "partial"
   
 ```
 
 ```py
 from bigO import bigO
-
 
 def countSort(arr):  # stable
     # Time Complexity : O(n) | Space Complexity : O(n)
