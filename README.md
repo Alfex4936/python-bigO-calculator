@@ -21,10 +21,13 @@ Big-O calculator
 
 Args:
     functionName ([Callable]): a function to call
+    
     array ([string]): "random", "sorted", "reversed", "partial", "Ksorted"
 
-※ To see the result of function, return the array
-※ K in Ksorted will use testSize//2
+Warn:
+    To see the result of function, return the array.
+
+    K in Ksorted will use testSize//2
   
 ```
 
