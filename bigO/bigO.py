@@ -3,6 +3,7 @@ from random import randrange
 from time import time
 from win10toast import ToastNotifier
 from typing import Any, List, Tuple, Callable
+import warnings
 
 
 class bigO:
@@ -129,7 +130,7 @@ class bigO:
 
         Args:
             functionName (Callable): a function to call |
-            array (string): "random", "sorted", "reversed", "partial"
+            array (string): "random", "sorted", "reversed", "partial", "Ksorted"
 
         Returns:
             complexity (string) : ex) O(N)
@@ -137,7 +138,7 @@ class bigO:
             result (array) : Result of sorted array
 
         """
-
+        # TODO : "all" to test all types of array
         def genRandomArray(size):
             array = []
             for _ in range(size):
@@ -163,6 +164,40 @@ class bigO:
             array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
             return array
 
+        def genKsortedArray(size, k):
+            def reverseRange(array, a, b):
+                i = a
+                j = b - 1
+                while i < j:
+                    array[i], array[j] = array[j], array[i]
+                    i += 1
+                    j -= 1
+
+                return array
+
+            # ? can return random array
+            assert size > k, "K must be smaller than the size."
+            if size == 0:
+                return genSortedArray(size)
+            elif size == k:
+                return genReversedArray(size)
+
+            array = []
+            for value in range(-size // 2, size // 2):
+                array.append(value)
+
+            right = randrange(k)
+            while right > size - k - 1:  # Don't reverse again
+                right -= 1
+
+            if size != k:
+                k += 1
+
+            reverseRange(array, 0, k)
+            reverseRange(array, len(array) - right, len(array))
+
+            return array
+
         bigOtest = bigO()
 
         sizes = [10, 100, 1000, 10000, 100000]
@@ -175,7 +210,7 @@ class bigO:
         toaster.show_toast(
             "Big-O Caculator",
             f"Running {functionName.__name__}({array} array)...",
-            duration=3,
+            duration=2,
         )
 
         for size in sizes:
@@ -190,6 +225,8 @@ class bigO:
                 nums = genPartialArray(size)
             elif array == "reversed":
                 nums = genReversedArray(size)
+            elif array.lower() == "Ksorted":
+                nums = genKsortedArray(size, size // 10)
             # elif array == "custom":
             #    nums = custom
             #    assert len(nums) != 0, "Please, pass the custom array you want.
@@ -204,7 +241,16 @@ class bigO:
                 end = time()
                 timeTaken += end - start
                 currentIter += 1
-                assert result == sorted(nums), "This function doesn't sort correctly"
+
+                # ? if none pass or assert
+                if result == None:
+                    warnings.warn(
+                        "Please, return the array to see result.", UserWarning
+                    )
+                else:
+                    assert result == sorted(
+                        nums
+                    ), "This function doesn't sort correctly."
 
             timeTaken /= maxIter
             times.append(timeTaken)
