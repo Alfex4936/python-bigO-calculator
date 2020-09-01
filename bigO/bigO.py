@@ -1,9 +1,10 @@
 import math
+import warnings
 from random import randrange
 from time import time
+from typing import Any, Callable, List, Tuple
+
 from win10toast import ToastNotifier
-from typing import Any, List, Tuple, Callable
-import warnings
 
 
 class bigO:

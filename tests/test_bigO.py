@@ -1,6 +1,4 @@
 from bigO import bigO
-import warnings
-import pytest
 
 
 def test_cplx():

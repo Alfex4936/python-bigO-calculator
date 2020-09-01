@@ -1,4 +1,5 @@
 from bigO import bigO
+from random import randint
 
 
 def countSort(arr):  # stable
@@ -118,6 +119,91 @@ def heapSort(arr):  # in-place | not-stable
     return arr
 
 
+def timSort(arr):  # in-place | stable
+    """
+    Best : O(n) Time | O(n) Space
+    Average : O(nlogn) Time | O(n) Space
+    Worst : O(nlogn) Time | O(n) Space
+    """
+
+    def calcMinRun(n):
+        """Returns the minimum length of a run from 23 - 64 so that
+        the len(array)/minrun is less than or equal to a power of 2.
+
+        e.g. 1=>1, ..., 63=>63, 64=>32, 65=>33, ..., 127=>64, 128=>32, ...
+        """
+        r = 0
+        while n >= 64:
+            r |= n & 1
+            n >>= 1
+        return n + r
+
+    def insertSort(array, left, right):
+        for i in range(left + 1, right + 1):
+            temp = array[i]
+            j = i - 1
+            while j >= left and array[j] > temp:
+                array[j + 1] = array[j]
+                j -= 1
+            array[j + 1] = temp
+        return array
+
+    def fastmerge(array1, array2):
+        merged_array = []
+        while array1 or array2:
+            if not array1:
+                merged_array.append(array2.pop())
+            elif (not array2) or array1[-1] > array2[-1]:
+                merged_array.append(array1.pop())
+            else:
+                merged_array.append(array2.pop())
+        merged_array.reverse()
+        return merged_array
+
+    n = len(arr)
+    minRun = calcMinRun(n)
+
+    # 32만큼 건너뛰면서 삽입 정렬 실행
+    for start in range(0, n, minRun):
+        end = min(start + minRun - 1, n - 1)
+        arr = insertSort(arr, start, end)
+    currentSize = minRun
+
+    # minRun이 배열 길이보다 작을 때까지만 minRun * 2 를 한다.
+    while currentSize < n:
+        for start in range(0, n, currentSize * 2):
+            mid = min(n - 1, start + currentSize - 1)
+            right = min(start + 2 * currentSize - 1, n - 1)
+            merged = fastmerge(
+                array1=arr[start : mid + 1], array2=arr[mid + 1 : right + 1]
+            )
+            arr[start : start + len(merged)] = merged
+
+        currentSize *= 2
+
+    return arr
+
+
+def quickSort(array):  # in-place | not-stable
+    """
+    Best : O(nlogn) Time | O(logn) Space
+    Average : O(nlogn) Time | O(logn) Space
+    Worst : O(n^2) Time | O(logn) Space
+    """
+    if len(array) <= 1:
+        return array
+    smaller, equal, larger = [], [], []
+    pivot = array[randint(0, len(array) - 1)]
+    for x in array:
+        if x < pivot:
+            smaller.append(x)
+        elif x == pivot:
+            equal.append(x)
+        else:
+            larger.append(x)
+    return quickSort(smaller) + equal + quickSort(larger)
+
+
 def test_none():
     tester = bigO.bigO()
 
@@ -175,3 +261,24 @@ def test_introKsorted():
     # Results may vary, O(n) possible
     complexity, _, _ = tester.test(introSort, "Ksorted")
     assert complexity == "O(Nlg(N))"
+
+
+def test_timsort():
+    tester = bigO.bigO()
+
+    # Results may vary
+    complexity, _, _ = tester.test(timSort, "random")
+    complexity, _, _ = tester.test(timSort, "sorted")
+    complexity, _, _ = tester.test(timSort, "reversed")
+    complexity, _, _ = tester.test(timSort, "partial")
+    complexity, _, _ = tester.test(timSort, "Ksorted")
+
+
+def test_quickSort():
+    tester = bigO.bigO()
+
+    complexity, _, _ = tester.test(quickSort, "random")
+    complexity, _, _ = tester.test(quickSort, "sorted")
+    complexity, _, _ = tester.test(quickSort, "reversed")
+    complexity, _, _ = tester.test(quickSort, "partial")
+    complexity, _, _ = tester.test(quickSort, "Ksorted")
