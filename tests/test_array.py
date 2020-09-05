@@ -29,7 +29,7 @@ def test_gen():
 
     print(genReversedArray(100))
     print(genPartialArray(100))
-    print(genKsortedArray(10, 4))
+    print(genKsortedArray(20, 6))
 
 
 def binarySearch(arr, low, high, x):

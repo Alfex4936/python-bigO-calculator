@@ -55,22 +55,27 @@ def countSort(arr):  # stable
 
 
 tester = bigO.bigO()
-complexity, _, res = tester.test(countSort, "random")
-complexity, _, res = tester.test(countSort, "sorted")
-complexity, _, res = tester.test(countSort, "reversed")
-complexity, _, res = tester.test(countSort, "partial")
-complexity, _, res = tester.test(countSort, "Ksorted")
+complexity, result = tester.test(countSort, "random")
+complexity, result = tester.test(countSort, "sorted")
+complexity, result = tester.test(countSort, "reversed")
+complexity, result = tester.test(countSort, "partial")
+complexity, result = tester.test(countSort, "Ksorted")
 
 ''' Result
 Running countSort(random array)...
-Completed countSort(random array): O(N)
+Completed countSort(random array): O(n)
+Time took: 0.06460s
 Running countSort(sorted array)...
-Completed countSort(sorted array): O(N)
+Completed countSort(sorted array): O(n)
+Time took: 0.05399s
 Running countSort(reversed array)...
-Completed countSort(reversed array): O(N)
+Completed countSort(reversed array): O(n)
+Time took: 0.05180s
 Running countSort(partial array)...
-Completed countSort(partial array): O(N)
+Completed countSort(partial array): O(n)
+Time took: 0.06160s
 Running countSort(Ksorted array)...
-Completed countSort(Ksorted array): O(N)
+Completed countSort(Ksorted array): O(n)
+Time took: 0.05940s
 '''
 ```

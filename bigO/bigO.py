@@ -20,7 +20,6 @@ class bigO:
         self.coef = 0.0
         self.rms = 0.0
         self.cplx = 0
-        self._ = 0
         self.O1 = 1
         self.ON = 2
         self.ON2 = 3
@@ -36,11 +35,11 @@ class bigO:
     def complexity2str(self, cplx: int) -> str:
         def switch(cplx):
             return {
-                self.ON: "O(N)",
-                self.ON2: "O(N^2)",
-                self.ON3: "O(N^3)",
-                self.OLogN: "O(lg(N)",
-                self.ONLogN: "O(Nlg(N))",
+                self.ON: "O(n)",
+                self.ON2: "O(n^2)",
+                self.ON3: "O(n^3)",
+                self.OLogN: "O(log(n)",
+                self.ONLogN: "O(nlog(n))",
                 self.O1: "O(1)",
             }.get(cplx, "f(n)")
 
@@ -108,13 +107,14 @@ class bigO:
         return result
 
     def estimate(self, n: List[int], times: List[float]):
+        assert len(n) == len(
+            times
+        ), f"ERROR: Length mismatch between N:{len(n)} and TIMES:{len(times)}."
+        assert len(n) >= 2, "ERROR: Need at least 2 runs."
+
         bestFit = bigO()
 
-        if len(n) != len(times):
-            return bestFit, "ERROR: Length mismatch between n and times."
-        if len(n) < 2:
-            return bestFit, "ERROR: Need at least 2 runs."
-
+        # assume that O1 is the best case
         bestFit = self.minimalLeastSq(n, times, self.fittingCurve(self.O1))
         bestFit.cplx = self.O1
 
@@ -124,9 +124,9 @@ class bigO:
                 bestFit = currentFit
                 bestFit.cplx = fit
 
-        return bestFit, None
+        return bestFit
 
-    def test(self, functionName: Callable, array: str) -> Tuple[str, str, List[Any]]:
+    def test(self, functionName: Callable, array: str) -> Tuple[str, List[Any]]:
         """Big-O calculator
 
         Args:
@@ -243,7 +243,6 @@ class bigO:
                 timeTaken += end - start
                 currentIter += 1
 
-                # ? if none pass or assert
                 if result == None:
                     warnings.warn(
                         "Please, return the array to see result.", UserWarning
@@ -256,12 +255,13 @@ class bigO:
             timeTaken /= maxIter
             times.append(timeTaken)
 
-        complexity, _ = bigOtest.estimate(sizes, times)
+        complexity = bigOtest.estimate(sizes, times)
         print(f"Completed {functionName.__name__}({array} array): {complexity.str()}")
+        print(f"Time took: {sum(times):.5f}s")
         toaster.show_toast(
             "Big-O Caculator",
             f"Completed {functionName.__name__}({array} array): {complexity.str()}",
             duration=3,
         )
 
-        return complexity.str(), _, result
+        return complexity.str(), result

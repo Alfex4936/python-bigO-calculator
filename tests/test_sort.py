@@ -119,6 +119,20 @@ def heapSort(arr):  # in-place | not-stable
     return arr
 
 
+def bubbleSort(array):
+    isSorted = False
+    counter = 0
+
+    while not isSorted:
+        isSorted = True
+        for i in range(len(array) - 1 - counter):
+            if array[i] > array[i + 1]:
+                array[i], array[i + 1] = array[i + 1], array[i]
+                isSorted = False
+
+        counter += 1
+
+
 def timSort(arr):  # in-place | stable
     """
     Best : O(n) Time | O(n) Space
@@ -227,58 +241,74 @@ def test_none():
     _, _, _ = tester.test(countSort, "random")  # will return a warning
 
 
+def test_Ksorted():
+    tester = bigO.bigO()
+
+    # Results may vary, O(n) possible
+    complexity, _ = tester.test(introSort, "Ksorted")
+    complexity, _ = tester.test(quickSort, "Ksorted")
+    complexity, _ = tester.test(timSort, "Ksorted")
+    complexity, _ = tester.test(countSort, "Ksorted")
+
+
+def test_bubble():
+    tester = bigO.bigO()
+
+    complexity, _ = tester.test(bubbleSort, "random")
+    complexity, _ = tester.test(bubbleSort, "sorted")
+    complexity, _ = tester.test(bubbleSort, "reversed")
+    complexity, _ = tester.test(bubbleSort, "partial")
+    complexity, _ = tester.test(bubbleSort, "Ksorted")
+
+
 def test_count():
     tester = bigO.bigO()
 
     # Results may vary
-    complexity, _, _ = tester.test(countSort, "random")
-    assert complexity == "O(N)"
-    complexity, _, _ = tester.test(countSort, "sorted")
-    assert complexity == "O(N)"
-    complexity, _, _ = tester.test(countSort, "reversed")
-    assert complexity == "O(N)"
-    complexity, _, _ = tester.test(countSort, "partial")
-    assert complexity == "O(N)"
+    complexity, _ = tester.test(countSort, "random")
+    assert complexity == "O(n)"
+    complexity, _ = tester.test(countSort, "sorted")
+    assert complexity == "O(n)"
+    complexity, _ = tester.test(countSort, "reversed")
+    assert complexity == "O(n)"
+    complexity, _ = tester.test(countSort, "partial")
+    assert complexity == "O(n)"
+    complexity, _ = tester.test(countSort, "Ksorted")
+    assert complexity == "O(n)"
 
 
 def test_intro():
     tester = bigO.bigO()
 
     # Results may vary, O(n) possible
-    complexity, _, _ = tester.test(introSort, "random")
-    assert complexity == "O(Nlg(N))"
-    complexity, _, _ = tester.test(introSort, "sorted")
-    assert complexity == "O(Nlg(N))"
-    complexity, _, _ = tester.test(introSort, "reversed")
-    assert complexity == "O(Nlg(N))"
-    complexity, _, _ = tester.test(introSort, "partial")
-    assert complexity == "O(Nlg(N))"
-
-
-def test_introKsorted():
-    tester = bigO.bigO()
-
-    # Results may vary, O(n) possible
-    complexity, _, _ = tester.test(introSort, "Ksorted")
-    assert complexity == "O(Nlg(N))"
+    complexity, _ = tester.test(introSort, "random")
+    assert complexity == "O(nlog(n))"
+    complexity, _ = tester.test(introSort, "sorted")
+    assert complexity == "O(nlog(n))"
+    complexity, _ = tester.test(introSort, "reversed")
+    assert complexity == "O(nlog(n))"
+    complexity, _ = tester.test(introSort, "partial")
+    assert complexity == "O(nlog(n))"
+    complexity, _ = tester.test(introSort, "Ksorted")
+    assert complexity == "O(nlog(n))"
 
 
 def test_timsort():
     tester = bigO.bigO()
 
     # Results may vary
-    complexity, _, _ = tester.test(timSort, "random")
-    complexity, _, _ = tester.test(timSort, "sorted")
-    complexity, _, _ = tester.test(timSort, "reversed")
-    complexity, _, _ = tester.test(timSort, "partial")
-    complexity, _, _ = tester.test(timSort, "Ksorted")
+    complexity, _ = tester.test(timSort, "random")
+    complexity, _ = tester.test(timSort, "sorted")
+    complexity, _ = tester.test(timSort, "reversed")
+    complexity, _ = tester.test(timSort, "partial")
+    complexity, _ = tester.test(timSort, "Ksorted")
 
 
 def test_quickSort():
     tester = bigO.bigO()
 
-    complexity, _, _ = tester.test(quickSort, "random")
-    complexity, _, _ = tester.test(quickSort, "sorted")
-    complexity, _, _ = tester.test(quickSort, "reversed")
-    complexity, _, _ = tester.test(quickSort, "partial")
-    complexity, _, _ = tester.test(quickSort, "Ksorted")
+    complexity, _ = tester.test(quickSort, "random")
+    complexity, _ = tester.test(quickSort, "sorted")
+    complexity, _ = tester.test(quickSort, "reversed")
+    complexity, _ = tester.test(quickSort, "partial")
+    complexity, _ = tester.test(quickSort, "Ksorted")

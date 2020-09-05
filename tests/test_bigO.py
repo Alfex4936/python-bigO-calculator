@@ -4,8 +4,8 @@ from bigO import bigO
 def test_cplx():
     tester = bigO.bigO()
     assert tester.complexity2str(0) == "f(n)"
-    assert tester.complexity2str(2) == "O(N)"
-    assert tester.complexity2str(3) == "O(N^2)"
+    assert tester.complexity2str(2) == "O(n)"
+    assert tester.complexity2str(3) == "O(n^2)"
 
 
 def test_fitting():
