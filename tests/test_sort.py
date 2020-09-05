@@ -238,7 +238,7 @@ def test_none():
                 index += 1
                 buckets[i] -= 1
 
-    _, _, _ = tester.test(countSort, "random")  # will return a warning
+    _, _ = tester.test(countSort, "random")  # will return a warning
 
 
 def test_Ksorted():
