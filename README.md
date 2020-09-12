@@ -20,11 +20,15 @@ You can call which array to test
 Big-O calculator
 
 Args:
-    functionName ([Callable]): a function to call
+    functionName [Callable]: a function to call
     
-    array ([string]): "random", "sorted", "reversed", "partial", "Ksorted"
+    array [str]: "random", "sorted", "reversed", "partial", "Ksorted"
+    
+Returns:
+    complexity (str) : ex) O(n) |
+    time (float) : Time took to sort all 5 different arrays in second (max=100,000)
 
-Warn:
+Info:
     To see the result of function, return the array.
 
     K in Ksorted will use testSize//2
@@ -34,48 +38,59 @@ Warn:
 ```py
 from bigO import bigO
 
-def countSort(arr):  # stable
-    # Time Complexity : O(n) | Space Complexity : O(n)
-    minValue = min(arr)
-    maxValue = max(arr) - minValue
+tester = bigO.bigO()
 
-    buckets = [0 for x in range(maxValue + 1)]
+tester.test(bubbleSort, "sorted")
+```
 
-    for i in arr:
-        buckets[i - minValue] += 1
+## Example
 
-    index = 0
-    for i in range(len(buckets)):
-        while buckets[i] > 0:
-            arr[index] = i + minValue
-            index += 1
-            buckets[i] -= 1
+```py
+from bigO import bigO
+from random import randint
 
-    return arr
+def quickSort(array):  # in-place | not-stable
+    """
+    Best : O(nlogn) Time | O(logn) Space
+    Average : O(nlogn) Time | O(logn) Space
+    Worst : O(n^2) Time | O(logn) Space
+    """
+    if len(array) <= 1:
+        return array
+    smaller, equal, larger = [], [], []
+    pivot = array[randint(0, len(array) - 1)]
+    for x in array:
+        if x < pivot:
+            smaller.append(x)
+        elif x == pivot:
+            equal.append(x)
+        else:
+            larger.append(x)
+    return quickSort(smaller) + equal + quickSort(larger)
 
 
 tester = bigO.bigO()
-complexity, result = tester.test(countSort, "random")
-complexity, result = tester.test(countSort, "sorted")
-complexity, result = tester.test(countSort, "reversed")
-complexity, result = tester.test(countSort, "partial")
-complexity, result = tester.test(countSort, "Ksorted")
+complexity, time = tester.test(quickSort, "random")
+complexity, time = tester.test(quickSort, "sorted")
+complexity, time = tester.test(quickSort, "reversed")
+complexity, time = tester.test(quickSort, "partial")
+complexity, time = tester.test(quickSort, "Ksorted")
 
 ''' Result
-Running countSort(random array)...
-Completed countSort(random array): O(n)
-Time took: 0.06460s
-Running countSort(sorted array)...
-Completed countSort(sorted array): O(n)
-Time took: 0.05399s
-Running countSort(reversed array)...
-Completed countSort(reversed array): O(n)
-Time took: 0.05180s
-Running countSort(partial array)...
-Completed countSort(partial array): O(n)
-Time took: 0.06160s
-Running countSort(Ksorted array)...
-Completed countSort(Ksorted array): O(n)
-Time took: 0.05940s
+Running quickSort(random array)...
+Completed quickSort(random array): O(nlog(n))
+Time took: 0.35816s
+Running quickSort(sorted array)...
+Completed quickSort(sorted array): O(nlog(n))
+Time took: 0.37821s
+Running quickSort(reversed array)...
+Completed quickSort(reversed array): O(nlog(n))
+Time took: 0.38500s
+Running quickSort(partial array)...
+Completed quickSort(partial array): O(nlog(n))
+Time took: 0.35820s
+Running quickSort(Ksorted array)...
+Completed quickSort(ksorted array): O(nlog(n))
+Time took: 0.38140s
 '''
 ```

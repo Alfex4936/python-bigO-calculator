@@ -132,6 +132,8 @@ def bubbleSort(array):
 
         counter += 1
 
+    return array
+
 
 def timSort(arr):  # in-place | stable
     """
@@ -218,6 +220,10 @@ def quickSort(array):  # in-place | not-stable
     return quickSort(smaller) + equal + quickSort(larger)
 
 
+def empty(array):
+    return array
+
+
 def test_none():
     tester = bigO.bigO()
 
@@ -249,6 +255,11 @@ def test_Ksorted():
     complexity, _ = tester.test(quickSort, "Ksorted")
     complexity, _ = tester.test(timSort, "Ksorted")
     complexity, _ = tester.test(countSort, "Ksorted")
+
+
+def test_empty():
+    big = bigO.bigO()
+    cplx, _ = big.test(empty, "random")
 
 
 def test_bubble():
@@ -304,11 +315,16 @@ def test_timsort():
     complexity, _ = tester.test(timSort, "Ksorted")
 
 
+def test_heap():
+    tester = bigO.bigO()
+    clpx, time = tester.test(heapSort, "random")
+
+
 def test_quickSort():
     tester = bigO.bigO()
 
-    complexity, _ = tester.test(quickSort, "random")
-    complexity, _ = tester.test(quickSort, "sorted")
-    complexity, _ = tester.test(quickSort, "reversed")
-    complexity, _ = tester.test(quickSort, "partial")
-    complexity, _ = tester.test(quickSort, "Ksorted")
+    complexity, time = tester.test(quickSort, "random")
+    complexity, time = tester.test(quickSort, "sorted")
+    complexity, time = tester.test(quickSort, "reversed")
+    complexity, time = tester.test(quickSort, "partial")
+    complexity, time = tester.test(quickSort, "Ksorted")
