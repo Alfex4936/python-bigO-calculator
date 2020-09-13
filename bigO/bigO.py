@@ -1,5 +1,5 @@
 import math
-from random import randint
+from random import randint, randrange
 from time import time
 from typing import Any, Callable, List, Tuple
 
@@ -13,13 +13,13 @@ class bigO:
     Methods
     -------
     test(function, str):
-        Returns the complexity and the execution time to sort arrays with function
+        Returns time complexity and the execution time to sort arrays with your function
 
     Usage
     -----
         from bigO import bigO
         bigO = bigO.bigO()
-        bigO.test(someSort, "random")
+        bigO.test(mySort, "random")
     """
 
     def __init__(self):
@@ -132,26 +132,26 @@ class bigO:
 
         return bestFit
 
-    def genRandomArray(_, size):
+    def genRandomArray(_, size: int):
         array = [randint(-size, size) for i in range(size)]
         return array
 
-    def genSortedArray(_, size):
+    def genSortedArray(_, size: int):
         array = [i for i in range(size)]
         return array
 
-    def genReversedArray(_, size):
+    def genReversedArray(_, size: int):
         array = [i for i in reversed(range(size))]
         return array
 
-    def genPartialArray(self, size):
+    def genPartialArray(self, size: int):
         array = self.genRandomArray(size)
         sorted_array = self.genSortedArray(size)
 
         array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
         return array
 
-    def genKsortedArray(self, size, k):
+    def genKsortedArray(self, size: int, k: int = None):
         def reverseRange(array, a, b):
             i = a
             j = b - 1
@@ -161,6 +161,9 @@ class bigO:
                 j -= 1
 
             return array
+
+        if k is None:
+            k = len(size).bit_length()
 
         assert size >= k, "K must be smaller than the size."
         if size == 0:
@@ -192,7 +195,7 @@ class bigO:
 
         Args:
             functionName (Callable): a function to call |
-            array (str): "random", "sorted", "reversed", "partial", "Ksorted"
+            array (str): "random", "sorted", "reversed", "partial", "Ksorted" |
             limit (bool): To terminate before it takes forever to sort (usually 10,000)
 
         Returns:
