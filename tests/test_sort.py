@@ -1,5 +1,6 @@
 from bigO import bigO
 from random import randint
+import pytest
 
 
 def countSort(arr):  # stable
@@ -135,6 +136,18 @@ def bubbleSort(array):
     return array
 
 
+def selectionSort(array):
+    currentIdx = 0
+    while currentIdx < len(array) - 1:
+        smallestIdx = currentIdx
+        for i in range(currentIdx + 1, len(array)):
+            if array[smallestIdx] > array[i]:
+                smallestIdx = i
+        array[currentIdx], array[smallestIdx] = array[smallestIdx], array[currentIdx]
+        currentIdx += 1
+    return array
+
+
 def timSort(arr):  # in-place | stable
     """
     Best : O(n) Time | O(n) Space
@@ -262,6 +275,7 @@ def test_empty():
     cplx, _ = big.test(empty, "random")
 
 
+@pytest.mark.timeout(600)
 def test_bubble():
     tester = bigO.bigO()
 
@@ -288,20 +302,37 @@ def test_count():
     assert complexity == "O(n)"
 
 
+@pytest.mark.timeout(600)
+def test_insertion():
+    tester = bigO.bigO()
+
+    complexity, _ = tester.test(insertSort, "random")
+    complexity, _ = tester.test(insertSort, "sorted")
+    complexity, _ = tester.test(insertSort, "reversed")
+    complexity, _ = tester.test(insertSort, "partial")
+    complexity, _ = tester.test(insertSort, "Ksorted")
+
+
 def test_intro():
     tester = bigO.bigO()
 
     # Results may vary, O(n) possible
     complexity, _ = tester.test(introSort, "random")
-    assert complexity == "O(nlog(n))"
     complexity, _ = tester.test(introSort, "sorted")
-    assert complexity == "O(nlog(n))"
     complexity, _ = tester.test(introSort, "reversed")
-    assert complexity == "O(nlog(n))"
     complexity, _ = tester.test(introSort, "partial")
-    assert complexity == "O(nlog(n))"
     complexity, _ = tester.test(introSort, "Ksorted")
-    assert complexity == "O(nlog(n))"
+
+
+@pytest.mark.timeout(600)
+def test_selection():
+    tester = bigO.bigO()
+
+    tester.test(selectionSort, "random")
+    tester.test(selectionSort, "reversed")
+    tester.test(selectionSort, "sorted")
+    tester.test(selectionSort, "partial")
+    tester.test(selectionSort, "Ksorted")
 
 
 def test_timsort():
@@ -317,7 +348,11 @@ def test_timsort():
 
 def test_heap():
     tester = bigO.bigO()
-    clpx, time = tester.test(heapSort, "random")
+    complexity, _ = tester.test(heapSort, "random")
+    complexity, _ = tester.test(heapSort, "sorted")
+    complexity, _ = tester.test(heapSort, "reversed")
+    complexity, _ = tester.test(heapSort, "partial")
+    complexity, _ = tester.test(heapSort, "Ksorted")
 
 
 def test_quickSort():

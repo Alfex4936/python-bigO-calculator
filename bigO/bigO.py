@@ -191,13 +191,16 @@ class bigO:
 
         return array
 
-    def test(self, functionName: Callable, array: str) -> Tuple[str, float]:
+    def test(
+        self, functionName: Callable, array: str, limit: bool = True
+    ) -> Tuple[str, float]:
         """
         ex) test(bubbleSort, "random")
 
         Args:
             functionName (Callable): a function to call |
             array (str): "random", "sorted", "reversed", "partial", "Ksorted"
+            limit (bool): To terminate before it takes forever to sort (usually 10,000)
 
         Returns:
             complexity (str) : ex) O(n) |
@@ -210,6 +213,7 @@ class bigO:
         sizes = [10, 100, 1000, 10000, 100000]
         maxIter = 5
         times = []
+        isSlow = False  # To see if sorting algorithm takes forever
 
         toaster = ToastNotifier()
         print(f"Running {functionName.__name__}({array} array)...")
@@ -220,6 +224,11 @@ class bigO:
         )
 
         for size in sizes:
+
+            if isSlow:
+                sizes = sizes[: len(times)]
+                break
+
             timeTaken = 0.0
             nums = []
 
@@ -253,6 +262,11 @@ class bigO:
                     assert result == sorted(
                         nums
                     ), "This function doesn't sort correctly."
+
+            if (
+                timeTaken >= 5 and limit
+            ):  # if it takes more than 5 seconds to sort one array, break
+                isSlow = True
 
             timeTaken /= maxIter
             times.append(timeTaken)

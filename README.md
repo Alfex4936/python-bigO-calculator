@@ -20,18 +20,21 @@ You can call which array to test
 Big-O calculator
 
 Args:
-    functionName [Callable]: a function to call
+    functionName [Callable]: a function to call.
     
-    array [str]: "random", "sorted", "reversed", "partial", "Ksorted"
+    array [str]: "random", "sorted", "reversed", "partial", "Ksorted".
+
+    limit [bool]: True or False to break before it takes "forever" to sort an array. (ex. selectionSort)
     
 Returns:
-    complexity (str) : ex) O(n) |
-    time (float) : Time took to sort all 5 different arrays in second (max=100,000)
+    complexity (str) : ex) O(n)
+
+    time (float) : Time took to sort all 5 different arrays in second (maxLen=100,000)
 
 Info:
     To see the result of function, return the array.
 
-    K in Ksorted will use testSize//2
+    K in Ksorted will use testSize//2.
   
 ```
 
@@ -43,7 +46,7 @@ tester = bigO.bigO()
 tester.test(bubbleSort, "sorted")
 ```
 
-## Example
+## Quick Sort Example
 
 ```py
 from bigO import bigO
@@ -92,5 +95,52 @@ Time took: 0.35820s
 Running quickSort(Ksorted array)...
 Completed quickSort(ksorted array): O(nlog(n))
 Time took: 0.38140s
+'''
+```
+
+## Selection Sort Example
+```py
+from bigO import bigO
+
+def selectionSort(array):  # in-place, unstable
+    '''
+    Best : O(n^2) Time | O(1) Space
+    Average : O(n^2) Time | O(1) Space
+    Worst : O(n^2) Time | O(1) Space
+    '''
+    currentIdx = 0
+    while currentIdx < len(array) - 1:
+        smallestIdx = currentIdx
+        for i in range(currentIdx + 1, len(array)):
+            if array[smallestIdx] > array[i]:
+                smallestIdx = i
+        array[currentIdx], array[smallestIdx] = array[smallestIdx], array[currentIdx]
+        currentIdx += 1
+    return array
+
+
+tester = bigO.bigO()
+complexity, time = tester.test(selectionSort, "random")
+complexity, time = tester.test(selectionSort, "sorted")
+complexity, time = tester.test(selectionSort, "reversed")
+complexity, time = tester.test(selectionSort, "partial")
+complexity, time = tester.test(selectionSort, "Ksorted")
+
+''' Result
+Running selectionSort(random array)...
+Completed selectionSort(random array): O(n^2)
+Time took: 4.04027s
+Running selectionSort(reversed array)...
+Completed selectionSort(reversed array): O(n^2)
+Time took: 4.04918s
+Running selectionSort(sorted array)...
+Completed selectionSort(sorted array): O(n^2)
+Time took: 3.97238s
+Running selectionSort(partial array)...
+Completed selectionSort(partial array): O(n^2)
+Time took: 4.02878s
+Running selectionSort(Ksorted array)...
+Completed selectionSort(ksorted array): O(n^2)
+Time took: 4.05617s
 '''
 ```
