@@ -24,7 +24,7 @@ Args:
     
     array [str]: "random", "sorted", "reversed", "partial", "Ksorted".
 
-    limit [bool]: True or False to break before it takes "forever" to sort an array. (ex. selectionSort)
+    limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
     
 Returns:
     complexity (str) : ex) O(n)
