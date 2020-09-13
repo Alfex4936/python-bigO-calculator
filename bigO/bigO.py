@@ -1,6 +1,5 @@
 import math
-import warnings
-from random import randrange
+from random import randint
 from time import time
 from typing import Any, Callable, List, Tuple
 
@@ -134,21 +133,15 @@ class bigO:
         return bestFit
 
     def genRandomArray(_, size):
-        array = []
-        for _ in range(size):
-            array.append(randrange(-size, size))
+        array = [randint(-size, size) for i in range(size)]
         return array
 
     def genSortedArray(_, size):
-        array = []
-        for value in range(size):
-            array.append(value)
+        array = [i for i in range(size)]
         return array
 
     def genReversedArray(_, size):
-        array = []
-        for value in reversed(range(size)):
-            array.append(value)
+        array = [i for i in reversed(range(size))]
         return array
 
     def genPartialArray(self, size):
@@ -242,7 +235,7 @@ class bigO:
             elif array == "reversed":
                 nums = self.genReversedArray(size)
             elif array == "ksorted":
-                nums = self.genKsortedArray(size, size // 10)
+                nums = self.genKsortedArray(size, size.bit_length())
             # elif array == "custom":
             #    nums = custom
             #    assert len(nums) != 0, "Please, pass the custom array you want.
