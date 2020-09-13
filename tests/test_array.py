@@ -10,6 +10,10 @@ def test_gen():
     print(gen.genPartialArray(20))
     print(gen.genKsortedArray(20, 6))
 
+    for i in range(21):
+        arr = gen.genKsortedArray(20, i)
+        assert isKSortedArray(arr, i) == True
+
 
 def test_Ksorted():
     gen = bigO.bigO()
@@ -46,8 +50,7 @@ def binarySearch(arr, low, high, x):
 # array is a 'k' sorted array or not
 def isKSortedArray(arr, k):
     n = len(arr)
-    aux = arr[0:n]
-    aux.sort()
+    aux = sorted(arr)
 
     # for every element of 'arr' at
     # index 'i', find its index 'j' in 'aux'

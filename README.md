@@ -34,7 +34,7 @@ Returns:
 Info:
     To see the result of function, return the array.
 
-    K in Ksorted will use testSize//2.
+    K in Ksorted will use testSize.bit_length().
   
 ```
 

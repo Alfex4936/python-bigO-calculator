@@ -1,5 +1,5 @@
 import math
-from random import randint, randrange
+from random import randint
 from time import time
 from typing import Any, Callable, List, Tuple
 
@@ -163,27 +163,22 @@ class bigO:
             return array
 
         if k is None:
-            k = len(size).bit_length()
+            k = size.bit_length()
 
         assert size >= k, "K must be smaller than the size."
-        if size == 0:
+        if k == 0:
             return self.genSortedArray(size)
         elif size == k:
             return self.genReversedArray(size)
 
-        array = []
-        for value in range(-size // 2, size // 2):
-            array.append(value)
+        array = [value for value in range(-size // 2, size // 2)]
 
-        right = randrange(k)
-        while right > size - k - 1:  # Don't reverse again
+        right = randint(0, k - 1)
+        while right >= size - k:
             right -= 1
 
-        if size != k:
-            k += 1
-
-        reverseRange(array, 0, k)
-        reverseRange(array, len(array) - right, len(array))
+        reverseRange(array, 0, k + 1)
+        reverseRange(array, size - right, size)
 
         return array
 
