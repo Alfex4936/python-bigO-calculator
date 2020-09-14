@@ -1,6 +1,6 @@
 import math
 from random import randint
-from time import time
+from timeit import default_timer
 from typing import Any, Callable, List, Tuple
 
 from win10toast import ToastNotifier
@@ -243,9 +243,9 @@ class bigO:
             currentIter = 0
 
             while currentIter < maxIter:
-                start = time()
+                start = default_timer()
                 result = functionName(nums)
-                end = time()
+                end = default_timer()
                 timeTaken += end - start
                 currentIter += 1
 
