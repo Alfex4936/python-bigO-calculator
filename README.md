@@ -19,17 +19,24 @@ You can call which array to test
 ```py
 Big-O calculator
 
+Methos:
+    test(function, array, limit=True, prtResult=True): It will run only specified array test, returns Tuple[str, estimatedTime]
+
+    test_all(function): It will run all test cases, prints (best, average, worst cases), returns dict
+
 Args:
     functionName [Callable]: a function to call.
     
     array [str]: "random", "sorted", "reversed", "partial", "Ksorted".
 
     limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
+
+    prtResult [bool] = True: Whether to print result by itself
     
 Returns:
-    complexity (str) : ex) O(n)
+    complexity [str] : ex) O(n)
 
-    time (float) : Time took to sort all 5 different arrays in second (maxLen=100,000)
+    time [float] : Time took to sort all 5 different arrays in second (maxLen=100,000)
 
 Info:
     To see the result of function, return the array.
@@ -142,5 +149,39 @@ Time took: 4.02878s
 Running selectionSort(Ksorted array)...
 Completed selectionSort(ksorted array): O(n^2)
 Time took: 4.05617s
+'''
+```
+
+## test_all(mySort) Example
+
+We can test all "random", "sorted", "reversed", "partial", "Ksorted" by one with test_all method
+
+```py
+from bigO import bigO
+
+lib = bigO.bigO()
+
+result = lib.test_all(bubbleSort)
+result = lib.test_all(insertSort)
+result = lib.test_all(selectionSort)
+
+print(result)  # Dictionary
+
+
+''' Result
+Running bubbleSort(tests)
+Best : O(n) Time
+Average : O(n^2) Time
+Worst : O(n^2) Time
+Running insertSort(tests)
+Best : O(n) Time
+Average : O(n^2) Time
+Worst : O(n^2) Time
+Running selectionSort(tests)
+Best : O(n^2) Time
+Average : O(n^2) Time
+Worst : O(n^2) Time
+
+{'random': 'O(n^2)', 'sorted': 'O(n^2)', 'reversed': 'O(n^2)', 'partial': 'O(n^2)', 'Ksorted': 'O(n^2)'}
 '''
 ```

@@ -1,3 +1,4 @@
+from collections import Counter
 import math
 from random import randint
 from timeit import default_timer
@@ -28,28 +29,36 @@ class bigO:
         self.cplx = 0
         self.O1 = 1
         self.ON = 2
-        self.ON2 = 3
-        self.ON3 = 4
-        self.OLogN = 5
-        self.ONLogN = 6
+        self.OLogN = 3
+        self.ONLogN = 4
+        self.ON2 = 5
+        self.ON3 = 6
+
         self.OLambda = 7
-        self.fitCurves = [self.O1, self.ON, self.ON2, self.ON3, self.OLogN, self.ONLogN]
+        self.fitCurves = [self.O1, self.ON, self.OLogN, self.ONLogN, self.ON2, self.ON3]
 
     def str(self):
         return self.complexity2str(self.cplx)
 
     def complexity2str(self, cplx: int) -> str:
-        def switch(cplx):
-            return {
-                self.ON: "O(n)",
-                self.ON2: "O(n^2)",
-                self.ON3: "O(n^3)",
-                self.OLogN: "O(log(n)",
-                self.ONLogN: "O(nlog(n))",
-                self.O1: "O(1)",
-            }.get(cplx, "f(n)")
+        return {
+            self.ON: "O(n)",
+            self.ON2: "O(n^2)",
+            self.ON3: "O(n^3)",
+            self.OLogN: "O(log(n)",
+            self.ONLogN: "O(nlog(n))",
+            self.O1: "O(1)",
+        }.get(cplx, "f(n)")
 
-        return switch(cplx)
+    def complexity2int(self, cplx: str) -> int:
+        return {
+            "O(1)": self.O1,
+            "O(n)": self.ON,
+            "O(log(n)": self.OLogN,
+            "O(nlog(n))": self.ONLogN,
+            "O(n^2)": self.ON2,
+            "O(n^3)": self.ON3,
+        }.get(cplx, self.ON)
 
     def fittingCurve(self, cplx: int) -> Callable:
         def bigO_ON(n):
@@ -70,17 +79,14 @@ class bigO:
         def bigO_O1(_):
             return 1.0
 
-        def switch(cplx):
-            return {
-                self.O1: bigO_O1,
-                self.ON: bigO_ON,
-                self.ON2: bigO_ON2,
-                self.ON3: bigO_ON3,
-                self.OLogN: bigO_OLogN,
-                self.ONLogN: bigO_ONLogN,
-            }.get(cplx, bigO_O1)
-
-        return switch(cplx)
+        return {
+            self.O1: bigO_O1,
+            self.ON: bigO_ON,
+            self.ON2: bigO_ON2,
+            self.ON3: bigO_ON3,
+            self.OLogN: bigO_OLogN,
+            self.ONLogN: bigO_ONLogN,
+        }.get(cplx, bigO_O1)
 
     def minimalLeastSq(self, arr: List[Any], times: float, function: Callable):
         # sigmaGn = 0.0
@@ -183,7 +189,11 @@ class bigO:
         return array
 
     def test(
-        self, functionName: Callable, array: str, limit: bool = True
+        self,
+        functionName: Callable,
+        array: str,
+        limit: bool = True,
+        prtResult: bool = True,
     ) -> Tuple[str, float]:
         """
         ex) test(bubbleSort, "random")
@@ -191,7 +201,8 @@ class bigO:
         Args:
             functionName (Callable): a function to call |
             array (str): "random", "sorted", "reversed", "partial", "Ksorted" |
-            limit (bool): To terminate before it takes forever to sort (usually 10,000)
+            limit (bool): To terminate before it takes forever to sort (usually 10,000) |
+            prtResult (bool): Whether to print the result by itself (default = True)
 
         Returns:
             complexity (str) : ex) O(n) |
@@ -199,15 +210,14 @@ class bigO:
 
         """
         # TODO : internal sorting algorithms, test all option
-        bigOtest = bigO()
-
         sizes = [10, 100, 1000, 10000, 100000]
         maxIter = 5
         times = []
         isSlow = False  # To see if sorting algorithm takes forever
 
         toaster = ToastNotifier()
-        print(f"Running {functionName.__name__}({array} array)...")
+        if prtResult:
+            print(f"Running {functionName.__name__}({array} array)...")
         toaster.show_toast(
             "Big-O Caculator",
             f"Running {functionName.__name__}({array} array)...",
@@ -262,11 +272,14 @@ class bigO:
             timeTaken /= maxIter
             times.append(timeTaken)
 
-        complexity = bigOtest.estimate(sizes, times)
+        complexity = self.estimate(sizes, times)
         estimatedTime = sum(times)
 
-        print(f"Completed {functionName.__name__}({array} array): {complexity.str()}")
-        print(f"Time took: {estimatedTime:.5f}s")
+        if prtResult:
+            print(
+                f"Completed {functionName.__name__}({array} array): {complexity.str()}"
+            )
+            print(f"Time took: {estimatedTime:.5f}s")
         toaster.show_toast(
             "Big-O Caculator",
             f"Completed {functionName.__name__}({array} array): {complexity.str()}",
@@ -274,3 +287,28 @@ class bigO:
         )
 
         return complexity.str(), estimatedTime
+
+    def test_all(self, function):
+        result = {"random": 0, "sorted": 0, "reversed": 0, "partial": 0, "Ksorted": 0}
+
+        bestCase = self.complexity2int("O(n^3)")
+        worstCase = self.complexity2int("O(1)")
+
+        print(f"Running {function.__name__}(tests)")
+        for test in result:
+            cplx, _ = self.test(function, test, prtResult=False)
+            result[test] = cplx
+            cplxInt = self.complexity2int(cplx)
+
+            if cplxInt < bestCase:
+                bestCase = cplxInt
+            if cplxInt > worstCase:
+                worstCase = cplxInt
+
+        averageCase, _ = Counter(result.values()).most_common(1)[0]
+
+        print(f"Best : {self.complexity2str(bestCase)} Time")
+        print(f"Average : {averageCase} Time")
+        print(f"Worst : {self.complexity2str(worstCase)} Time")
+
+        return result

@@ -363,3 +363,14 @@ def test_quickSort():
     complexity, time = tester.test(quickSort, "reversed")
     complexity, time = tester.test(quickSort, "partial")
     complexity, time = tester.test(quickSort, "Ksorted")
+
+
+def test_all_cases():
+    lib = bigO.bigO()
+    
+    # lib.test_all(bubbleSort)
+    # lib.test_all(insertSort)
+    # lib.test_all(selectionSort)
+    lib.test_all(timSort)
+    lib.test_all(heapSort)
+    lib.test_all(quickSort)
