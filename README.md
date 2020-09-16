@@ -19,7 +19,7 @@ You can call which array to test
 ```py
 Big-O calculator
 
-Methos:
+Methods:
     test(function, array, limit=True, prtResult=True): It will run only specified array test, returns Tuple[str, estimatedTime]
 
     test_all(function): It will run all test cases, prints (best, average, worst cases), returns dict
