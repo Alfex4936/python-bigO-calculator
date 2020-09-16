@@ -77,13 +77,13 @@ def insertSort(array, begin=0, end=None):  # in-place | stable
     """
     if end == None:
         end = len(array)
+
     for i in range(begin, end):
         j = i
-        toChange = array[i]
-        while j != begin and array[j - 1] > toChange:
-            array[j] = array[j - 1]
+        while j > begin and array[j - 1] > array[j]:
+            array[j], array[j - 1] = array[j - 1], array[j]
             j -= 1
-        array[j] = toChange
+
     return array
 
 
@@ -137,14 +137,13 @@ def bubbleSort(array):
 
 
 def selectionSort(array):
-    currentIdx = 0
-    while currentIdx < len(array) - 1:
+    for currentIdx in range(len(array) - 1):
         smallestIdx = currentIdx
         for i in range(currentIdx + 1, len(array)):
             if array[smallestIdx] > array[i]:
                 smallestIdx = i
         array[currentIdx], array[smallestIdx] = array[smallestIdx], array[currentIdx]
-        currentIdx += 1
+
     return array
 
 
@@ -218,6 +217,8 @@ def quickSort(array):  # in-place | not-stable
     Best : O(nlogn) Time | O(logn) Space
     Average : O(nlogn) Time | O(logn) Space
     Worst : O(n^2) Time | O(logn) Space
+
+    Worst case solved by using random pivot
     """
     if len(array) <= 1:
         return array
@@ -367,10 +368,10 @@ def test_quickSort():
 
 def test_all_cases():
     lib = bigO.bigO()
-    
-    # lib.test_all(bubbleSort)
-    # lib.test_all(insertSort)
-    # lib.test_all(selectionSort)
+
+    lib.test_all(bubbleSort)
+    lib.test_all(insertSort)
+    lib.test_all(selectionSort)
     lib.test_all(timSort)
     lib.test_all(heapSort)
     lib.test_all(quickSort)

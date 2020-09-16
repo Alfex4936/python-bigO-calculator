@@ -209,7 +209,7 @@ class bigO:
             time (float) : Time took to sort all 5 different arrays in second (max=100,000)
 
         """
-        # TODO : internal sorting algorithms, test all option
+        # TODO : internal sorting algorithms
         sizes = [10, 100, 1000, 10000, 100000]
         maxIter = 5
         times = []
