@@ -16,3 +16,15 @@ def test_run():
     lib.runtime(algorithm.mergeSort, "random", 5000)
     lib.runtime(algorithm.timSort, "random", 5000)
     lib.runtime(algorithm.selectionSort, "random", 5000)
+
+
+def test_custom():
+    lib = bigO.bigO()
+
+    arr = [0, 1, 2, -1, 1]
+    time, result = lib.runtime(algorithm.bubbleSort, arr)
+
+    print(time)
+    print(result)
+
+    assert result == sorted(arr)

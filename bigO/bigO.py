@@ -220,7 +220,6 @@ class bigO:
             time (float) : Time took to sort all 5 different arrays in second (max=100,000)
 
         """
-        # TODO : internal sorting algorithms
         sizes = [10, 100, 1000, 10000, 100000]
         maxIter = 5
         times = []
@@ -334,32 +333,37 @@ class bigO:
         return result
 
     def runtime(
-        self, function: Callable, array: str, size: int
+        self, function: Callable, array, size: int = None
     ) -> Tuple[float, List[Any]]:
         """
         ex) runtime(bubbleSort, "random", 5000)
 
         Args:
             function [Callable]: a function to call |
-            array [str]: "random", "sorted", "partial", "reversed", "Ksorted" |
+            array: "random", "sorted", "partial", "reversed", "Ksorted" or your custom array |
             size [int]: How big test array should be |
 
         Returns:
             Tuple[float, List[Any]]: An execution time and sorted result
         """
-        array = array.lower()
-        if array == "random":
-            nums = self.genRandomArray(size)
-        elif array == "sorted":
-            nums = self.genSortedArray(size)
-        elif array == "partial":
-            nums = self.genPartialArray(size)
-        elif array == "reversed":
-            nums = self.genReversedArray(size)
-        elif array == "ksorted":
-            nums = self.genKsortedArray(size, size.bit_length())
-        else:  # default = random array
-            nums = self.genRandomArray(size)
+        if isinstance(array, list):
+            nums = array
+            array = "custom"
+            size = len(nums)
+        else:
+            array = array.lower()
+            if array == "random":
+                nums = self.genRandomArray(size)
+            elif array == "sorted":
+                nums = self.genSortedArray(size)
+            elif array == "partial":
+                nums = self.genPartialArray(size)
+            elif array == "reversed":
+                nums = self.genReversedArray(size)
+            elif array == "ksorted":
+                nums = self.genKsortedArray(size, size.bit_length())
+            else:  # default = random array
+                nums = self.genRandomArray(size)
 
         print(f"Running {function.__name__}(len {size} {array} array)")
 
