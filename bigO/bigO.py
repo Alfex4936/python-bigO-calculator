@@ -1,6 +1,8 @@
 from collections import Counter
 import math
-from random import randint
+from random import choice, randint
+import string
+
 from timeit import default_timer
 from typing import Any, Callable, Dict, List, Tuple
 
@@ -150,7 +152,14 @@ class bigO:
         return bestFit
 
     def genRandomArray(_, size: int):
-        array = [randint(-size, size) for i in range(size)]
+        array = [randint(-size, size) for _ in range(size)]
+        return array
+
+    def genRandomString(_, size: int):
+        letters = string.ascii_lowercase + string.digits
+        array = [
+            "".join(choice(letters) for _ in range(size)) for _ in range(size)
+        ]  # secrets.choice?
         return array
 
     def genSortedArray(_, size: int):
@@ -211,7 +220,7 @@ class bigO:
 
         Args:
             functionName (Callable): a function to call |
-            array (str): "random", "sorted", "reversed", "partial", "Ksorted" |
+            array (str): "random", "sorted", "reversed", "partial", "Ksorted", "string" |
             limit (bool): To terminate before it takes forever to sort (usually 10,000) |
             prtResult (bool): Whether to print the result by itself (default = True)
 
@@ -254,6 +263,8 @@ class bigO:
                 nums = self.genReversedArray(size)
             elif array == "ksorted":
                 nums = self.genKsortedArray(size, size.bit_length())
+            elif array == "string":
+                nums = self.genRandomString(size)
             # elif array == "custom":
             #    nums = custom
             #    assert len(nums) != 0, "Please, pass the custom array you want.
@@ -362,6 +373,8 @@ class bigO:
                 nums = self.genReversedArray(size)
             elif array == "ksorted":
                 nums = self.genKsortedArray(size, size.bit_length())
+            elif array == "string":
+                nums = self.genRandomString(size)
             else:  # default = random array
                 nums = self.genRandomArray(size)
 

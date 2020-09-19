@@ -28,3 +28,16 @@ def test_custom():
     print(result)
 
     assert result == sorted(arr)
+
+
+def test_str_array():
+    lib = bigO.bigO()
+
+    time, result = lib.runtime(algorithm.bubbleSort, "string", 10)
+    print(result)
+
+    time, result = lib.runtime(algorithm.introSort, "string", 10)
+    print(result)
+
+    time, result = lib.runtime(algorithm.quickSort, "string", 10)
+    print(result)

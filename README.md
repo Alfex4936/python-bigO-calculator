@@ -29,7 +29,7 @@ Methods:
 Args:
     functionName [Callable]: a function to call.
     
-    array [str]: "random", "sorted", "reversed", "partial", "Ksorted".
+    array [str]: "random", "sorted", "reversed", "partial", "Ksorted", "string".
 
     limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
 

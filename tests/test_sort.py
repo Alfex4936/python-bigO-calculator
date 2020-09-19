@@ -312,6 +312,7 @@ def test_insertion():
     complexity, _ = tester.test(insertSort, "reversed")
     complexity, _ = tester.test(insertSort, "partial")
     complexity, _ = tester.test(insertSort, "Ksorted")
+    complexity, _ = tester.test(insertSort, "string")
 
 
 def test_intro():
@@ -364,6 +365,7 @@ def test_quickSort():
     complexity, time = tester.test(quickSort, "reversed")
     complexity, time = tester.test(quickSort, "partial")
     complexity, time = tester.test(quickSort, "Ksorted")
+    complexity, time = tester.test(quickSort, "string")
 
 
 def test_all_cases():
