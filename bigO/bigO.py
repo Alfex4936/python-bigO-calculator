@@ -2,7 +2,7 @@ from collections import Counter
 import math
 from random import randint
 from timeit import default_timer
-from typing import Any, Callable, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple
 
 from win10toast import ToastNotifier
 
@@ -13,14 +13,25 @@ class bigO:
 
     Methods
     -------
-    test(function, str):
+    test(function, array, limit=True, prtResult=True) -> Tuple[complexity, executionTime]:
         Returns time complexity and the execution time to sort arrays with your function
+
+    test_all(function) -> Dict[str, int]:
+        Returns dictionary with all cases timecomplexity
+
+    runtime(function, array, size) -> Tuple[executionTime, sorted result]:
+        Returns executionTime and the result
 
     Usage
     -----
         from bigO import bigO
-        bigO = bigO.bigO()
-        bigO.test(mySort, "random")
+        from bigO import algorithm
+
+        lib = bigO.bigO()
+        
+        lib.test(mySort, "random")
+        lib.test_all(mySort)
+        lib.runtime(algorithm.bubbleSort, "random", 5000)
     """
 
     def __init__(self):
@@ -288,7 +299,16 @@ class bigO:
 
         return complexity.str(), estimatedTime
 
-    def test_all(self, function):
+    def test_all(self, function: Callable) -> Dict[str, int]:
+        """
+        ex) test_all(bubbleSort)
+
+        Args:
+            function [Callable]: a function to call
+
+        Returns:
+            Dict[str, int]: ex) {"random": "O(n)" ...}
+        """
         result = {"random": 0, "sorted": 0, "reversed": 0, "partial": 0, "Ksorted": 0}
 
         bestCase = self.complexity2int("O(n^3)")
@@ -312,3 +332,50 @@ class bigO:
         print(f"Worst : {self.complexity2str(worstCase)} Time")
 
         return result
+
+    def runtime(
+        self, function: Callable, array: str, size: int
+    ) -> Tuple[float, List[Any]]:
+        """
+        ex) runtime(bubbleSort, "random", 5000)
+
+        Args:
+            function [Callable]: a function to call |
+            array [str]: "random", "sorted", "partial", "reversed", "Ksorted" |
+            size [int]: How big test array should be |
+
+        Returns:
+            Tuple[float, List[Any]]: An execution time and sorted result
+        """
+        array = array.lower()
+        if array == "random":
+            nums = self.genRandomArray(size)
+        elif array == "sorted":
+            nums = self.genSortedArray(size)
+        elif array == "partial":
+            nums = self.genPartialArray(size)
+        elif array == "reversed":
+            nums = self.genReversedArray(size)
+        elif array == "ksorted":
+            nums = self.genKsortedArray(size, size.bit_length())
+        else:  # default = random array
+            nums = self.genRandomArray(size)
+
+        print(f"Running {function.__name__}(len {size} {array} array)")
+
+        timeTaken = 0.0
+
+        timeStart = default_timer()
+        result = function(nums)
+        timeEnd = default_timer()
+
+        timeTaken += timeEnd - timeStart
+
+        if result != None:
+            if result != sorted(nums):
+                # Just see the result if it doesn't sort correctly
+                print("This function doesn't sort correctly.")
+
+        print(f"Took {timeTaken:.5f}s to sort {function.__name__}({array})")
+
+        return timeTaken, result
