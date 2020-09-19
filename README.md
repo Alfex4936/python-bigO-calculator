@@ -206,9 +206,16 @@ lib = bigO.bigO()
 
 timeTook, result = lib.runtime(algorithm.bubbleSort, "random", 5000)
 
+custom = ["abc", "bbc", "ccd", "ef", "az"]
+
+timeTook, result = lib.runtime(algorithm.bubbleSort, custom)
+
 ''' Result
 Running bubbleSort(len 5000 random array)
 Took 2.61346s to sort bubbleSort(random)
+
+Running bubbleSort(len 5 custom array)
+Took 0.00001s to sort bubbleSort(custom)
 '''
 ```
 

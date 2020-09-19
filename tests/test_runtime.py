@@ -21,7 +21,7 @@ def test_run():
 def test_custom():
     lib = bigO.bigO()
 
-    arr = [0, 1, 2, -1, 1]
+    arr = ["abc", "bbc", "ccd", "ef", "az"]
     time, result = lib.runtime(algorithm.bubbleSort, arr)
 
     print(time)
