@@ -10,7 +10,7 @@ inspired by : https://github.com/ismaelJimenez/cpp.leastsq
 pip install big-O-calculator
 ```
 
-## Usage
+## What it does
 
 You can call which array to test
 
@@ -20,9 +20,11 @@ You can call which array to test
 Big-O calculator
 
 Methods:
-    test(function, array, limit=True, prtResult=True): It will run only specified array test, returns Tuple[str, estimatedTime]
+    test(function, array="random", limit=True, prtResult=True): It will run only specified array test, returns Tuple[str, estimatedTime]
 
     test_all(function): It will run all test cases, prints (best, average, worst cases), returns dict
+
+    runtime(function, array="random", size): It will simply returns execution time to sort length of size of test array, returns Tuple[float, List[Any]]
 
 Args:
     functionName [Callable]: a function to call.
@@ -45,12 +47,18 @@ Info:
   
 ```
 
+## Usage
+
 ```py
 from bigO import bigO
+from bigO import algorithm
 
 tester = bigO.bigO()
 
 tester.test(bubbleSort, "sorted")
+tester.test_all(bubbleSort)
+tester.runtime(bubbleSort)
+tester.runtime(algorithm.insertSort)
 ```
 
 ## Quick Sort Example
@@ -161,8 +169,9 @@ from bigO import bigO
 
 lib = bigO.bigO()
 
-result = lib.test_all(bubbleSort)
-result = lib.test_all(insertSort)
+lib.test_all(bubbleSort)
+lib.test_all(insertSort)
+
 result = lib.test_all(selectionSort)
 
 print(result)  # Dictionary
@@ -185,3 +194,27 @@ Worst : O(n^2) Time
 {'random': 'O(n^2)', 'sorted': 'O(n^2)', 'reversed': 'O(n^2)', 'partial': 'O(n^2)', 'Ksorted': 'O(n^2)'}
 '''
 ```
+
+## runtime(mySort) Example
+
+
+```py
+from bigO import bigO
+from bigO import algorithm
+
+lib = bigO.bigO()
+
+timeTook, result = lib.runtime(algorithm.bubbleSort, "random", 5000)
+
+''' Result
+Running bubbleSort(len 5000 random array)
+Took 2.61346s to sort bubbleSort(random)
+'''
+```
+
+## Built-in algorithms list
+Visit [here](https://github.com/Alfex4936/python-bigO-calculator/blob/master/bigO/algorithm.py) to see codes
+
+BinaryInsertSort, BubbleSort, CountSort, gnomeSort, heapSort, 
+InsertSort, InsertSortOptimized, IntroSort,
+mergeSort, quickSort(random pivot), timSort(simplified)
