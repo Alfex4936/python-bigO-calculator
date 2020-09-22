@@ -5,6 +5,7 @@ from bigO import algorithm
 def test_run():
     lib = bigO.bigO()
 
+    lib.runtime(sorted, "random", 5000)
     lib.runtime(algorithm.bubbleSort, "random", 5000)
     lib.runtime(algorithm.countSort, "random", 5000)
     lib.runtime(algorithm.binaryInsertSort, "random", 5000)

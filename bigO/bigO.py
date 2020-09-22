@@ -344,7 +344,7 @@ class bigO:
         return result
 
     def runtime(
-        self, function: Callable, array, size: int = None
+        self, function: Callable, array, size: int = None, prtResult: bool = True
     ) -> Tuple[float, List[Any]]:
         """
         ex) runtime(bubbleSort, "random", 5000)
@@ -353,6 +353,7 @@ class bigO:
             function [Callable]: a function to call |
             array: "random", "sorted", "partial", "reversed", "Ksorted" or your custom array |
             size [int]: How big test array should be |
+            prtResult (bool): Whether to print the result by itself (default = True) |
 
         Returns:
             Tuple[float, List[Any]]: An execution time and sorted result
@@ -378,7 +379,8 @@ class bigO:
             else:  # default = random array
                 nums = self.genRandomArray(size)
 
-        print(f"Running {function.__name__}(len {size} {array} array)")
+        if prtResult:
+            print(f"Running {function.__name__}(len {size} {array} array)")
 
         timeTaken = 0.0
 
@@ -392,7 +394,7 @@ class bigO:
             if result != sorted(nums):
                 # Just see the result if it doesn't sort correctly
                 print("This function doesn't sort correctly.")
-
-        print(f"Took {timeTaken:.5f}s to sort {function.__name__}({array})")
+        if prtResult:
+            print(f"Took {timeTaken:.5f}s to sort {function.__name__}({array})")
 
         return timeTaken, result

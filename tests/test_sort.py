@@ -368,9 +368,21 @@ def test_quickSort():
     complexity, time = tester.test(quickSort, "string")
 
 
+def test_sort():
+    lib = bigO.bigO()
+
+    lib.test(sorted, "random")
+    lib.test(sorted, "sorted")
+    lib.test(sorted, "reversed")
+    lib.test(sorted, "partial")
+    lib.test(sorted, "Ksorted")
+    lib.test(sorted, "string")
+
+
 def test_all_cases():
     lib = bigO.bigO()
 
+    lib.test_all(sorted)
     lib.test_all(bubbleSort)
     lib.test_all(insertSort)
     lib.test_all(selectionSort)
