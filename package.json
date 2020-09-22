@@ -11,9 +11,15 @@
     "jest-pytest": "^0.7.0"
   },
   "jest": {
-    "moduleFileExtensions": ["py"],
+    "moduleFileExtensions": [
+      "py"
+    ],
     "runner": "jest-pytest",
-	"testPathIgnorePatterns": ["snap_.*\\.py"],
-    "testMatch": ["<rootDir>/tests/test_*.py"]
+    "testPathIgnorePatterns": [
+      "snap_.*\\.py"
+    ],
+    "testMatch": [
+      "<rootDir>/tests/test_*.py"
+    ]
   }
 }

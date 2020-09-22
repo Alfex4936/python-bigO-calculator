@@ -12,7 +12,7 @@ pip install big-O-calculator
 
 ## What it does
 
-You can call which array to test
+You can test time complexity, calculate runtime, compare two sorting algorithms
 
 (n : [10, 100, 1_000, 10_000, 100_000])
 
@@ -24,9 +24,11 @@ Methods:
 
     test_all(function): It will run all test cases, prints (best, average, worst cases), returns dict
 
-    runtime(function, array="random", size): It will simply returns execution time to sort length of size of test array, returns Tuple[float, List[Any]]
+    runtime(function, array="random", size, epoch=1): It will simply returns execution time to sort length of size of test array, returns Tuple[float, List[Any]]
 
-Args:
+    compare(function1, function2, array, size, epoch=3): It will compare two functions on {array} case, returns dict
+
+test(**args):
     functionName [Callable]: a function to call.
     
     array [str]: "random", "sorted", "reversed", "partial", "Ksorted", "string".
@@ -219,9 +221,37 @@ Took 0.00001s to sort bubbleSort(custom)
 '''
 ```
 
+## compare(mySort, thisSort) Example
+
+```py
+lib = bigO.bigO()
+
+result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "random", 50000)
+result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "reversed", 50000)
+result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "sorted", 50000)
+result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "partial", 50000)
+
+print(result)
+
+'''Result
+quickSortHoare is faster than quickSort on random case
+Time Difference: 0.05841s
+quickSortHoare is faster than quickSort on reversed case
+Time Difference: 0.09900s
+quickSortHoare is faster than quickSort on sorted case
+Time Difference: 0.11852s
+quickSortHoare is faster than quickSort on partial case
+Time Difference: 0.06365s
+quickSortHoare is faster than quickSort on Ksorted case
+Time Difference: 0.10311s
+
+{'quickSort': 0.16498633333333354, 'quickSortHoare': 0.06188056666666656}
+'''
+```
+
 ## Built-in algorithms list
 Visit [here](https://github.com/Alfex4936/python-bigO-calculator/blob/master/bigO/algorithm.py) to see codes
 
 BinaryInsertSort, BubbleSort, CountSort, gnomeSort, heapSort, 
 InsertSort, InsertSortOptimized, IntroSort,
-mergeSort, quickSort(random pivot), timSort(simplified)
+mergeSort, quickSort(random pivot), quickSortHoare(Hoare+Tail recur), timSort(simplified)

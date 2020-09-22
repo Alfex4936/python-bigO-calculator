@@ -344,7 +344,12 @@ class bigO:
         return result
 
     def runtime(
-        self, function: Callable, array, size: int = None, prtResult: bool = True
+        self,
+        function: Callable,
+        array,
+        size: int = None,
+        epoch: int = 1,
+        prtResult: bool = True,
     ) -> Tuple[float, List[Any]]:
         """
         ex) runtime(bubbleSort, "random", 5000)
@@ -353,6 +358,7 @@ class bigO:
             function [Callable]: a function to call |
             array: "random", "sorted", "partial", "reversed", "Ksorted" or your custom array |
             size [int]: How big test array should be |
+            epoch [int]: How many tests to run and calculte average |
             prtResult (bool): Whether to print the result by itself (default = True) |
 
         Returns:
@@ -384,17 +390,58 @@ class bigO:
 
         timeTaken = 0.0
 
-        timeStart = default_timer()
-        result = function(nums)
-        timeEnd = default_timer()
+        for _ in range(epoch):
+            timeStart = default_timer()
+            result = function(nums)
+            timeEnd = default_timer()
 
-        timeTaken += timeEnd - timeStart
+            timeTaken += timeEnd - timeStart
 
-        if result != None:
-            if result != sorted(nums):
-                # Just see the result if it doesn't sort correctly
-                print("This function doesn't sort correctly.")
+            if result != None:
+                if result != sorted(nums):
+                    # Just see the result if it doesn't sort correctly
+                    print("This function doesn't sort correctly.")
+
+        finalTime = timeTaken / epoch
+
         if prtResult:
-            print(f"Took {timeTaken:.5f}s to sort {function.__name__}({array})")
+            print(f"Took {finalTime:.5f}s to sort {function.__name__}({array})")
 
-        return timeTaken, result
+        return finalTime, result
+
+    def compare(
+        self, function1: Callable, function2: Callable, array: str, size: int
+    ) -> Dict:
+        """
+        ex) compare(bubbleSort, insertSort, "random", 5000)
+
+        Args:
+            function1 [Callable]: a function to compare |
+            function2 [Callable]: a function to compare |
+            array [str]: "random", "sorted", "partial", "reversed", "Ksorted"
+            size [int]: How big test array should be |
+
+        Returns:
+            Dict: function1 execution time and function2 execution time
+        """
+        function1_time, _ = self.runtime(
+            function1, array, size, epoch=3, prtResult=False
+        )
+        function2_time, _ = self.runtime(
+            function2, array, size, epoch=3, prtResult=False
+        )
+
+        timeDiff = abs(function1_time - function2_time)
+
+        if function1_time < function2_time:
+            print(
+                f"{function1.__name__} is faster than {function2.__name__} on {array} case"
+            )
+            print(f"Time Difference: {timeDiff:.5f}s")
+        else:
+            print(
+                f"{function2.__name__} is faster than {function1.__name__} on {array} case"
+            )
+            print(f"Time Difference: {timeDiff:.5f}s")
+
+        return {function1.__name__: function1_time, function2.__name__: function2_time}

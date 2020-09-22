@@ -42,3 +42,9 @@ def test_str_array():
 
     time, result = lib.runtime(algorithm.quickSort, "string", 10)
     print(result)
+
+
+def test_epoch():
+    lib = bigO.bigO()
+    lib.runtime(algorithm.quickSort, "random", 5000, 3, True)
+    lib.runtime(algorithm.quickSortHoare, "random", 5000, 3, True)

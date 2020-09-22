@@ -234,6 +234,55 @@ def quickSort(array):  # in-place | not-stable
     return quickSort(smaller) + equal + quickSort(larger)
 
 
+def quickSortHoare(array, low=0, high=None):  # in-place | not-stable
+    """
+    Best : O(nlogn) Time | O(logn) Space
+    Average : O(nlogn) Time | O(logn) Space
+    Worst : O(nlogn) Time | O(logn) Space
+    """
+
+    def insertSort(array, low=0, high=None):
+        if high is None:
+            high = len(array) - 1
+
+        for i in range(low + 1, high + 1):
+            j = i
+            while j > 0 and array[j] < array[j - 1]:
+                array[j], array[j - 1] = array[j - 1], array[j]
+                j -= 1
+
+        return array
+
+    if high is None:
+        high = len(array) - 1
+
+    while low < high and high - low > 16:
+        q = partition(array, low, high)
+        quickSortHoare(array, low, q)
+        low = q + 1
+
+    return insertSort(array, low, high)
+
+
+def partition(array, low, high):
+    pivot = array[(high + low) // 2]
+    # pivot = array[randint(low, high)]
+    i = low - 1
+    j = high + 1
+    while True:
+        i += 1
+        while array[i] < pivot:
+            i += 1
+        j -= 1
+        while array[j] > pivot:
+            j -= 1
+
+        if i >= j:
+            return j
+
+        array[i], array[j] = array[j], array[i]
+
+
 def empty(array):
     return array
 
@@ -366,6 +415,16 @@ def test_quickSort():
     complexity, time = tester.test(quickSort, "partial")
     complexity, time = tester.test(quickSort, "Ksorted")
     complexity, time = tester.test(quickSort, "string")
+
+
+def test_quickSort():
+    tester = bigO.bigO()
+
+    complexity, time = tester.test(quickSortHoare, "random")
+    complexity, time = tester.test(quickSortHoare, "sorted")
+    complexity, time = tester.test(quickSortHoare, "reversed")
+    complexity, time = tester.test(quickSortHoare, "partial")
+    complexity, time = tester.test(quickSortHoare, "Ksorted")
 
 
 def test_sort():
