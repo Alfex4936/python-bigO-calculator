@@ -364,6 +364,9 @@ class bigO:
         Returns:
             Tuple[float, List[Any]]: An execution time and sorted result
         """
+        if epoch < 1:
+            epoch = 1
+
         if isinstance(array, list):
             nums = array
             array = "custom"

@@ -34,3 +34,15 @@ def test_quickcomp():
 
     print(result)
 
+
+def test_go():
+    lib = bigO.bigO()
+
+    lib.compare(algorithm.goSort, algorithm.introSort, "random", 100000)
+    lib.compare(algorithm.goSort, algorithm.quickSortHoare, "random", 10000)
+
+    lib.compare(algorithm.goSort, algorithm.heapSort, "random", 10000)
+    lib.compare(algorithm.goSort, algorithm.timSort, "random", 10000)
+
+    lib.compare(algorithm.goSort, algorithm.quickSortHoare, "Ksorted", 10000)
+    lib.compare(algorithm.goSort, algorithm.quickSortHoare, "Ksorted", 10000)
