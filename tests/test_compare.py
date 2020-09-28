@@ -21,25 +21,29 @@ def test_quickcomp():
 
     # Hoare + Tail recur should be faster than random pivot choosing recursive one
     result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "random", 50000)
-    result = lib.compare(algorithm.quickSortHoare, algorithm.quickSortHeap, "random", 50000)
-    
+    result = lib.compare(
+        algorithm.quickSortHoare, algorithm.quickSortHeap, "random", 50000
+    )
+
     result = lib.compare(
         algorithm.quickSort, algorithm.quickSortHoare, "reversed", 50000
     )
     result = lib.compare(
         algorithm.quickSortHoare, algorithm.quickSortHeap, "reversed", 50000
     )
-    
+
     result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "sorted", 50000)
-    result = lib.compare(algorithm.quickSortHoare, algorithm.quickSortHeap, "sorted", 50000)
-    
+    result = lib.compare(
+        algorithm.quickSortHoare, algorithm.quickSortHeap, "sorted", 50000
+    )
+
     result = lib.compare(
         algorithm.quickSort, algorithm.quickSortHoare, "partial", 50000
     )
     result = lib.compare(
         algorithm.quickSortHoare, algorithm.quickSortHeap, "partial", 50000
     )
-    
+
     result = lib.compare(
         algorithm.quickSort, algorithm.quickSortHoare, "Ksorted", 50000
     )
@@ -75,3 +79,13 @@ def test_mini():
     lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 16)
     lib.compare(algorithm.insertSort, algorithm.selectionSort, "reversed", 16)
     lib.compare(algorithm.bubbleSort, algorithm.selectionSort, "reversed", 16)
+
+
+def test_all():
+    lib = bigO.bigO()
+    result = lib.compare(
+        algorithm.quickSortHoare, algorithm.quickSortHeap, "all", 50000
+    )
+
+    result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "all", 5000)
+

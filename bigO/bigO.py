@@ -421,18 +421,39 @@ class bigO:
         Args:
             function1 [Callable]: a function to compare |
             function2 [Callable]: a function to compare |
-            array [str]: "random", "sorted", "partial", "reversed", "Ksorted"
+            array [str]: "random", "sorted", "partial", "reversed", "Ksorted", "all"
             size [int]: How big test array should be |
 
         Returns:
             Dict: function1 execution time and function2 execution time
         """
-        function1_time, _ = self.runtime(
-            function1, array, size, epoch=3, prtResult=False
-        )
-        function2_time, _ = self.runtime(
-            function2, array, size, epoch=3, prtResult=False
-        )
+        if array == "all":
+            test = ["random", "sorted", "reversed", "partial", "Ksorted"]
+            func1_sum = 0.0
+            func2_sum = 0.0
+            print(f"Running {function1.__name__}(tests), {function2.__name__}(tests)")
+            for arr in test:
+                function1_time, _ = self.runtime(
+                    function1, arr, size, epoch=3, prtResult=False
+                )
+                func1_sum += function1_time
+
+                function2_time, _ = self.runtime(
+                    function2, arr, size, epoch=3, prtResult=False
+                )
+                func2_sum += function2_time
+
+            func1_sum /= len(test)
+            func2_sum /= len(test)
+            function1_time = func1_sum
+            function2_time = func2_sum
+        else:
+            function1_time, _ = self.runtime(
+                function1, array, size, epoch=3, prtResult=False
+            )
+            function2_time, _ = self.runtime(
+                function2, array, size, epoch=3, prtResult=False
+            )
 
         timeDiff = abs(function1_time - function2_time)
 
