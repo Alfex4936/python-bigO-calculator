@@ -273,9 +273,11 @@ def quickSort(array):  # in-place | not-stable
 
 def quickSortHoare(array, low=0, high=None):  # in-place | not-stable
     """
-    Best : O(nlogn) Time | O(logn) Space
-    Average : O(nlogn) Time | O(logn) Space
-    Worst : O(nlogn) Time | O(logn) Space
+    QuickSort using tail recursive + insertion sort + hoare
+    
+    Best : O(nlogn) Time | O(1) Space
+    Average : O(nlogn) Time | O(1) Space
+    Worst : O(nlogn) Time | O(1) Space
     """
 
     def insertSort(array, low=0, high=None):
@@ -297,6 +299,66 @@ def quickSortHoare(array, low=0, high=None):  # in-place | not-stable
         q = partition(array, low, high)
         quickSortHoare(array, low, q)
         low = q + 1
+
+    return insertSort(array, low, high)
+
+
+def quickSortHeap(array, low=0, high=None, depth=None):
+    """
+    QuickSort using tail recursive + insertion sort + heap sort + hoare + median of three killer
+    """
+
+    def medianOf3(array, lowIdx, midIdx, highIdx):
+        if (array[lowIdx] - array[midIdx]) * (array[highIdx] - array[lowIdx]) >= 0:
+            return array[lowIdx]
+
+        elif (array[midIdx] - array[lowIdx]) * (array[highIdx] - array[midIdx]) >= 0:
+            return array[midIdx]
+
+        else:
+            return array[highIdx]
+
+    def partition(array, low, high):
+        pivot = medianOf3(array, low, (low + high) // 2, high)
+        i = low - 1
+        j = high + 1
+        while True:
+            i += 1
+            while array[i] < pivot:
+                i += 1
+            j -= 1
+            while array[j] > pivot:
+                j -= 1
+
+            if i >= j:
+                return j
+
+            array[i], array[j] = array[j], array[i]
+
+    def insertSort(array, low=0, high=None):
+        if high is None:
+            high = len(array) - 1
+
+        for i in range(low + 1, high + 1):
+            j = i
+            while j > 0 and array[j] < array[j - 1]:
+                array[j], array[j - 1] = array[j - 1], array[j]
+                j -= 1
+
+        return array
+
+    if high is None:
+        high = len(array) - 1
+    if depth is None:
+        depth = 2 * (len(array).bit_length() - 1)
+
+    if depth == 0:
+        return heapSort(array)
+    else:
+        while low < high and high - low > 16:
+            q = partition(array, low, high)
+            quickSortHoare(array, low, q)
+            low = q + 1
 
     return insertSort(array, low, high)
 
