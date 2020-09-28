@@ -88,4 +88,3 @@ def test_all():
     )
 
     result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "all", 5000)
-

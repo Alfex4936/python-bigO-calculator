@@ -14,6 +14,8 @@ pip install big-O-calculator
 
 You can test time complexity, calculate runtime, compare two sorting algorithms
 
+Results may vary.
+
 (n : [10, 100, 1_000, 10_000, 100_000])
 
 ```py
@@ -61,6 +63,7 @@ tester.test(bubbleSort, "sorted")
 tester.test_all(bubbleSort)
 tester.runtime(bubbleSort)
 tester.runtime(algorithm.insertSort)
+tester.compare(algorithm.insertSort, algorithm.bubbleSortm, "all", 5000)
 ```
 
 ## Quick Sort Example
@@ -231,6 +234,8 @@ result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "reversed", 
 result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "sorted", 50000)
 result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "partial", 50000)
 
+result = lib.compare(algorithm.quickSortHoare, algorithm.quickSortHeap, "all", 50000)
+
 print(result)
 
 '''Result
@@ -244,6 +249,10 @@ quickSortHoare is faster than quickSort on partial case
 Time Difference: 0.06365s
 quickSortHoare is faster than quickSort on Ksorted case
 Time Difference: 0.10311s
+
+Running quickSortHoare(tests), quickSortHeap(tests)
+quickSortHeap is faster than quickSortHoare on all case
+Time Difference: 0.00254s
 
 {'quickSort': 0.16498633333333354, 'quickSortHoare': 0.06188056666666656}
 '''
