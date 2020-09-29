@@ -63,7 +63,7 @@ tester.test(bubbleSort, "sorted")
 tester.test_all(bubbleSort)
 tester.runtime(bubbleSort)
 tester.runtime(algorithm.insertSort)
-tester.compare(algorithm.insertSort, algorithm.bubbleSortm, "all", 5000)
+tester.compare(algorithm.insertSort, algorithm.bubbleSort, "all", 5000)
 ```
 
 ## Quick Sort Example

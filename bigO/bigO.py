@@ -23,6 +23,9 @@ class bigO:
 
     runtime(function, array, size) -> Tuple[executionTime, sorted result]:
         Returns executionTime and the result
+        
+    compare(function1, function2, array, size) -> Dict{functionName: executionTime}
+        Returns dictionary with execution time on each function
 
     Usage
     -----
@@ -34,6 +37,7 @@ class bigO:
         lib.test(mySort, "random")
         lib.test_all(mySort)
         lib.runtime(algorithm.bubbleSort, "random", 5000)
+        lib.compare(algorithm.bubbleSort, algorithm.insertSort, "random", 5000)
     """
 
     def __init__(self):
@@ -421,7 +425,7 @@ class bigO:
         Args:
             function1 [Callable]: a function to compare |
             function2 [Callable]: a function to compare |
-            array [str]: "random", "sorted", "partial", "reversed", "Ksorted", "all"
+            array [str]: "random", "sorted", "partial", "reversed", "Ksorted", "all" |
             size [int]: How big test array should be |
 
         Returns:
