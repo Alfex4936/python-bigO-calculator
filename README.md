@@ -33,7 +33,7 @@ Methods:
 test(**args):
     functionName [Callable]: a function to call.
     
-    array [str]: "random", "sorted", "reversed", "partial", "Ksorted", "string".
+    array [str]: "random", "sorted", "reversed", "partial", "Ksorted", "string", "almost_equal", "equal", "hole".
 
     limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
 
@@ -167,7 +167,8 @@ Time took: 4.05617s
 
 ## test_all(mySort) Example
 
-We can test all "random", "sorted", "reversed", "partial", "Ksorted" by one with test_all method
+We can test all "random", "sorted", "reversed", "partial", "Ksorted", "almost_equal" in a row
+and it shows, best, average, worst time complexity
 
 ```py
 from bigO import bigO
@@ -259,9 +260,22 @@ Time Difference: 0.11975s
 '''
 ```
 
+## Test arrays sample (size = 20)
+```py
+random = [15, 15, -11, -16, -19, -16, -14, 14, 19, 2, 18, -10, 5, -17, -4, -2, 9, 12, 8, 12]
+string = ['rwe55pi8hkwpjv5rhhoo', '5ecvybo5xi8p25wanh3t', '9qloe709sonjuun90p77', 'jqc06iabwk3v5utqo09d', 'shm2uweb4dsgbx14hts3', '07eivto20vmvp0nsa6b3', 'vyoqn5pt2swkuftv7g0p', 'pw06n5utxsd7j1u2kv82', 'k8trosl40h7qvozfjhex', 'r4zvaqnblc3uv6x95uvh', 'qsxliu3zm7z20gtjpo50', 'wg81sdzhc5wuanrk20n0', 'iioyowuktvbq71tsx30p', 'cazu363i51f55ccw3dol', '2hupx2egkcgpx6byeh3f', 'njodnkvuf12cfm5kp4f5', 'jm919g477ivcambii16t', 'wnlbj3hs33rilovbzhyq', '5in234a20dbz5zv69qx4', 'hysowkb230ts7fcwizmb']
+sorted = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+reversed = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+partial = [-18, 14, 7, -11, 17, 5, 6, 7, 8, 9, 14, 9, -13, 0, 14, -17, -18, -9, -16, 14]
+Ksorted = [-4, -5, -6, -7, -8, -9, -10, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 9, 8]
+almost_equal = [19, 19, 19, 20, 20, 19, 20, 20, 21, 19, 20, 21, 21, 19, 19, 21, 20, 19, 21, 19]
+equal = [16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16]
+hole = [-7, -7, -7, -7, -7, -7, -9999, -7, -7, -7, -7, -7, -7, -7, -7, -7, -7, -7, -7, -7]
+```
+
 ## Built-in algorithms list
 Visit [here](https://github.com/Alfex4936/python-bigO-calculator/blob/master/bigO/algorithm.py) to see codes
 
 BinaryInsertSort, BubbleSort, CountSort, gnomeSort, heapSort, 
 InsertSort, InsertSortOptimized, IntroSort,
-mergeSort, quickSort(random pivot), quickSortHoare(Hoare+Tail recur), timSort(simplified)
+mergeSort, quickSort(random pivot), quickSortHoare(Hoare+Tail recur+InsertionSort), timSort(simplified)
