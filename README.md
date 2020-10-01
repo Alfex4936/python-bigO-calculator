@@ -229,32 +229,33 @@ Took 0.00001s to sort bubbleSort(custom)
 ```py
 lib = bigO.bigO()
 
-result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "random", 50000)
+result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 5000)
+result = lib.compare(algorithm.insertSort, algorithm.insertSortOptimized, "reversed", 5000)
 result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "reversed", 50000)
-result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "sorted", 50000)
-result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "partial", 50000)
+result = lib.compare(algorithm.timSort, algorithm.introSort, "reversed", 50000)
+result = lib.compare(sorted, algorithm.introSort, "reversed", 50000)
 
-result = lib.compare(algorithm.quickSortHoare, algorithm.quickSortHeap, "all", 50000)
+result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "all", 5000)
 
 print(result)
 
 '''Result
-quickSortHoare is faster than quickSort on random case
-Time Difference: 0.05841s
-quickSortHoare is faster than quickSort on reversed case
-Time Difference: 0.09900s
-quickSortHoare is faster than quickSort on sorted case
-Time Difference: 0.11852s
-quickSortHoare is faster than quickSort on partial case
-Time Difference: 0.06365s
-quickSortHoare is faster than quickSort on Ksorted case
-Time Difference: 0.10311s
+bubbleSort is 3.6% faster than insertSort on reversed case
+Time Difference: 0.04513s
+insertSortOptimized is 5959.3% faster than insertSort on reversed case
+Time Difference: 1.25974s
+quickSortHoare is 153.6% faster than quickSort on reversed case
+Time Difference: 0.09869s
+introSort is 206.6% faster than timSort on reversed case
+Time Difference: 0.12597s
+sorted is 12436.9% faster than introSort on reversed case
+Time Difference: 0.06862s
 
-Running quickSortHoare(tests), quickSortHeap(tests)
-quickSortHeap is faster than quickSortHoare on all case
-Time Difference: 0.00254s
+Running bubbleSort(tests) vs insertSort(tests)
+insertSort is 32.6% faster than bubbleSort on 6 of 8 cases
+Time Difference: 0.11975s
 
-{'quickSort': 0.16498633333333354, 'quickSortHoare': 0.06188056666666656}
+{'bubbleSort': 0.4875642249999998, 'insertSort': 0.3678110916666666}
 '''
 ```
 

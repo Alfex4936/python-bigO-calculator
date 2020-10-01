@@ -87,4 +87,8 @@ def test_all():
         algorithm.quickSortHoare, algorithm.quickSortHeap, "all", 50000
     )
 
-    result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "all", 5000)
+    result = lib.compare(algorithm.insertSort, algorithm.bubbleSort, "all", 5000)
+    print(result)
+
+    result = lib.compare(algorithm.quickSortHoare, algorithm.insertSort, "all", 5000)
+

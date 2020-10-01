@@ -518,13 +518,15 @@ class bigO:
         timeDiff = abs(function1_time - function2_time)
 
         if function1_time < function2_time:
+            percentage = function2_time / function1_time * 100.0 - 100.0
             print(
-                f"{function1.__name__} is faster than {function2.__name__} on {array} case{s}"
+                f"{function1.__name__} is {percentage:.1f}% faster than {function2.__name__} on {array} case{s}"
             )
             print(f"Time Difference: {timeDiff:.5f}s")
         else:
+            percentage = function1_time / function2_time * 100.0 - 100.0
             print(
-                f"{function2.__name__} is faster than {function1.__name__} on {array} case{s}"
+                f"{function2.__name__} is {percentage:.1f}% faster than {function1.__name__} on {array} case{s}"
             )
             print(f"Time Difference: {timeDiff:.5f}s")
 
