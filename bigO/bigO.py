@@ -212,6 +212,20 @@ class bigO:
 
         return array
 
+    def genEqualArray(_, size: int):
+        n = randint(-size, size)
+        return [n for _ in range(size)]
+
+    def genAlmostEqualArray(_, size: int):
+        return [randint(-1, 1) + size for _ in range(size)]
+
+    def genHoleArray(
+        self, size: int
+    ):  # returns equal array with only one different element
+        arr = self.genEqualArray(size)
+        arr[randint(-size, size)] = -9999
+        return arr
+
     def test(
         self,
         functionName: Callable,
@@ -224,7 +238,8 @@ class bigO:
 
         Args:
             functionName (Callable): a function to call |
-            array (str): "random", "sorted", "reversed", "partial", "Ksorted", "string" |
+            array (str): "random", "sorted", "reversed", "partial", "Ksorted", "string",
+            "hole", "equal", "almost_equal" |
             limit (bool): To terminate before it takes forever to sort (usually 10,000) |
             prtResult (bool): Whether to print the result by itself (default = True)
 
@@ -269,6 +284,12 @@ class bigO:
                 nums = self.genKsortedArray(size, size.bit_length())
             elif array == "string":
                 nums = self.genRandomString(size)
+            elif array == "hole":
+                nums = self.genHoleArray(size)
+            elif array == "equal":
+                nums = self.genEqualArray(size)
+            elif array == "almost_equal":
+                nums = self.genAlmostEqualArray(size)
             # elif array == "custom":
             #    nums = custom
             #    assert len(nums) != 0, "Please, pass the custom array you want.
@@ -323,7 +344,14 @@ class bigO:
         Returns:
             Dict[str, int]: ex) {"random": "O(n)" ...}
         """
-        result = {"random": 0, "sorted": 0, "reversed": 0, "partial": 0, "Ksorted": 0}
+        result = {
+            "random": 0,
+            "sorted": 0,
+            "reversed": 0,
+            "partial": 0,
+            "Ksorted": 0,
+            "almost_equal": 0,
+        }
 
         bestCase = self.complexity2int("O(n^3)")
         worstCase = self.complexity2int("O(1)")
@@ -360,7 +388,8 @@ class bigO:
 
         Args:
             function [Callable]: a function to call |
-            array: "random", "sorted", "partial", "reversed", "Ksorted" or your custom array |
+            array: "random", "sorted", "partial", "reversed", "Ksorted" ,
+            "hole", "equal", "almost_equal" or your custom array |
             size [int]: How big test array should be |
             epoch [int]: How many tests to run and calculte average |
             prtResult (bool): Whether to print the result by itself (default = True) |
@@ -389,6 +418,12 @@ class bigO:
                 nums = self.genKsortedArray(size, size.bit_length())
             elif array == "string":
                 nums = self.genRandomString(size)
+            elif array == "hole":
+                nums = self.genHoleArray(size)
+            elif array == "equal":
+                nums = self.genEqualArray(size)
+            elif array == "almost_equal":
+                nums = self.genAlmostEqualArray(size)
             else:  # default = random array
                 nums = self.genRandomArray(size)
 
@@ -425,17 +460,31 @@ class bigO:
         Args:
             function1 [Callable]: a function to compare |
             function2 [Callable]: a function to compare |
-            array [str]: "random", "sorted", "partial", "reversed", "Ksorted", "all" |
+            array [str]: "random", "sorted", "partial", "reversed", "Ksorted", 
+            "hole", "equal", "almost_equal", "all" |
             size [int]: How big test array should be |
 
         Returns:
             Dict: function1 execution time and function2 execution time
         """
+        s = ""
+
         if array == "all":
-            test = ["random", "sorted", "reversed", "partial", "Ksorted"]
+            test = [
+                "random",
+                "sorted",
+                "reversed",
+                "partial",
+                "Ksorted",
+                "hole",
+                "equal",
+                "almost_equal",
+            ]
             func1_sum = 0.0
             func2_sum = 0.0
-            print(f"Running {function1.__name__}(tests), {function2.__name__}(tests)")
+            wins = 0
+
+            print(f"Running {function1.__name__}(tests) vs {function2.__name__}(tests)")
             for arr in test:
                 function1_time, _ = self.runtime(
                     function1, arr, size, epoch=3, prtResult=False
@@ -447,10 +496,17 @@ class bigO:
                 )
                 func2_sum += function2_time
 
+                if function1_time > function2_time:
+                    wins += 1
+
             func1_sum /= len(test)
             func2_sum /= len(test)
             function1_time = func1_sum
             function2_time = func2_sum
+
+            wins = wins if function1_time > function2_time else len(test) - wins
+            array = f"{wins} of {len(test)}"
+            s = "s"
         else:
             function1_time, _ = self.runtime(
                 function1, array, size, epoch=3, prtResult=False
@@ -463,12 +519,12 @@ class bigO:
 
         if function1_time < function2_time:
             print(
-                f"{function1.__name__} is faster than {function2.__name__} on {array} case"
+                f"{function1.__name__} is faster than {function2.__name__} on {array} case{s}"
             )
             print(f"Time Difference: {timeDiff:.5f}s")
         else:
             print(
-                f"{function2.__name__} is faster than {function1.__name__} on {array} case"
+                f"{function2.__name__} is faster than {function1.__name__} on {array} case{s}"
             )
             print(f"Time Difference: {timeDiff:.5f}s")
 

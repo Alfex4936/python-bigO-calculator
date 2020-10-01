@@ -15,6 +15,11 @@ def test_gen():
         arr = gen.genKsortedArray(20, i)
         assert isKSortedArray(arr, i) == True
 
+    print(gen.genAlmostEqualArray(9))
+    print(gen.genAlmostEqualArray(20))
+    print(gen.genEqualArray(20))
+    print(gen.genHoleArray(20))
+
 
 def test_Ksorted():
     gen = bigO.bigO()

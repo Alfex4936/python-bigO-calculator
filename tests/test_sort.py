@@ -334,6 +334,9 @@ def test_bubble():
     complexity, _ = tester.test(bubbleSort, "reversed")
     complexity, _ = tester.test(bubbleSort, "partial")
     complexity, _ = tester.test(bubbleSort, "Ksorted")
+    complexity, _ = tester.test(bubbleSort, "almost_equal")
+    complexity, _ = tester.test(bubbleSort, "equal")
+    complexity, _ = tester.test(bubbleSort, "hole")
 
 
 def test_count():
@@ -425,6 +428,9 @@ def test_quickSort():
     complexity, time = tester.test(quickSortHoare, "reversed")
     complexity, time = tester.test(quickSortHoare, "partial")
     complexity, time = tester.test(quickSortHoare, "Ksorted")
+    complexity, time = tester.test(quickSortHoare, "hole")
+    complexity, time = tester.test(quickSortHoare, "equal")
+    complexity, time = tester.test(quickSortHoare, "almost_equal")
 
 
 def test_sort():
@@ -435,7 +441,10 @@ def test_sort():
     lib.test(sorted, "reversed")
     lib.test(sorted, "partial")
     lib.test(sorted, "Ksorted")
-    lib.test(sorted, "string")
+    # lib.test(sorted, "string")
+    lib.test(sorted, "hole")
+    lib.test(sorted, "euqal")
+    lib.test(sorted, "almost_equal")
 
 
 def test_all_cases():
