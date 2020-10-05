@@ -5,7 +5,7 @@ def test_gen():
     gen = bigO.bigO()
 
     print(gen.genRandomArray(20))
-    print(gen.genRandomString(20))
+    print(gen.genRandomString(5, 20))
     print(gen.genSortedArray(20))
     print(gen.genReversedArray(20))
     print(gen.genPartialArray(20))

@@ -441,7 +441,7 @@ def test_sort():
     lib.test(sorted, "reversed")
     lib.test(sorted, "partial")
     lib.test(sorted, "Ksorted")
-    # lib.test(sorted, "string")
+    lib.test(sorted, "string")
     lib.test(sorted, "hole")
     lib.test(sorted, "euqal")
     lib.test(sorted, "almost_equal")

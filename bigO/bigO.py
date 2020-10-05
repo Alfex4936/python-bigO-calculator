@@ -155,33 +155,37 @@ class bigO:
 
         return bestFit
 
-    def genRandomArray(_, size: int):
+    def genRandomArray(_, size: int = 10):
         array = [randint(-size, size) for _ in range(size)]
         return array
 
-    def genRandomString(_, size: int):
+    def genRandomString(_, stringLen: int = None, size: int = 10):
+        if stringLen == None:
+            stringLen = size // 2
+
         letters = string.ascii_lowercase + string.digits
         array = [
-            "".join(choice(letters) for _ in range(size)) for _ in range(size)
+            "".join(choice(letters) for _ in range(randint(1, stringLen)))
+            for _ in range(size)
         ]  # secrets.choice?
         return array
 
-    def genSortedArray(_, size: int):
+    def genSortedArray(_, size: int = 10):
         array = [i for i in range(size)]
         return array
 
-    def genReversedArray(_, size: int):
+    def genReversedArray(_, size: int = 10):
         array = [i for i in reversed(range(size))]
         return array
 
-    def genPartialArray(self, size: int):
+    def genPartialArray(self, size: int = 10):
         array = self.genRandomArray(size)
         sorted_array = self.genSortedArray(size)
 
         array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
         return array
 
-    def genKsortedArray(self, size: int, k: int = None):
+    def genKsortedArray(self, size: int = 10, k: int = None):
         def reverseRange(array, a, b):
             i = a
             j = b - 1
@@ -212,15 +216,15 @@ class bigO:
 
         return array
 
-    def genEqualArray(_, size: int):
+    def genEqualArray(_, size: int = 10):
         n = randint(-size, size)
         return [n for _ in range(size)]
 
-    def genAlmostEqualArray(_, size: int):
+    def genAlmostEqualArray(_, size: int = 10):
         return [randint(-1, 1) + size for _ in range(size)]
 
     def genHoleArray(
-        self, size: int
+        self, size: int = 10
     ):  # returns equal array with only one different element
         arr = self.genEqualArray(size)
         arr[randint(-size, size)] = -9999
@@ -283,7 +287,7 @@ class bigO:
             elif array == "ksorted":
                 nums = self.genKsortedArray(size, size.bit_length())
             elif array == "string":
-                nums = self.genRandomString(size)
+                nums = self.genRandomString(stringLen=100, size=size)
             elif array == "hole":
                 nums = self.genHoleArray(size)
             elif array == "equal":
