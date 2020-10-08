@@ -376,6 +376,7 @@ def test_intro():
     complexity, _ = tester.test(introSort, "reversed")
     complexity, _ = tester.test(introSort, "partial")
     complexity, _ = tester.test(introSort, "Ksorted")
+    # median of three won't work on string array
 
 
 @pytest.mark.timeout(600)
@@ -387,6 +388,7 @@ def test_selection():
     tester.test(selectionSort, "sorted")
     tester.test(selectionSort, "partial")
     tester.test(selectionSort, "Ksorted")
+    tester.test(selectionSort, "string")
 
 
 def test_timsort():
@@ -431,6 +433,7 @@ def test_quickSort():
     complexity, time = tester.test(quickSortHoare, "hole")
     complexity, time = tester.test(quickSortHoare, "equal")
     complexity, time = tester.test(quickSortHoare, "almost_equal")
+    complexity, time = tester.test(quickSortHoare, "string")
 
 
 def test_sort():

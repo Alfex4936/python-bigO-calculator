@@ -401,31 +401,49 @@ def gnomeSort(array):  # in-place | stable
     return array
 
 
-def mergeSort(arr):  # stable
+def mergeSort(array):
     """
     Best : O(nlogn) Time | O(n) Space
     Average : O(nlogn) Time | O(n) Space
     Worst : O(nlongn) Time | O(n) Space
     """
-    if len(arr) < 2:
-        return arr
 
-    mid = len(arr) // 2
-    low_arr = mergeSort(arr[:mid])
-    high_arr = mergeSort(arr[mid:])
+    def mergeHelper(main, startIdx, endIdx, aux):
+        if startIdx == endIdx:
+            return
+        middleIdx = (startIdx + endIdx) // 2
+        mergeHelper(aux, startIdx, middleIdx, main)
+        mergeHelper(aux, middleIdx + 1, endIdx, main)
+        merge(main, startIdx, middleIdx, endIdx, aux)
 
-    merged_arr = []
-    l = h = 0
-    while l < len(low_arr) and h < len(high_arr):
-        if low_arr[l] < high_arr[h]:
-            merged_arr.append(low_arr[l])
-            l += 1
-        else:
-            merged_arr.append(high_arr[h])
-            h += 1
-    merged_arr += low_arr[l:]
-    merged_arr += high_arr[h:]
-    return merged_arr
+    def merge(main, startIdx, middleIdx, endIdx, aux):
+        k = startIdx
+        i = startIdx
+        j = middleIdx + 1
+        while i <= middleIdx and j <= endIdx:
+            if aux[i] <= aux[j]:
+                main[k] = aux[i]
+                i += 1
+            else:
+                main[k] = aux[j]
+                j += 1
+            k += 1
+
+        while i <= middleIdx:
+            main[k] = aux[i]
+            i += 1
+            k += 1
+        while j <= endIdx:
+            main[k] = aux[j]
+            j += 1
+            k += 1
+
+    if len(array) <= 1:
+        return array
+
+    aux = array[:]
+    mergeHelper(array, 0, len(array) - 1, aux)
+    return array
 
 
 def goSort(array):
