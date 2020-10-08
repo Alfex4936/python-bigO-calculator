@@ -199,7 +199,7 @@ def timSort(arr):  # in-place | stable
         e.g. 1=>1, ..., 63=>63, 64=>32, 65=>33, ..., 127=>64, 128=>32, ...
         """
         r = 0
-        while n >= 64:
+        while n >= 32:
             r |= n & 1
             n >>= 1
         return n + r
