@@ -1,8 +1,7 @@
-from collections import Counter
 import math
-from random import choice, randint
 import string
-
+from collections import Counter
+from random import choice, randint
 from timeit import default_timer
 from typing import Any, Callable, Dict, List, Tuple
 
