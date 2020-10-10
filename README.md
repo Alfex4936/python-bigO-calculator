@@ -279,3 +279,13 @@ Visit [here](https://github.com/Alfex4936/python-bigO-calculator/blob/master/big
 BinaryInsertSort, BubbleSort, CountSort, gnomeSort, heapSort, 
 InsertSort, InsertSortOptimized, IntroSort,
 mergeSort, quickSort(random pivot), quickSortHoare(Hoare+Tail recur+InsertionSort), timSort(simplified)
+
+
+## Benchmarks
+Visit [here](https://github.com/Alfex4936/python-bigO-calculator/tree/master/benchmarks) to more results
+
+<div align="center">
+<p>
+    <img src="https://raw.githubusercontent.com/Alfex4936/python-bigO-calculator/master/benchmarks/random.webp">
+</p>
+</div>
