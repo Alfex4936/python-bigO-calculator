@@ -67,6 +67,11 @@ def countSort(arr):  # stable
 
 
 def selectionSort(array):
+    """
+    Best : O(n^2) Time | O(1) Space
+    Average : O(n^2) Time | O(1) Space
+    Worst : O(n^2) Time | O(1) Space
+    """
     for currentIdx in range(len(array) - 1):
         smallestIdx = currentIdx
         for i in range(currentIdx + 1, len(array)):
@@ -1067,4 +1072,56 @@ def goSort(array):
 
     maxDepth = 2 * (len(array).bit_length() - 1)
     quickSort(array, 0, len(array), maxDepth)
+    return array
+
+
+def gravitySort(array):  # Bead Sort
+    """Gravity Sort (Bead Sort)
+    
+    Anti-gravity sort (works with negative integers well)
+
+    """
+    minimum, maximum = min(array), max(array)
+    n = len(array)
+
+    temp = [minimum] * n
+    for i in range(maximum - 1, minimum - 1, -1):
+        k = 0
+        for j in range(n):
+            if array[j] > i:
+                temp[k] += 1
+                k += 1
+
+    for i in range(n):
+        array[i] = temp[n - i - 1]
+
+    return array
+
+
+def doubleSelectionSort(array):
+    """Double Selection Sort
+    
+    Best : O(n^2) Time | O(1) Space
+    Average : O(n^2) Time | O(1) Space
+    Worst : O(n^2) Time | O(1) Space
+
+    """
+    N = len(array)
+
+    for currentIdx in range(N // 2):
+        smallest = biggest = currentIdx
+
+        for i in range(currentIdx + 1, N - currentIdx):
+            if array[i] >= array[biggest]:
+                biggest = i
+            if array[i] < array[smallest]:
+                smallest = i
+
+        array[currentIdx], array[smallest] = array[smallest], array[currentIdx]
+        if biggest == currentIdx:
+            biggest = smallest
+        array[N - currentIdx - 1], array[biggest] = (
+            array[biggest],
+            array[N - currentIdx - 1],
+        )
     return array
