@@ -22,34 +22,51 @@ Results may vary.
 Big-O calculator
 
 Methods:
-    test(function, array="random", limit=True, prtResult=True): It will run only specified array test, returns Tuple[str, estimatedTime]
+    test(function, array="random", limit=True, prtResult=True):
+        It will run only specified array test, returns Tuple[str, estimatedTime]
 
-    test_all(function): It will run all test cases, prints (best, average, worst cases), returns dict
+    test_all(function):
+        It will run all test cases, prints (best, average, worst cases), returns dict
 
-    runtime(function, array="random", size, epoch=1): It will simply returns execution time to sort length of size of test array, returns Tuple[float, List[Any]]
+    runtime(function, array="random", size, epoch=1):
+        It will simply returns execution time to sort length of size of test array, returns Tuple[float, List[Any]]
 
-    compare(function1, function2, array, size, epoch=3): It will compare two functions on {array} case, returns dict
+    compare(function1, function2, array, size, epoch=3):
+        It will compare two functions on {array} case, returns dict
+```
 
+## Methods parameters
+```py
 test(**args):
     functionName [Callable]: a function to call.
-    
     array [str]: "random", "sorted", "reversed", "partial", "Ksorted", "string", "almost_equal", "equal", "hole".
-
     limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
-
     prtResult [bool] = True: Whether to print result by itself
-    
-Returns:
-    complexity [str] : ex) O(n)
 
-    time [float] : Time took to sort all 5 different arrays in second (maxLen=100,000)
+test_all(**args):
+    functionName [Callable]: a function to call.
 
+runtime(**args):
+    functionName [Callable]: a function to call.
+    array: "random", "sorted", "partial", "reversed", "Ksorted" ,
+        "hole", "equal", "almost_equal" or your custom array.
+    size [int]: How big test array should be.
+    epoch [int]: How many tests to run and calculte average.
+    prtResult (bool): Whether to print the result by itself. (default = True)
+
+compare(**args):
+    function1 [Callable]: a function to compare.
+    function2 [Callable]: a function to compare.
+    array [str]|[List]: "random", "sorted", "partial", "reversed", "Ksorted", 
+        "hole", "equal", "almost_equal", "all" or your custom array.
+    size [int]: How big test array should be.
+```
 Info:
     To see the result of function, return the array.
 
-    K in Ksorted will use testSize.bit_length().
-  
-```
+    These methods will also check if the function sorts correctly.
+
+    "K" in Ksorted uses testSize.bit_length().
 
 ## Usage
 
@@ -57,13 +74,13 @@ Info:
 from bigO import bigO
 from bigO import algorithm
 
-tester = bigO.bigO()
+lib = bigO.bigO()
 
-tester.test(bubbleSort, "sorted")
-tester.test_all(bubbleSort)
-tester.runtime(bubbleSort)
-tester.runtime(algorithm.insertSort)
-tester.compare(algorithm.insertSort, algorithm.bubbleSort, "all", 5000)
+lib.test(bubbleSort, "random")
+lib.test_all(bubbleSort)
+lib.runtime(bubbleSort, "random", 5000)
+lib.runtime(algorithm.insertSort, "reversed", 32)
+lib.compare(algorithm.insertSort, algorithm.bubbleSort, "all", 5000)
 ```
 
 ## Quick Sort Example
@@ -202,7 +219,8 @@ Worst : O(n^2) Time
 ```
 
 ## runtime(mySort) Example
-
+array: "random", "sorted", "partial", "reversed", "Ksorted" ,
+        "hole", "equal", "almost_equal" or your custom array.
 
 ```py
 from bigO import bigO
@@ -261,6 +279,8 @@ Time Difference: 0.11975s
 ```
 
 ## Test arrays sample (size = 20)
+Results vary.
+
 ```py
 random = [15, 15, -11, -16, -19, -16, -14, 14, 19, 2, 18, -10, 5, -17, -4, -2, 9, 12, 8, 12]
 string = ['rwe55pi8hkwpjv5rhhoo', '5ecvybo5xi8p25wanh3t', '9qloe709sonjuun90p77', 'jqc06iabwk3v5utqo09d', 'shm2uweb4dsgbx14hts3', '07eivto20vmvp0nsa6b3', 'vyoqn5pt2swkuftv7g0p', 'pw06n5utxsd7j1u2kv82', 'k8trosl40h7qvozfjhex', 'r4zvaqnblc3uv6x95uvh', 'qsxliu3zm7z20gtjpo50', 'wg81sdzhc5wuanrk20n0', 'iioyowuktvbq71tsx30p', 'cazu363i51f55ccw3dol', '2hupx2egkcgpx6byeh3f', 'njodnkvuf12cfm5kp4f5', 'jm919g477ivcambii16t', 'wnlbj3hs33rilovbzhyq', '5in234a20dbz5zv69qx4', 'hysowkb230ts7fcwizmb']

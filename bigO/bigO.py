@@ -154,6 +154,9 @@ class bigO:
 
         return bestFit
 
+    def genRandomPositive(_, size: int = 10):
+        return [randint(1, size) for _ in range(size)]
+
     def genRandomArray(_, size: int = 10):
         array = [randint(-size, size) for _ in range(size)]
         return array
@@ -228,6 +231,22 @@ class bigO:
         arr = self.genEqualArray(size)
         arr[randint(-size, size)] = -9999
         return arr
+
+    def isAscendingSorted(_, array: List[Any]):
+        """Is correctly ascending sorted? Time: O(n)
+
+        Args:
+            array [List]: Array to check if it is sorted correctly
+
+        Returns:
+            isSorted, index [bool, int]: returns True/False with unsorted index
+        """
+        # Ascending order
+        for i in range(len(array) - 1):
+            if array[i] > array[i + 1]:
+                return False, i + 1
+
+        return True, None
 
     def test(
         self,
@@ -309,9 +328,16 @@ class bigO:
                 currentIter += 1
 
                 if result != None:
-                    assert result == sorted(
-                        nums
-                    ), "This function doesn't sort correctly."
+                    isSorted, index = self.isAscendingSorted(result)
+                    if index == 1:
+                        msg = f"{result[index - 1]}, {result[index]}..."
+                    elif index == len(result) - 1:
+                        msg = f"...{result[index - 1]}, {result[index]}"
+                    elif isinstance(index, int):
+                        msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
+                    assert (
+                        isSorted
+                    ), f"This function doesn't sort correctly.\nAt {index} index: [{msg}]"
 
             if (
                 timeTaken >= 5 and limit
@@ -443,9 +469,17 @@ class bigO:
             timeTaken += timeEnd - timeStart
 
             if result != None:
-                if result != sorted(nums):
+                isSorted, index = self.isAscendingSorted(result)
+                if index == 1:
+                    msg = f"{result[index - 1]}, {result[index]}..."
+                elif index == len(result) - 1:
+                    msg = f"...{result[index - 1]}, {result[index]}"
+                elif isinstance(index, int):
+                    msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
+                    
+                if not isSorted:
                     # Just see the result if it doesn't sort correctly
-                    print("This function doesn't sort correctly.")
+                    print(f"This function doesn't sort correctly.\nAt {index} index: [{msg}]")
 
         finalTime = timeTaken / epoch
 
@@ -455,7 +489,7 @@ class bigO:
         return finalTime, result
 
     def compare(
-        self, function1: Callable, function2: Callable, array: str, size: int
+        self, function1: Callable, function2: Callable, array, size: int = None
     ) -> Dict:
         """
         ex) compare(bubbleSort, insertSort, "random", 5000)
@@ -463,8 +497,8 @@ class bigO:
         Args:
             function1 [Callable]: a function to compare |
             function2 [Callable]: a function to compare |
-            array [str]: "random", "sorted", "partial", "reversed", "Ksorted", 
-            "hole", "equal", "almost_equal", "all" |
+            array [str]|[List]: "random", "sorted", "partial", "reversed", "Ksorted", 
+            "hole", "equal", "almost_equal", "all" or your custom array |
             size [int]: How big test array should be |
 
         Returns:
@@ -511,6 +545,11 @@ class bigO:
             array = f"{wins} of {len(test)}"
             s = "s"
         else:
+            if isinstance(array, list):
+                nums = array
+                array = "custom"
+                size = len(nums)
+
             function1_time, _ = self.runtime(
                 function1, array, size, epoch=3, prtResult=False
             )

@@ -92,3 +92,10 @@ def test_all():
 
     result = lib.compare(algorithm.quickSortHoare, algorithm.insertSort, "all", 5000)
 
+
+def test_custom():
+    lib = bigO.bigO()
+    lib.compare(
+        algorithm.doubleSelectionSort, algorithm.selectionSort, "all", 5000
+    )
+

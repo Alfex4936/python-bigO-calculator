@@ -287,6 +287,22 @@ def empty(array):
     return array
 
 
+def brokenBubble(array):
+    isSorted = False
+    counter = 0
+
+    while not isSorted:
+        isSorted = True
+        for i in range(1, len(array) - 1 - counter):
+            if array[i] > array[i + 1]:
+                array[i], array[i + 1] = array[i + 1], array[i]
+                isSorted = False
+
+        counter += 1
+
+    return array
+
+
 def test_none():
     tester = bigO.bigO()
 
@@ -337,6 +353,12 @@ def test_bubble():
     complexity, _ = tester.test(bubbleSort, "almost_equal")
     complexity, _ = tester.test(bubbleSort, "equal")
     complexity, _ = tester.test(bubbleSort, "hole")
+
+
+def test_brokenBubble():
+    tester = bigO.bigO()
+    _, result = tester.test(brokenBubble, "random")
+    # will assert at index 0
 
 
 def test_count():

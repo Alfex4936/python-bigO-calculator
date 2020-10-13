@@ -19,16 +19,30 @@ def test_run():
     lib.runtime(algorithm.selectionSort, "random", 5000)
 
 
+def brokenBubble(array):
+    isSorted = False
+    counter = 0
+
+    while not isSorted:
+        isSorted = True
+        for i in range(1, len(array) - 1 - counter):
+            if array[i] > array[i + 1]:
+                array[i], array[i + 1] = array[i + 1], array[i]
+                isSorted = False
+
+        counter += 1
+
+    return array
+
+
 def test_custom():
     lib = bigO.bigO()
 
-    arr = ["abc", "bbc", "ccd", "ef", "az"]
-    time, result = lib.runtime(algorithm.bubbleSort, arr)
+    arr = ["dbc", "bbc", "ccd", "ef", "az"]
+    time, result = lib.runtime(brokenBubble, arr)
 
     print(time)
     print(result)
-
-    assert result == sorted(arr)
 
 
 def test_str_array():

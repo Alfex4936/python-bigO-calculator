@@ -1125,3 +1125,47 @@ def doubleSelectionSort(array):
             array[N - currentIdx - 1],
         )
     return array
+
+
+def binaryQuickSort(array, lo=0, hi=None, bit=None):
+    """Binary MSD Radix Sort (Binary Quick Sort)
+
+    Only works with positive integers
+    """
+
+    def analyzeBit(array):
+        _max = max(array)
+
+        return 31 - (_max).bit_length()
+
+    def getBit(n, k):
+        isBit = (n >> k) & 1
+        return isBit == 1
+
+    def partition(array, lo, hi, bit):
+        i = lo - 1
+        j = hi + 1
+        while True:
+            i += 1
+            while i <= hi and not getBit(array[i], bit):
+                i += 1
+            j -= 1
+            while j > lo and getBit(array[j], bit):
+                j -= 1
+
+            if i < j:
+                array[i], array[j] = array[j], array[i]
+            else:
+                return j
+
+    if hi is None:
+        hi = len(array) - 1
+    if bit is None:
+        bit = analyzeBit(array)
+
+    if hi > lo and bit >= 0:
+        p = partition(array, lo, hi, bit)
+        binaryQuickSort(array, lo, p, bit - 1)
+        binaryQuickSort(array, p + 1, hi, bit - 1)
+
+    return array
