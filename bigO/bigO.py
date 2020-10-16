@@ -159,17 +159,16 @@ class bigO:
 
     def genRandomArray(_, size: int = 10):
         return [randint(-size, size) for _ in range(size)]
-    
+
     def genRandomBigArray(_, size: int = 10):
         array = []
         for _ in range(size):
-            isPositive = True if random() >= 0.5 else False
+            isPositive = random() < 0.5
             nextValue = getrandbits(50)  # More than 100 trillion
             if not isPositive:
                 nextValue = -nextValue
             array.append(nextValue)
         return array
-        
 
     def genRandomString(_, stringLen: int = None, size: int = 10):
         if stringLen == None:
