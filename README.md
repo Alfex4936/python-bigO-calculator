@@ -22,42 +22,42 @@ Results may vary.
 Big-O calculator
 
 Methods:
-    test(function, array="random", limit=True, prtResult=True):
+    def test(function, array="random", limit=True, prtResult=True):
         It will run only specified array test, returns Tuple[str, estimatedTime]
 
-    test_all(function):
+    def test_all(function):
         It will run all test cases, prints (best, average, worst cases), returns dict
 
-    runtime(function, array="random", size, epoch=1):
+    def runtime(function, array="random", size, epoch=1):
         It will simply returns execution time to sort length of size of test array, returns Tuple[float, List[Any]]
 
-    compare(function1, function2, array, size, epoch=3):
+    def compare(function1, function2, array, size, epoch=3):
         It will compare two functions on {array} case, returns dict
 ```
 
 ## Methods parameters
 ```py
-test(**args):
+def test(**args):
     functionName [Callable]: a function to call.
-    array [str]: "random", "sorted", "reversed", "partial", "Ksorted", "string", "almost_equal", "equal", "hole".
+    array [str]: "random", "big", "sorted", "reversed", "partial", "Ksorted", "string", "almost_equal", "equal", "hole".
     limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
     prtResult [bool] = True: Whether to print result by itself
 
-test_all(**args):
+def test_all(**args):
     functionName [Callable]: a function to call.
 
-runtime(**args):
+def runtime(**args):
     functionName [Callable]: a function to call.
-    array: "random", "sorted", "partial", "reversed", "Ksorted" ,
+    array: "random", "big", "sorted", "partial", "reversed", "Ksorted" ,
         "hole", "equal", "almost_equal" or your custom array.
     size [int]: How big test array should be.
     epoch [int]: How many tests to run and calculte average.
     prtResult (bool): Whether to print the result by itself. (default = True)
 
-compare(**args):
+def compare(**args):
     function1 [Callable]: a function to compare.
     function2 [Callable]: a function to compare.
-    array [str]|[List]: "random", "sorted", "partial", "reversed", "Ksorted", 
+    array [str]|[List]: "random", "big", "sorted", "partial", "reversed", "Ksorted", 
         "hole", "equal", "almost_equal", "all" or your custom array.
     size [int]: How big test array should be.
 ```
@@ -184,8 +184,8 @@ Time took: 4.05617s
 
 ## test_all(mySort) Example
 
-We can test all "random", "sorted", "reversed", "partial", "Ksorted", "almost_equal" in a row
-and it shows, best, average, worst time complexity
+We can test all "random", "sorted", "reversed", "partial", "Ksorted", "almost_equal" at once,
+and it shows, best, average and worst time complexity
 
 ```py
 from bigO import bigO
@@ -219,7 +219,7 @@ Worst : O(n^2) Time
 ```
 
 ## runtime(mySort) Example
-array: "random", "sorted", "partial", "reversed", "Ksorted" ,
+array: "random", "big", "sorted", "partial", "reversed", "Ksorted",
         "hole", "equal", "almost_equal" or your custom array.
 
 ```py
@@ -244,6 +244,8 @@ Took 0.00001s to sort bubbleSort(custom)
 ```
 
 ## compare(mySort, thisSort) Example
+array: "random", "big", "sorted", "partial", "reversed", "Ksorted",
+        "hole", "equal", "almost_equal", "all" or your custom array.
 
 ```py
 lib = bigO.bigO()
@@ -278,12 +280,32 @@ Time Difference: 0.11975s
 '''
 ```
 
+## Array generators
+```py
+from bigO import bigO
+
+lib = bigO.bigO()
+
+arr = lib.genRandomArray(100)
+arr = lib.genRandomBigArray(100)
+arr = lib.genRandomString(100)
+arr = lib.genSortedArray(100)
+arr = lib.genReversedArray(100)
+arr = lib.genPartialArray(100)
+arr = lib.genKsortedArray(100)
+arr = lib.genAlmostEqualArray(100)
+arr = lib.genEqualArray(100)
+arr = lib.genHoleArray(100)
+
+```
+
 ## Test arrays sample (size = 20)
 Results vary.
 
 ```py
 random = [15, 15, -11, -16, -19, -16, -14, 14, 19, 2, 18, -10, 5, -17, -4, -2, 9, 12, 8, 12]
-string = ['rwe55pi8hkwpjv5rhhoo', '5ecvybo5xi8p25wanh3t', '9qloe709sonjuun90p77', 'jqc06iabwk3v5utqo09d', 'shm2uweb4dsgbx14hts3', '07eivto20vmvp0nsa6b3', 'vyoqn5pt2swkuftv7g0p', 'pw06n5utxsd7j1u2kv82', 'k8trosl40h7qvozfjhex', 'r4zvaqnblc3uv6x95uvh', 'qsxliu3zm7z20gtjpo50', 'wg81sdzhc5wuanrk20n0', 'iioyowuktvbq71tsx30p', 'cazu363i51f55ccw3dol', '2hupx2egkcgpx6byeh3f', 'njodnkvuf12cfm5kp4f5', 'jm919g477ivcambii16t', 'wnlbj3hs33rilovbzhyq', '5in234a20dbz5zv69qx4', 'hysowkb230ts7fcwizmb']
+randomBig = [-996061023766482, 347955820115093, ...]
+string = ['rwe55pi8hkwpjv5rhhoo', '5ecvybo5xi8p25wanh3t', ...]
 sorted = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 reversed = [19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 partial = [-18, 14, 7, -11, 17, 5, 6, 7, 8, 9, 14, 9, -13, 0, 14, -17, -18, -9, -16, 14]
@@ -302,7 +324,7 @@ mergeSort, quickSort(random pivot), quickSortHoare(Hoare+Tail recur+InsertionSor
 
 
 ## Benchmarks
-Visit [here](https://github.com/Alfex4936/python-bigO-calculator/tree/master/benchmarks) to more results
+Visit [here](https://github.com/Alfex4936/python-bigO-calculator/tree/master/benchmarks) for more results
 
 <div align="center">
 <p>

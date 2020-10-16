@@ -1,7 +1,7 @@
 import math
 import string
 from collections import Counter
-from random import choice, randint
+from random import choice, getrandbits, randint, random
 from timeit import default_timer
 from typing import Any, Callable, Dict, List, Tuple
 
@@ -158,8 +158,18 @@ class bigO:
         return [randint(1, size) for _ in range(size)]
 
     def genRandomArray(_, size: int = 10):
-        array = [randint(-size, size) for _ in range(size)]
+        return [randint(-size, size) for _ in range(size)]
+    
+    def genRandomBigArray(_, size: int = 10):
+        array = []
+        for _ in range(size):
+            isPositive = True if random() >= 0.5 else False
+            nextValue = getrandbits(50)  # More than 100 trillion
+            if not isPositive:
+                nextValue = -nextValue
+            array.append(nextValue)
         return array
+        
 
     def genRandomString(_, stringLen: int = None, size: int = 10):
         if stringLen == None:
@@ -173,12 +183,10 @@ class bigO:
         return array
 
     def genSortedArray(_, size: int = 10):
-        array = [i for i in range(size)]
-        return array
+        return [i for i in range(size)]
 
     def genReversedArray(_, size: int = 10):
-        array = [i for i in reversed(range(size))]
-        return array
+        return [i for i in reversed(range(size))]
 
     def genPartialArray(self, size: int = 10):
         array = self.genRandomArray(size)
@@ -260,7 +268,7 @@ class bigO:
 
         Args:
             functionName (Callable): a function to call |
-            array (str): "random", "sorted", "reversed", "partial", "Ksorted", "string",
+            array (str): "random", "big", "sorted", "reversed", "partial", "Ksorted", "string",
             "hole", "equal", "almost_equal" |
             limit (bool): To terminate before it takes forever to sort (usually 10,000) |
             prtResult (bool): Whether to print the result by itself (default = True)
@@ -296,6 +304,8 @@ class bigO:
             array = array.lower()
             if array == "random":
                 nums = self.genRandomArray(size)
+            elif array == "big":
+                nums = self.genRandomBigArray(size)
             elif array == "sorted":
                 nums = self.genSortedArray(size)
             elif array == "partial":
@@ -337,7 +347,7 @@ class bigO:
                         msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
                     assert (
                         isSorted
-                    ), f"This function doesn't sort correctly.\nAt {index} index: [{msg}]"
+                    ), f"{functionName.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
 
             if (
                 timeTaken >= 5 and limit
@@ -417,7 +427,7 @@ class bigO:
 
         Args:
             function [Callable]: a function to call |
-            array: "random", "sorted", "partial", "reversed", "Ksorted" ,
+            array: "random", "big", "sorted", "partial", "reversed", "Ksorted" ,
             "hole", "equal", "almost_equal" or your custom array |
             size [int]: How big test array should be |
             epoch [int]: How many tests to run and calculte average |
@@ -437,6 +447,8 @@ class bigO:
             array = array.lower()
             if array == "random":
                 nums = self.genRandomArray(size)
+            elif array == "big":
+                nums = self.genRandomBigArray(size)
             elif array == "sorted":
                 nums = self.genSortedArray(size)
             elif array == "partial":
@@ -476,10 +488,12 @@ class bigO:
                     msg = f"...{result[index - 1]}, {result[index]}"
                 elif isinstance(index, int):
                     msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
-                    
+
                 if not isSorted:
                     # Just see the result if it doesn't sort correctly
-                    print(f"This function doesn't sort correctly.\nAt {index} index: [{msg}]")
+                    print(
+                        f"{function.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
+                    )
 
         finalTime = timeTaken / epoch
 
@@ -497,7 +511,7 @@ class bigO:
         Args:
             function1 [Callable]: a function to compare |
             function2 [Callable]: a function to compare |
-            array [str]|[List]: "random", "sorted", "partial", "reversed", "Ksorted", 
+            array [str]|[List]: "random", "big", "sorted", "partial", "reversed", "Ksorted", 
             "hole", "equal", "almost_equal", "all" or your custom array |
             size [int]: How big test array should be |
 
@@ -509,6 +523,7 @@ class bigO:
         if array == "all":
             test = [
                 "random",
+                "big",
                 "sorted",
                 "reversed",
                 "partial",

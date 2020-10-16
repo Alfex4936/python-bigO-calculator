@@ -95,7 +95,5 @@ def test_all():
 
 def test_custom():
     lib = bigO.bigO()
-    lib.compare(
-        algorithm.doubleSelectionSort, algorithm.selectionSort, "all", 5000
-    )
+    lib.compare(algorithm.doubleSelectionSort, algorithm.selectionSort, "all", 5000)
 

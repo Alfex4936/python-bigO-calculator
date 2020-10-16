@@ -19,6 +19,7 @@ def test_gen():
     print(gen.genAlmostEqualArray(20))
     print(gen.genEqualArray(20))
     print(gen.genHoleArray(20))
+    print(gen.genRandomBigArray(20))
 
 
 def test_Ksorted():

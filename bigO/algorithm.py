@@ -1127,45 +1127,36 @@ def doubleSelectionSort(array):
     return array
 
 
-def binaryQuickSort(array, lo=0, hi=None, bit=None):
-    """Binary MSD Radix Sort (Binary Quick Sort)
+def radixSort(array):
+    # Time Complexity : O(n) | Space Complexity : O(n)
+    def countSort(arr, exp):
 
-    Only works with positive integers
-    """
+        buckets = [0] * 10
+        output = [None] * len(arr)
 
-    def analyzeBit(array):
-        _max = max(array)
+        for i in arr:
+            buckets[(i // exp) % 10] += 1
 
-        return 31 - (_max).bit_length()
+        for i in range(1, 10):
+            buckets[i] += buckets[i - 1]
 
-    def getBit(n, k):
-        isBit = (n >> k) & 1
-        return isBit == 1
+        for i in reversed(range(0, len(arr))):
+            current = (arr[i] // exp) % 10
+            # arr[i] = buckets[current] - 1
+            output[buckets[current] - 1] = arr[i]
+            buckets[current] -= 1
 
-    def partition(array, lo, hi, bit):
-        i = lo - 1
-        j = hi + 1
-        while True:
-            i += 1
-            while i <= hi and not getBit(array[i], bit):
-                i += 1
-            j -= 1
-            while j > lo and getBit(array[j], bit):
-                j -= 1
+        for i in range(len(arr)):
+            arr[i] = output[i]
 
-            if i < j:
-                array[i], array[j] = array[j], array[i]
-            else:
-                return j
+        return arr
 
-    if hi is None:
-        hi = len(array) - 1
-    if bit is None:
-        bit = analyzeBit(array)
+    m = max(array)
 
-    if hi > lo and bit >= 0:
-        p = partition(array, lo, hi, bit)
-        binaryQuickSort(array, lo, p, bit - 1)
-        binaryQuickSort(array, p + 1, hi, bit - 1)
+    exp = 1
+    while m / exp > 0:
+        array = countSort(array, exp)
+
+        exp *= 10
 
     return array

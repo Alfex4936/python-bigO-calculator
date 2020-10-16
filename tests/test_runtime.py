@@ -58,6 +58,12 @@ def test_str_array():
     print(result)
 
 
+def test_big():
+    lib = bigO.bigO()
+    lib.runtime(algorithm.bubbleSort, "random", 5000)
+    lib.runtime(algorithm.bubbleSort, "big", 5000)
+
+
 def test_epoch():
     lib = bigO.bigO()
     lib.runtime(algorithm.quickSort, "random", 5000, 3, True)
