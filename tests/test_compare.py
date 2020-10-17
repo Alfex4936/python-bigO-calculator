@@ -5,15 +5,20 @@ from bigO import algorithm
 def test_run():
     lib = bigO.bigO()
 
-    result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 5000)
-    result = lib.compare(
-        algorithm.insertSort, algorithm.insertSortOptimized, "reversed", 5000
-    )
-    result = lib.compare(
-        algorithm.quickSort, algorithm.quickSortHoare, "reversed", 50000
-    )
-    result = lib.compare(algorithm.timSort, algorithm.introSort, "reversed", 50000)
-    result = lib.compare(sorted, algorithm.introSort, "reversed", 50000)
+    # result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 5000)
+    # result = lib.compare(
+    #     algorithm.insertSort, algorithm.insertSortOptimized, "reversed", 5000
+    # )
+    # result = lib.compare(
+    #     algorithm.quickSort, algorithm.quickSortHoare, "reversed", 50000
+    # )
+    # result = lib.compare(algorithm.timSort, algorithm.introSort, "reversed", 50000)
+    # result = lib.compare(sorted, algorithm.introSort, "reversed", 50000)
+
+    result = lib.compare(algorithm.heapSort, algorithm.heapSort2, "all", 50000)
+    result = lib.compare(algorithm.heapSort, algorithm.heapSortMax, "all", 50000)
+    result = lib.compare(algorithm.heapSort2, algorithm.heapSortMax, "all", 50000)
+    result = lib.compare(algorithm.introSort, algorithm.quickSortHeap, "all", 50000)
 
 
 def test_quickcomp():

@@ -117,7 +117,7 @@ def introSortHelper(array, start, end, sizeThreshold, depthLimit):
 
     while end - start > sizeThreshold:
         if depthLimit == 0:
-            return heapSort(array)
+            return heapSortMax(array)
         depthLimit -= 1
 
         median = medianOf3(array, start, start + ((end - start) // 2) + 1, end - 1)
@@ -189,6 +189,137 @@ def heapSort(arr):  # in-place | not-stable
         heapify(arr, i, 0)
 
     return arr
+
+
+def heapSort2(iterable):  # in-place | not-stable
+    # Time Complexity O(nlogn)
+    # Using Python source at
+    # https://github.com/python/cpython/blob/975d10a4f8f5d99b01d02fc5f99305a86827f28e/Lib/heapq.py
+
+    def heappop(heap):
+        """Pop the smallest item off the heap, maintaining the heap invariant."""
+        lastelt = heap.pop()  # raises appropriate IndexError if heap is empty
+        if heap:
+            returnitem = heap[0]
+            heap[0] = lastelt
+            _siftup(heap, 0)
+            return returnitem
+        return lastelt
+
+    def _siftup(heap, pos):
+        endpos = len(heap)
+        startpos = pos
+        newitem = heap[pos]
+        # Bubble up the smaller child until hitting a leaf.
+        childpos = 2 * pos + 1  # leftmost child position
+        while childpos < endpos:
+            # Set childpos to index of smaller child.
+            rightpos = childpos + 1
+            if rightpos < endpos and not heap[childpos] < heap[rightpos]:
+                childpos = rightpos
+            # Move the smaller child up.
+            heap[pos] = heap[childpos]
+            pos = childpos
+            childpos = 2 * pos + 1
+        # The leaf at pos is empty now.  Put newitem there, and bubble it up
+        # to its final resting place (by sifting its parents down).
+        heap[pos] = newitem
+        _siftdown(heap, startpos, pos)
+
+    def _siftdown(heap, startpos, pos):
+        newitem = heap[pos]
+        # Follow the path to the root, moving parents down until finding a place
+        # newitem fits.
+        while pos > startpos:
+            parentpos = (pos - 1) >> 1
+            parent = heap[parentpos]
+            if newitem < parent:
+                heap[pos] = parent
+                pos = parentpos
+                continue
+            break
+        heap[pos] = newitem
+
+    def heapify(x):
+        """Transform list into a heap, in-place, in O(len(x)) time."""
+        n = len(x)
+        # Transform bottom-up.  The largest index there's any point to looking at
+        # is the largest with a child index in-range, so must have 2*i + 1 < n,
+        # or i < (n-1)/2.  If n is even = 2*j, this is (2*j-1)/2 = j-1/2 so
+        # j-1 is the largest, which is n//2 - 1.  If n is odd = 2*j+1, this is
+        # (2*j+1-1)/2 = j so j-1 is the largest, and that's again n//2-1.
+        for i in reversed(range(n // 2)):
+            _siftup(x, i)
+
+    h = []
+    heapify(iterable)
+
+    return [heappop(h) for _ in range(len(h))]
+
+
+def heapSortMax(iterable):  # in-place | not-stable
+    # Time Complexity O(nlogn)
+    # Using Python source at
+    # https://github.com/python/cpython/blob/975d10a4f8f5d99b01d02fc5f99305a86827f28e/Lib/heapq.py
+
+    def _heappop_max(heap):
+        """Maxheap version of a heappop."""
+        lastelt = heap.pop()  # raises appropriate IndexError if heap is empty
+        if heap:
+            returnitem = heap[0]
+            heap[0] = lastelt
+            _siftup_max(heap, 0)
+            return returnitem
+        return lastelt
+
+    def _siftup_max(heap, pos):
+        "Maxheap variant of _siftup"
+        endpos = len(heap)
+        startpos = pos
+        newitem = heap[pos]
+        # Bubble up the larger child until hitting a leaf.
+        childpos = 2 * pos + 1  # leftmost child position
+        while childpos < endpos:
+            # Set childpos to index of larger child.
+            rightpos = childpos + 1
+            if rightpos < endpos and not heap[rightpos] < heap[childpos]:
+                childpos = rightpos
+            # Move the larger child up.
+            heap[pos] = heap[childpos]
+            pos = childpos
+            childpos = 2 * pos + 1
+        # The leaf at pos is empty now.  Put newitem there, and bubble it up
+        # to its final resting place (by sifting its parents down).
+        heap[pos] = newitem
+        _siftdown_max(heap, startpos, pos)
+
+    def _siftdown_max(heap, startpos, pos):
+        "Maxheap variant of _siftdown"
+        newitem = heap[pos]
+        # Follow the path to the root, moving parents down until finding a place
+        # newitem fits.
+        while pos > startpos:
+            parentpos = (pos - 1) >> 1
+            parent = heap[parentpos]
+            if parent < newitem:
+                heap[pos] = parent
+                pos = parentpos
+                continue
+            break
+        heap[pos] = newitem
+
+    def _heapify_max(x):
+        """Transform list into a maxheap, in-place, in O(len(x)) time."""
+        n = len(x)
+        for i in reversed(range(n // 2)):
+            _siftup_max(x, i)
+
+    h = []
+    # for value in iterable:
+    #     heappush(h, value)
+    _heapify_max(iterable)
+
+    return [_heappop_max(h) for _ in range(len(h))]
 
 
 def timSort(lst):
@@ -824,9 +955,9 @@ def quickSortHeap(array, low=0, high=None, depth=None):
         depth = 2 * (len(array).bit_length() - 1)
 
     if depth == 0:
-        return heapSort(array)
+        return heapSortMax(array)
     else:
-        while low < high and high - low > 16:
+        while high - low > 16:
             q = partition(array, low, high)
             quickSortHoare(array, low, q)
             low = q + 1

@@ -68,3 +68,8 @@ def test_epoch():
     lib = bigO.bigO()
     lib.runtime(algorithm.quickSort, "random", 5000, 3, True)
     lib.runtime(algorithm.quickSortHoare, "random", 5000, 3, True)
+
+
+def test_heap():
+    lib = bigO.bigO()
+    lib.runtime(algorithm.heapSortMax, "random", 500)
