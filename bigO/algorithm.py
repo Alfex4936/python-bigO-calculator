@@ -959,7 +959,7 @@ def quickSortHeap(array, low=0, high=None, depth=None):
     else:
         while high - low > 16:
             q = partition(array, low, high)
-            quickSortHoare(array, low, q)
+            quickSortHeap(array, low, q)
             low = q + 1
 
     return insertSort(array, low, high)
