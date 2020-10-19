@@ -1,3 +1,20 @@
+## Table of Contents
+
+<table>
+    <tr><td width=40% valign=top>
+        
+* [Methods](https://github.com/Alfex4936/python-bigO-calculator#methods-parameters)
+* [Usage](https://github.com/Alfex4936/python-bigO-calculator#usage)
+* [QuickSort example](https://github.com/Alfex4936/python-bigO-calculator#quick-sort-example)
+* [test_all() exmaple](https://github.com/Alfex4936/python-bigO-calculator#test_allmysort-example)
+* [runtime() exmaple](https://github.com/Alfex4936/python-bigO-calculator#runtimemysort-example)
+* [compare() exmaple](https://github.com/Alfex4936/python-bigO-calculator#comparemysort-thissort-example)
+* [@isSorted decorator](https://github.com/Alfex4936/python-bigO-calculator#issorted)
+* [Array generators](https://github.com/Alfex4936/python-bigO-calculator#array-generators)
+* [Test arrays sample](https://github.com/Alfex4936/python-bigO-calculator#test-arrays-sample-size--20)
+</td></tr>
+</table>
+
 # Big-O Caculator
 
 A big-O calculator to estimate time complexity of sorting functions.
