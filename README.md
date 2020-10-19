@@ -74,7 +74,7 @@ Info:
 from bigO import bigO
 from bigO import algorithm
 
-lib = bigO.bigO()
+lib = bigO()
 
 lib.test(bubbleSort, "random")
 lib.test_all(bubbleSort)
@@ -109,7 +109,7 @@ def quickSort(array):  # in-place | not-stable
     return quickSort(smaller) + equal + quickSort(larger)
 
 
-tester = bigO.bigO()
+tester = bigO()
 complexity, time = tester.test(quickSort, "random")
 complexity, time = tester.test(quickSort, "sorted")
 complexity, time = tester.test(quickSort, "reversed")
@@ -156,7 +156,7 @@ def selectionSort(array):  # in-place, unstable
     return array
 
 
-tester = bigO.bigO()
+tester = bigO()
 complexity, time = tester.test(selectionSort, "random")
 complexity, time = tester.test(selectionSort, "sorted")
 complexity, time = tester.test(selectionSort, "reversed")
@@ -190,7 +190,7 @@ and it shows, best, average and worst time complexity
 ```py
 from bigO import bigO
 
-lib = bigO.bigO()
+lib = bigO()
 
 lib.test_all(bubbleSort)
 lib.test_all(insertSort)
@@ -226,7 +226,7 @@ array: "random", "big", "sorted", "partial", "reversed", "Ksorted",
 from bigO import bigO
 from bigO import algorithm
 
-lib = bigO.bigO()
+lib = bigO()
 
 timeTook, result = lib.runtime(algorithm.bubbleSort, "random", 5000)
 
@@ -248,7 +248,7 @@ array: "random", "big", "sorted", "partial", "reversed", "Ksorted",
         "hole", "equal", "almost_equal", "all" or your custom array.
 
 ```py
-lib = bigO.bigO()
+lib = bigO()
 
 result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 5000)
 result = lib.compare(algorithm.insertSort, algorithm.insertSortOptimized, "reversed", 5000)
@@ -280,11 +280,47 @@ Time Difference: 0.11975s
 '''
 ```
 
+## @isSorted
+If it sorts correctly, it shows: "mySort sorts correctly."
+
+Otherwise, it shows like,
+"mySort doesn't sort correctly."
+"At N index: [...100, -72, 121...]
+
+```py
+from bigO import bigO
+from bigO import utils
+
+@utils.isSorted
+def bubbleSort(array):  # in-place | stable
+    isSorted = False
+    counter = 1  # not correct
+    while not isSorted:
+        isSorted = True
+        for i in range(len(array) - 1 - counter):
+            if array[i] > array[i + 1]:
+                array[i], array[i + 1] = array[i + 1], array[i]
+                isSorted = False
+
+        counter += 1
+
+    return array
+
+
+if __name__ == "__main__":
+    bubbleSort(bigO.genRandomArray(100))
+
+''' Result
+bubbleSort doesn't sort correctly.
+At 99 index: [...99, -76]
+'''
+```
+
 ## Array generators
 ```py
 from bigO import bigO
 
-lib = bigO.bigO()
+lib = bigO()
 
 arr = lib.genRandomArray(100)
 arr = lib.genRandomBigArray(100)

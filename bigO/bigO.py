@@ -155,10 +155,10 @@ class bigO:
         return bestFit
 
     def genRandomPositive(_, size: int = 10):
-        return [randint(1, size) for _ in range(size)]
+        return [randint(1, size) for i in range(size)]
 
     def genRandomArray(_, size: int = 10):
-        return [randint(-size, size) for _ in range(size)]
+        return [randint(-size, size) for i in range(size)]
 
     def genRandomBigArray(_, size: int = 10):
         array = []
@@ -176,8 +176,8 @@ class bigO:
 
         letters = string.ascii_lowercase + string.digits
         array = [
-            "".join(choice(letters) for _ in range(randint(1, stringLen)))
-            for _ in range(size)
+            "".join(choice(letters) for i in range(randint(1, stringLen)))
+            for j in range(size)
         ]  # secrets.choice?
         return array
 
@@ -227,10 +227,10 @@ class bigO:
 
     def genEqualArray(_, size: int = 10):
         n = randint(-size, size)
-        return [n for _ in range(size)]
+        return [n for i in range(size)]
 
     def genAlmostEqualArray(_, size: int = 10):
-        return [randint(-1, 1) + size for _ in range(size)]
+        return [randint(-1, 1) + size for i in range(size)]
 
     def genHoleArray(
         self, size: int = 10
@@ -349,8 +349,8 @@ class bigO:
                     ), f"{functionName.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
 
             if (
-                timeTaken >= 5 and limit
-            ):  # if it takes more than 5 seconds to sort one array, break
+                timeTaken >= 4 and limit
+            ):  # if it takes more than 4 seconds to sort an array, then break it
                 isSlow = True
 
             timeTaken /= maxIter
@@ -587,27 +587,3 @@ class bigO:
             print(f"Time Difference: {timeDiff:.5f}s")
 
         return {function1.__name__: function1_time, function2.__name__: function2_time}
-
-    def isSorted(self, func):
-        def wrapper(array):
-            lib = self
-
-            result = func(array)
-
-            _sorted, index = lib.isAscendingSorted(result)
-            if index == 1:
-                msg = f"{result[index - 1]}, {result[index]}..."
-            elif index == len(result) - 1:
-                msg = f"...{result[index - 1]}, {result[index]}"
-            elif isinstance(index, int):
-                msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
-
-            if not _sorted:
-                # Just see the result if it doesn't sort correctly
-                print(
-                    f"{func.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
-                )
-            else:
-                print(f"{func.__name__} sorts correctly.")
-
-        return wrapper
