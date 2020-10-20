@@ -142,6 +142,7 @@ def test_timsort():
     complexity, _ = tester.test(algorithm.timSort, "reversed")
     complexity, _ = tester.test(algorithm.timSort, "partial")
     complexity, _ = tester.test(algorithm.timSort, "Ksorted")
+    complexity, _ = tester.test(algorithm.timSort, "hole")
 
 
 def test_heap():

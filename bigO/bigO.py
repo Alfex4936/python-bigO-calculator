@@ -1,5 +1,6 @@
 import math
 import string
+import sys
 from collections import Counter
 from random import choice, getrandbits, randint, random
 from timeit import default_timer
@@ -154,13 +155,16 @@ class bigO:
 
         return bestFit
 
-    def genRandomPositive(_, size: int = 10):
-        return [randint(1, size) for i in range(size)]
+    @staticmethod
+    def genRandomPositive(size: int = 10):
+        return [randint(1, size) for _ in range(size)]
 
-    def genRandomArray(_, size: int = 10):
-        return [randint(-size, size) for i in range(size)]
+    @staticmethod
+    def genRandomArray(size: int = 10):
+        return [randint(-size, size) for _ in range(size)]
 
-    def genRandomBigArray(_, size: int = 10):
+    @staticmethod
+    def genRandomBigArray(size: int = 10):
         array = []
         for _ in range(size):
             isPositive = random() < 0.5
@@ -170,21 +174,24 @@ class bigO:
             array.append(nextValue)
         return array
 
-    def genRandomString(_, stringLen: int = None, size: int = 10):
+    @staticmethod
+    def genRandomString(stringLen: int = None, size: int = 10):
         if stringLen == None:
             stringLen = size // 2
 
         letters = string.ascii_lowercase + string.digits
         array = [
-            "".join(choice(letters) for i in range(randint(1, stringLen)))
+            "".join(choice(letters) for _ in range(randint(1, stringLen)))
             for j in range(size)
         ]  # secrets.choice?
         return array
 
-    def genSortedArray(_, size: int = 10):
+    @staticmethod
+    def genSortedArray(size: int = 10):
         return [i for i in range(size)]
 
-    def genReversedArray(_, size: int = 10):
+    @staticmethod
+    def genReversedArray(size: int = 10):
         return [i for i in reversed(range(size))]
 
     def genPartialArray(self, size: int = 10):
@@ -225,21 +232,24 @@ class bigO:
 
         return array
 
-    def genEqualArray(_, size: int = 10):
+    @staticmethod
+    def genEqualArray(size: int = 10):
         n = randint(-size, size)
-        return [n for i in range(size)]
+        return [n for _ in range(size)]
 
-    def genAlmostEqualArray(_, size: int = 10):
-        return [randint(-1, 1) + size for i in range(size)]
+    @staticmethod
+    def genAlmostEqualArray(size: int = 10):
+        return [randint(-1, 1) + size for _ in range(size)]
 
     def genHoleArray(
         self, size: int = 10
     ):  # returns equal array with only one different element
         arr = self.genEqualArray(size)
-        arr[randint(-size, size)] = -9999
+        arr[randint(-size, size)] = -sys.maxsize
         return arr
 
-    def isAscendingSorted(_, array: List[Any]):
+    @staticmethod
+    def isAscendingSorted(array: List[Any]):
         """Is correctly ascending sorted? Time: O(n)
 
         Args:

@@ -1,9 +1,5 @@
 from bigO import bigO
 
-import string
-from random import choice, getrandbits, randint, random
-from typing import Any, List
-
 
 def isSorted(func):
     def wrapper(array):
