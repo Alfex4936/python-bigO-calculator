@@ -5,7 +5,7 @@ import sys
 from collections import Counter
 from random import choice, getrandbits, randint, random
 from timeit import default_timer
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Tuple, Union
 
 from win10toast import ToastNotifier
 
@@ -432,7 +432,7 @@ class bigO:
     def runtime(
         self,
         function: Callable,
-        array,
+        array: Union[str, List[Any]],
         size: int = 0,
         epoch: int = 1,
         prtResult: bool = True,
@@ -451,7 +451,6 @@ class bigO:
         Returns:
             Tuple[float, List[Any]]: An execution time and sorted result
         """
-        assert size != 0, "Length of array must greater than 0."
         if epoch < 1:
             epoch = 1
 
@@ -459,7 +458,9 @@ class bigO:
             nums = array
             array = "custom"
             size = len(nums)
+            assert size != 0, "Length of array must greater than 0."
         else:
+            assert size != 0, "Length of array must greater than 0."
             array = array.lower()
             if array == "random":
                 nums = self.genRandomArray(size)
