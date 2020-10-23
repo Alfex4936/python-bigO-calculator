@@ -1,10 +1,11 @@
 import math
+import os
 import string
 import sys
 from collections import Counter
 from random import choice, getrandbits, randint, random
 from timeit import default_timer
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from win10toast import ToastNotifier
 
@@ -23,7 +24,7 @@ class bigO:
 
     runtime(function, array, size) -> Tuple[executionTime, sorted result]:
         Returns executionTime and the result
-        
+
     compare(function1, function2, array, size) -> Dict{functionName: executionTime}
         Returns dictionary with execution time on each function
 
@@ -33,7 +34,7 @@ class bigO:
         from bigO import algorithm
 
         lib = bigO.bigO()
-        
+
         lib.test(mySort, "random")
         lib.test_all(mySort)
         lib.runtime(algorithm.bubbleSort, "random", 5000)
@@ -41,6 +42,7 @@ class bigO:
     """
 
     def __init__(self):
+        self.is_window = os.name == "nt"
         self.coef = 0.0
         self.rms = 0.0
         self.cplx = 0
@@ -54,7 +56,7 @@ class bigO:
         self.OLambda = 7
         self.fitCurves = [self.O1, self.ON, self.OLogN, self.ONLogN, self.ON2, self.ON3]
 
-    def str(self):
+    def to_str(self) -> str:
         return self.complexity2str(self.cplx)
 
     def complexity2str(self, cplx: int) -> str:
@@ -105,7 +107,7 @@ class bigO:
             self.ONLogN: bigO_ONLogN,
         }.get(cplx, bigO_O1)
 
-    def minimalLeastSq(self, arr: List[Any], times: float, function: Callable):
+    def minimalLeastSq(self, arr: List[Any], times: List[float], function: Callable):
         # sigmaGn = 0.0
         sigmaGnSquared = 0.0
         sigmaTime = 0.0
@@ -175,14 +177,14 @@ class bigO:
         return array
 
     @staticmethod
-    def genRandomString(stringLen: int = None, size: int = 10):
+    def genRandomString(stringLen: int = 10, size: int = 10):
         if stringLen == None:
             stringLen = size // 2
 
         letters = string.ascii_lowercase + string.digits
         array = [
             "".join(choice(letters) for _ in range(randint(1, stringLen)))
-            for j in range(size)
+            for _ in range(size)
         ]  # secrets.choice?
         return array
 
@@ -198,7 +200,7 @@ class bigO:
         array = self.genRandomArray(size)
         sorted_array = self.genSortedArray(size)
 
-        array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
+        array[size // 4: size // 2] = sorted_array[size // 4: size // 2]
         return array
 
     def genKsortedArray(self, size: int = 10, k: int = None):
@@ -287,19 +289,20 @@ class bigO:
             time (float) : Time took to sort all 5 different arrays in second (max=100,000)
 
         """
-        sizes = [10, 100, 1000, 10000, 100000]
-        maxIter = 5
-        times = []
-        isSlow = False  # To see if sorting algorithm takes forever
+        sizes: List[int] = [10, 100, 1000, 10000, 100000]
+        maxIter: int = 5
+        times: List[float] = []
+        isSlow: bool = False  # To see if sorting algorithm takes forever
 
-        toaster = ToastNotifier()
         if prtResult:
             print(f"Running {functionName.__name__}({array} array)...")
-        toaster.show_toast(
-            "Big-O Caculator",
-            f"Running {functionName.__name__}({array} array)...",
-            duration=2,
-        )
+        if self.is_window:
+            toaster = ToastNotifier()
+            toaster.show_toast(
+                "Big-O Caculator",
+                f"Running {functionName.__name__}({array} array)...",
+                duration=2,
+            )
 
         for size in sizes:
 
@@ -367,22 +370,25 @@ class bigO:
             times.append(timeTaken)
 
         complexity = self.estimate(sizes, times)
+        cplx = complexity.to_str()
         estimatedTime = sum(times)
 
         if prtResult:
             print(
-                f"Completed {functionName.__name__}({array} array): {complexity.str()}"
+                f"Completed {functionName.__name__}({array} array): {cplx}"
             )
             print(f"Time took: {estimatedTime:.5f}s")
-        toaster.show_toast(
-            "Big-O Caculator",
-            f"Completed {functionName.__name__}({array} array): {complexity.str()}",
-            duration=3,
-        )
 
-        return complexity.str(), estimatedTime
+        if self.is_window:
+            toaster.show_toast(
+                "Big-O Caculator",
+                f"Completed {functionName.__name__}({array} array): {cplx}",
+                duration=3,
+            )
 
-    def test_all(self, function: Callable) -> Dict[str, int]:
+        return cplx, estimatedTime
+
+    def test_all(self, function: Callable) -> Dict[str, str]:
         """
         ex) test_all(bubbleSort)
 
@@ -390,15 +396,15 @@ class bigO:
             function [Callable]: a function to call
 
         Returns:
-            Dict[str, int]: ex) {"random": "O(n)" ...}
+            Dict[str, str]: ex) {"random": "O(n)" ...}
         """
         result = {
-            "random": 0,
-            "sorted": 0,
-            "reversed": 0,
-            "partial": 0,
-            "Ksorted": 0,
-            "almost_equal": 0,
+            "random": "0",
+            "sorted": "0",
+            "reversed": "0",
+            "partial": "0",
+            "Ksorted": "0",
+            "almost_equal": "0",
         }
 
         bestCase = self.complexity2int("O(n^3)")
@@ -427,7 +433,7 @@ class bigO:
         self,
         function: Callable,
         array,
-        size: int = None,
+        size: int = 0,
         epoch: int = 1,
         prtResult: bool = True,
     ) -> Tuple[float, List[Any]]:
@@ -445,6 +451,7 @@ class bigO:
         Returns:
             Tuple[float, List[Any]]: An execution time and sorted result
         """
+        assert size != 0, "Length of array must greater than 0."
         if epoch < 1:
             epoch = 1
 
@@ -512,7 +519,7 @@ class bigO:
         return finalTime, result
 
     def compare(
-        self, function1: Callable, function2: Callable, array, size: int = None
+        self, function1: Callable, function2: Callable, array, size: int = 50
     ) -> Dict:
         """
         ex) compare(bubbleSort, insertSort, "random", 5000)

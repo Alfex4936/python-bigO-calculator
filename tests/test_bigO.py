@@ -25,4 +25,4 @@ def test_estimate():
         1.62602698,
     ]
     result = lib.estimate(n, times)
-    print(result.str())
+    print(result.to_str())
