@@ -7,8 +7,6 @@ from random import choice, getrandbits, randint, random
 from timeit import default_timer
 from typing import Any, Callable, Dict, List, Tuple, Union
 
-from win10toast import ToastNotifier
-
 
 class bigO:
     """
@@ -289,6 +287,9 @@ class bigO:
             time (float) : Time took to sort all 5 different arrays in second (max=100,000)
 
         """
+        if self.is_window:
+            from win10toast import ToastNotifier
+
         sizes: List[int] = [10, 100, 1000, 10000, 100000]
         maxIter: int = 5
         times: List[float] = []
