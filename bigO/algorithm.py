@@ -18,6 +18,24 @@ def bubbleSort(array):
     return array
 
 
+def brickSort(array):
+    """ Odd-Even Sort"""
+    isSorted = False
+    while not isSorted:
+        isSorted = True
+        for i in range(1, len(array) - 1, 2):
+            if array[i] > array[i + 1]:
+                array[i], array[i + 1] = array[i + 1], array[i]
+                isSorted = False
+
+        for i in range(0, len(array) - 1, 2):
+            if array[i] > array[i + 1]:
+                array[i], array[i + 1] = array[i + 1], array[i]
+                isSorted = False
+
+    return array
+
+
 def binarySearch(array, item, start, end):
     if start == end:
         if array[start] > item:
@@ -64,6 +82,27 @@ def countSort(arr):  # stable
             buckets[i] -= 1
 
     return arr
+
+
+def combSort(array):
+    gap = n = len(array)
+    swapped = True
+
+    while gap > 1 or swapped:
+        swapped = False
+
+        gap = int(gap * 10 / 13)
+
+        if gap < 1:
+            swapped = False
+            gap = 1
+
+        for i in range(n - gap):
+            if array[i] > array[i + gap]:
+                array[i], array[i + gap] = array[i + gap], array[i]
+                swapped = True
+
+    return array
 
 
 def selectionSort(array):
