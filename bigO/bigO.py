@@ -39,6 +39,10 @@ class bigO:
         lib.compare(algorithm.bubbleSort, algorithm.insertSort, "random", 5000)
     """
 
+    __slot__ = [
+        "is_window, coef, rms, cplx, O1, ON, OLogN, ONLogN, ON2, ON3, OLambda, fitCurves"
+    ]
+
     def __init__(self):
         self.is_window = os.name == "nt"
         self.coef = 0.0
@@ -53,6 +57,9 @@ class bigO:
 
         self.OLambda = 7
         self.fitCurves = [self.O1, self.ON, self.OLogN, self.ONLogN, self.ON2, self.ON3]
+
+    def __repr__(self):
+        return f"I'm using {'window' if self.is_window else 'linux'}"
 
     def to_str(self) -> str:
         return self.complexity2str(self.cplx)
@@ -198,7 +205,7 @@ class bigO:
         array = self.genRandomArray(size)
         sorted_array = self.genSortedArray(size)
 
-        array[size // 4: size // 2] = sorted_array[size // 4: size // 2]
+        array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
         return array
 
     def genKsortedArray(self, size: int = 10, k: int = None):
@@ -375,9 +382,7 @@ class bigO:
         estimatedTime = sum(times)
 
         if prtResult:
-            print(
-                f"Completed {functionName.__name__}({array} array): {cplx}"
-            )
+            print(f"Completed {functionName.__name__}({array} array): {cplx}")
             print(f"Time took: {estimatedTime:.5f}s")
 
         if self.is_window:
@@ -521,7 +526,11 @@ class bigO:
         return finalTime, result
 
     def compare(
-        self, function1: Callable, function2: Callable, array, size: int = 50
+        self,
+        function1: Callable,
+        function2: Callable,
+        array: Union[str, List[Any]],
+        size: int = 50,
     ) -> Dict:
         """
         ex) compare(bubbleSort, insertSort, "random", 5000)
@@ -536,7 +545,7 @@ class bigO:
         Returns:
             Dict: function1 execution time and function2 execution time
         """
-        s = ""
+        s: str = ""
 
         if array == "all":
             test = [
@@ -550,9 +559,9 @@ class bigO:
                 "equal",
                 "almost_equal",
             ]
-            func1_sum = 0.0
-            func2_sum = 0.0
-            wins = 0
+            func1_sum: float = 0.0
+            func2_sum: float = 0.0
+            wins: int = 0
 
             print(f"Running {function1.__name__}(tests) vs {function2.__name__}(tests)")
             for arr in test:
