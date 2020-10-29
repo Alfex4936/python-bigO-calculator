@@ -5,7 +5,7 @@ import sys
 from collections import Counter
 from random import choice, getrandbits, randint, random
 from timeit import default_timer
-from typing import Any, Callable, Dict, List, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 
 class bigO:
@@ -39,9 +39,9 @@ class bigO:
         lib.compare(algorithm.bubbleSort, algorithm.insertSort, "random", 5000)
     """
 
-    __slot__ = [
-        "is_window, coef, rms, cplx, O1, ON, OLogN, ONLogN, ON2, ON3, OLambda, fitCurves"
-    ]
+    # __slots__ = [
+    #     "is_window, coef, rms, cplx, O1, ON, OLogN, ONLogN, ON2, ON3, OLambda, fitCurves"
+    # ]
 
     def __init__(self):
         self.is_window = os.name == "nt"
@@ -56,10 +56,10 @@ class bigO:
         self.ON3 = 6
 
         self.OLambda = 7
-        self.fitCurves = [self.O1, self.ON, self.OLogN, self.ONLogN, self.ON2, self.ON3]
+        self.fitCurves = (self.O1, self.ON, self.OLogN, self.ONLogN, self.ON2, self.ON3)
 
     def __repr__(self):
-        return f"I'm using {'window' if self.is_window else 'linux'}"
+        return f"I'm using {'window' if self.is_window else 'posix'}"
 
     def to_str(self) -> str:
         return self.complexity2str(self.cplx)
@@ -272,6 +272,23 @@ class bigO:
 
         return True, None
 
+    @staticmethod
+    def isDescendingSorted(array: List[Any]) -> Tuple[bool, Optional[int]]:
+        """Is correctly descending sorted? Time: O(n)
+
+        Args:
+            array [List]: Array to check if it is sorted correctly
+
+        Returns:
+            isSorted, index [bool, int]: returns True/False with unsorted index
+        """
+        # Descending order
+        for i in range(len(array) - 1, 0, -1):
+            if array[i] > array[i - 1]:
+                return False, i + 1
+
+        return True, None
+
     def test(
         self,
         functionName: Callable,
@@ -296,6 +313,9 @@ class bigO:
         """
         if self.is_window:
             from win10toast import ToastNotifier
+        else:
+            toaster = None
+            ToastNotifier = None
 
         sizes: List[int] = [10, 100, 1000, 10000, 100000]
         maxIter: int = 5
@@ -365,6 +385,8 @@ class bigO:
                         msg = f"...{result[index - 1]}, {result[index]}"
                     elif isinstance(index, int):
                         msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
+                    else:
+                        msg = ""
                     assert (
                         isSorted
                     ), f"{functionName.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
