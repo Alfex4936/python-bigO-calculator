@@ -44,75 +44,82 @@ class bigO:
     # ]
 
     def __init__(self):
-        self.is_window = os.name == "nt"
-        self.coef = 0.0
-        self.rms = 0.0
-        self.cplx = 0
-        self.O1 = 1
-        self.ON = 2
-        self.OLogN = 3
-        self.ONLogN = 4
-        self.ON2 = 5
-        self.ON3 = 6
+        self._is_window = os.name == "nt"
+        self._coef = 0.0
+        self._rms = 0.0
+        self._cplx = 0
+        self._O1 = 1
+        self._ON = 2
+        self._OLogN = 3
+        self._ONLogN = 4
+        self._ON2 = 5
+        self._ON3 = 6
 
-        self.OLambda = 7
-        self.fitCurves = (self.O1, self.ON, self.OLogN, self.ONLogN, self.ON2, self.ON3)
+        self._OLambda = 7
+        self._fitCurves = (
+            self._O1,
+            self._ON,
+            self._OLogN,
+            self._ONLogN,
+            self._ON2,
+            self._ON3,
+        )
 
     def __repr__(self):
-        return f"I'm using {'window' if self.is_window else 'posix'}"
+        return f"I'm using {'window' if self._is_window else 'posix'}"
 
-    def to_str(self) -> str:
-        return self.complexity2str(self.cplx)
+    def _to_str(self) -> str:
+        return self._complexity2str(self._cplx)
 
-    def complexity2str(self, cplx: int) -> str:
+    def _complexity2str(self, cplx: int) -> str:
         return {
-            self.ON: "O(n)",
-            self.ON2: "O(n^2)",
-            self.ON3: "O(n^3)",
-            self.OLogN: "O(log(n)",
-            self.ONLogN: "O(nlog(n))",
-            self.O1: "O(1)",
+            self._ON: "O(n)",
+            self._ON2: "O(n^2)",
+            self._ON3: "O(n^3)",
+            self._OLogN: "O(log(n)",
+            self._ONLogN: "O(nlog(n))",
+            self._O1: "O(1)",
         }.get(cplx, "f(n)")
 
-    def complexity2int(self, cplx: str) -> int:
+    def _complexity2int(self, cplx: str) -> int:
         return {
-            "O(1)": self.O1,
-            "O(n)": self.ON,
-            "O(log(n)": self.OLogN,
-            "O(nlog(n))": self.ONLogN,
-            "O(n^2)": self.ON2,
-            "O(n^3)": self.ON3,
-        }.get(cplx, self.ON)
+            "O(1)": self._O1,
+            "O(n)": self._ON,
+            "O(log(n)": self._OLogN,
+            "O(nlog(n))": self._ONLogN,
+            "O(n^2)": self._ON2,
+            "O(n^3)": self._ON3,
+        }.get(cplx, self._ON)
 
-    def fittingCurve(self, cplx: int) -> Callable:
-        def bigO_ON(n):
+    def _fittingCurve(self, cplx: int) -> Callable:
+        def _bigO_ON(n):
             return n
 
-        def bigO_ON2(n):
+        def _bigO_ON2(n):
             return n * n
 
-        def bigO_ON3(n):
+        def _bigO_ON3(n):
             return n * n * n
 
-        def bigO_OLogN(n):
+        def _bigO_OLogN(n):
             return math.log2(n)
 
-        def bigO_ONLogN(n):
+        def _bigO_ONLogN(n):
             return n * math.log2(n)
 
-        def bigO_O1(_):
+        def _bigO_O1(_):
             return 1.0
 
         return {
-            self.O1: bigO_O1,
-            self.ON: bigO_ON,
-            self.ON2: bigO_ON2,
-            self.ON3: bigO_ON3,
-            self.OLogN: bigO_OLogN,
-            self.ONLogN: bigO_ONLogN,
-        }.get(cplx, bigO_O1)
+            self._O1: _bigO_O1,
+            self._ON: _bigO_ON,
+            self._ON2: _bigO_ON2,
+            self._ON3: _bigO_ON3,
+            self._OLogN: _bigO_OLogN,
+            self._ONLogN: _bigO_ONLogN,
+        }.get(cplx, _bigO_O1)
 
-    def minimalLeastSq(self, arr: List[Any], times: List[float], function: Callable):
+    def _minimalLeastSq(self, arr: List[Any], times: List[float], function: Callable):
         # sigmaGn = 0.0
         sigmaGnSquared = 0.0
         sigmaTime = 0.0
@@ -128,21 +135,21 @@ class bigO:
             sigmaTimeGn += times[i] * gnI
 
         result = bigO()
-        result.cplx = self.OLambda
+        result._cplx = self._OLambda
 
-        result.coef = sigmaTimeGn / sigmaGnSquared
+        result._coef = sigmaTimeGn / sigmaGnSquared
 
         rms = 0.0
         for i in range(len(arr)):
-            fit = result.coef * function(arr[i])
+            fit = result._coef * function(arr[i])
             rms += math.pow(times[i] - fit, 2)
 
         mean = sigmaTime / floatN
-        result.rms = math.sqrt(rms / floatN) / mean
+        result._rms = math.sqrt(rms / floatN) / mean
 
         return result
 
-    def estimate(self, n: List[int], times: List[float]):
+    def _estimate(self, n: List[int], times: List[float]):
         assert len(n) == len(
             times
         ), f"ERROR: Length mismatch between N:{len(n)} and TIMES:{len(times)}."
@@ -151,14 +158,14 @@ class bigO:
         bestFit = bigO()
 
         # assume that O1 is the best case
-        bestFit = self.minimalLeastSq(n, times, self.fittingCurve(self.O1))
-        bestFit.cplx = self.O1
+        bestFit = self._minimalLeastSq(n, times, self._fittingCurve(self._O1))
+        bestFit._cplx = self._O1
 
-        for fit in self.fitCurves:
-            currentFit = self.minimalLeastSq(n, times, self.fittingCurve(fit))
-            if currentFit.rms < bestFit.rms:
+        for fit in self._fitCurves:
+            currentFit = self._minimalLeastSq(n, times, self._fittingCurve(fit))
+            if currentFit._rms < bestFit._rms:
                 bestFit = currentFit
-                bestFit.cplx = fit
+                bestFit._cplx = fit
 
         return bestFit
 
@@ -173,12 +180,13 @@ class bigO:
     @staticmethod
     def genRandomBigArray(size: int = 10):
         array = []
+        append = array.append
         for _ in range(size):
             isPositive = random() < 0.5
             nextValue = getrandbits(50)  # More than 100 trillion
             if not isPositive:
                 nextValue = -nextValue
-            array.append(nextValue)
+            append(nextValue)
         return array
 
     @staticmethod
@@ -209,7 +217,7 @@ class bigO:
         return array
 
     def genKsortedArray(self, size: int = 10, k: int = None):
-        def reverseRange(array, a, b):
+        def _reverseRange(array, a, b):
             i = a
             j = b - 1
             while i < j:
@@ -234,8 +242,8 @@ class bigO:
         while right >= size - k:
             right -= 1
 
-        reverseRange(array, 0, k + 1)
-        reverseRange(array, size - right, size)
+        _reverseRange(array, 0, k + 1)
+        _reverseRange(array, size - right, size)
 
         return array
 
@@ -311,7 +319,7 @@ class bigO:
             time (float) : Time took to sort all 5 different arrays in second (max=100,000)
 
         """
-        if self.is_window:
+        if self._is_window:
             from win10toast import ToastNotifier
         else:
             toaster = None
@@ -324,7 +332,7 @@ class bigO:
 
         if prtResult:
             print(f"Running {functionName.__name__}({array} array)...")
-        if self.is_window:
+        if self._is_window:
             toaster = ToastNotifier()
             toaster.show_toast(
                 "Big-O Caculator",
@@ -333,7 +341,6 @@ class bigO:
             )
 
         for size in sizes:
-
             if isSlow:
                 sizes = sizes[: len(times)]
                 break
@@ -399,15 +406,15 @@ class bigO:
             timeTaken /= maxIter
             times.append(timeTaken)
 
-        complexity = self.estimate(sizes, times)
-        cplx = complexity.to_str()
+        complexity = self._estimate(sizes, times)
+        cplx = complexity._to_str()
         estimatedTime = sum(times)
 
         if prtResult:
             print(f"Completed {functionName.__name__}({array} array): {cplx}")
             print(f"Time took: {estimatedTime:.5f}s")
 
-        if self.is_window:
+        if self._is_window:
             toaster.show_toast(
                 "Big-O Caculator",
                 f"Completed {functionName.__name__}({array} array): {cplx}",
@@ -435,14 +442,14 @@ class bigO:
             "almost_equal": "0",
         }
 
-        bestCase = self.complexity2int("O(n^3)")
-        worstCase = self.complexity2int("O(1)")
+        bestCase = self._complexity2int("O(n^3)")
+        worstCase = self._complexity2int("O(1)")
 
         print(f"Running {function.__name__}(tests)")
         for test in result:
             cplx, _ = self.test(function, test, prtResult=False)
             result[test] = cplx
-            cplxInt = self.complexity2int(cplx)
+            cplxInt = self._complexity2int(cplx)
 
             if cplxInt < bestCase:
                 bestCase = cplxInt
@@ -451,9 +458,9 @@ class bigO:
 
         averageCase, _ = Counter(result.values()).most_common(1)[0]
 
-        print(f"Best : {self.complexity2str(bestCase)} Time")
+        print(f"Best : {self._complexity2str(bestCase)} Time")
         print(f"Average : {averageCase} Time")
-        print(f"Worst : {self.complexity2str(worstCase)} Time")
+        print(f"Worst : {self._complexity2str(worstCase)} Time")
 
         return result
 
@@ -533,6 +540,8 @@ class bigO:
                     msg = f"...{result[index - 1]}, {result[index]}"
                 elif isinstance(index, int):
                     msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
+                else:
+                    msg = ""
 
                 if not isSorted:
                     # Just see the result if it doesn't sort correctly
