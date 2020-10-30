@@ -39,23 +39,34 @@ class bigO:
         lib.compare(algorithm.bubbleSort, algorithm.insertSort, "random", 5000)
     """
 
-    # __slots__ = [
-    #     "is_window, coef, rms, cplx, O1, ON, OLogN, ONLogN, ON2, ON3, OLambda, fitCurves"
-    # ]
+    __slots__ = (
+        "_is_window",
+        "_coef",
+        "_rms",
+        "_cplx",
+        "_O1",
+        "_ON",
+        "_OLogN",
+        "_ONLogN",
+        "_ON2",
+        "_ON3",
+        "_OLambda",
+        "_fitCurves",
+    )
 
     def __init__(self):
-        self._is_window = os.name == "nt"
-        self._coef = 0.0
-        self._rms = 0.0
-        self._cplx = 0
-        self._O1 = 1
-        self._ON = 2
-        self._OLogN = 3
-        self._ONLogN = 4
-        self._ON2 = 5
-        self._ON3 = 6
+        self._is_window: bool = os.name == "nt"
+        self._coef: float = 0.0
+        self._rms: float = 0.0
+        self._cplx: int = 0
+        self._O1: int = 1
+        self._ON: int = 2
+        self._OLogN: int = 3
+        self._ONLogN: int = 4
+        self._ON2: int = 5
+        self._ON3: int = 6
 
-        self._OLambda = 7
+        self._OLambda: int = 7
         self._fitCurves = (
             self._O1,
             self._ON,
@@ -303,7 +314,7 @@ class bigO:
         array: str,
         limit: bool = True,
         prtResult: bool = True,
-    ) -> Tuple[str, float]:
+    ) -> str:
         """
         ex) test(bubbleSort, "random")
 
@@ -315,8 +326,7 @@ class bigO:
             prtResult (bool): Whether to print the result by itself (default = True)
 
         Returns:
-            complexity (str) : ex) O(n) |
-            time (float) : Time took to sort all 5 different arrays in second (max=100,000)
+            complexity (str) : ex) O(n)
 
         """
         if self._is_window:
@@ -408,11 +418,11 @@ class bigO:
 
         complexity = self._estimate(sizes, times)
         cplx = complexity._to_str()
-        estimatedTime = sum(times)
+        # estimatedTime = sum(times)
 
         if prtResult:
             print(f"Completed {functionName.__name__}({array} array): {cplx}")
-            print(f"Time took: {estimatedTime:.5f}s")
+            # print(f"Time took: {estimatedTime:.5f}s")
 
         if self._is_window:
             toaster.show_toast(
@@ -421,7 +431,7 @@ class bigO:
                 duration=3,
             )
 
-        return cplx, estimatedTime
+        return cplx
 
     def test_all(self, function: Callable) -> Dict[str, str]:
         """
