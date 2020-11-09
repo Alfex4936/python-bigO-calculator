@@ -2,13 +2,14 @@ import bisect
 from random import randrange
 
 
-def bubbleSort(array):
-    isSorted = False
-    counter = 0
+def bubbleSort(array: list):
+    isSorted: bool = False
+    counter: int = 0
+    n: int = len(array) - 1
 
     while not isSorted:
         isSorted = True
-        for i in range(len(array) - 1 - counter):
+        for i in range(n - counter):
             if array[i] > array[i + 1]:
                 array[i], array[i + 1] = array[i + 1], array[i]
                 isSorted = False
@@ -18,17 +19,19 @@ def bubbleSort(array):
     return array
 
 
-def brickSort(array):
+def brickSort(array: list):
     """ Odd-Even Sort"""
-    isSorted = False
+    isSorted: bool = False
+    n: int = len(array) - 1
+
     while not isSorted:
         isSorted = True
-        for i in range(1, len(array) - 1, 2):
+        for i in range(1, n, 2):
             if array[i] > array[i + 1]:
                 array[i], array[i + 1] = array[i + 1], array[i]
                 isSorted = False
 
-        for i in range(0, len(array) - 1, 2):
+        for i in range(0, n, 2):
             if array[i] > array[i + 1]:
                 array[i], array[i + 1] = array[i + 1], array[i]
                 isSorted = False
@@ -36,7 +39,7 @@ def brickSort(array):
     return array
 
 
-def binarySearch(array, item, start, end):
+def binarySearch(array: list, item, start, end):
     if start == end:
         if array[start] > item:
             return start
@@ -49,14 +52,13 @@ def binarySearch(array, item, start, end):
 
     if array[mid] < item:
         return binarySearch(array, item, mid + 1, end)
-
     elif array[mid] > item:
         return binarySearch(array, item, start, mid - 1)
     else:
         return mid
 
 
-def binaryInsertSort(array):
+def binaryInsertSort(array: list):
     for index in range(1, len(array)):
         value = array[index]
         pos = binarySearch(array, value, 0, index - 1)
@@ -64,7 +66,7 @@ def binaryInsertSort(array):
     return array
 
 
-def countSort(arr):  # stable
+def countSort(arr: list):  # stable
     # Time Complexity : O(n) | Space Complexity : O(n)
     minValue = min(arr)
     maxValue = max(arr) - minValue
@@ -84,7 +86,7 @@ def countSort(arr):  # stable
     return arr
 
 
-def combSort(array):
+def combSort(array: list):
     gap = n = len(array)
     swapped = True
 
@@ -105,15 +107,16 @@ def combSort(array):
     return array
 
 
-def selectionSort(array):
+def selectionSort(array: list):
     """
     Best : O(n^2) Time | O(1) Space
     Average : O(n^2) Time | O(1) Space
     Worst : O(n^2) Time | O(1) Space
     """
-    for currentIdx in range(len(array) - 1):
+    n: int = len(array)
+    for currentIdx in range(n - 1):
         smallestIdx = currentIdx
-        for i in range(currentIdx + 1, len(array)):
+        for i in range(currentIdx + 1, n):
             if array[smallestIdx] > array[i]:
                 smallestIdx = i
         array[currentIdx], array[smallestIdx] = array[smallestIdx], array[currentIdx]
@@ -121,7 +124,7 @@ def selectionSort(array):
     return array
 
 
-def introSort(array):  # in-place | not-stable
+def introSort(array: list):  # in-place | not-stable
     # Time Complexity O(nlogn) | Space Complexity O(logn)
     maxDepth = 2 * (len(array).bit_length() - 1)
     sizeThreshold = 16
@@ -205,7 +208,7 @@ def heapSort(arr):  # in-place | not-stable
         l = 2 * i + 1  # Left Node
         r = 2 * i + 2  # Right Node
 
-        if l < n and arr[i] < arr[l]:
+        if l < n and arr[largest] < arr[l]:
             largest = l
 
         if r < n and arr[largest] < arr[r]:

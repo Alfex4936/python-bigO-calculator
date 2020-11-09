@@ -2,10 +2,10 @@ from bigO import bigO
 
 
 def isSorted(func):
-    def wrapper(array):
+    def wrapper(array, *args):
         lib = bigO()
 
-        result = func(array)
+        result = func(array, *args)
 
         _sorted, index = lib.isAscendingSorted(result)
         if index == 1:

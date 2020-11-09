@@ -46,7 +46,7 @@ def test_custom():
 
 
 def test_str_array():
-    lib = bigO.bigO()
+    lib = bigO()
 
     time, result = lib.runtime(algorithm.bubbleSort, "string", 10)
     print(result)
