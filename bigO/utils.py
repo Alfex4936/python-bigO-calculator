@@ -1,9 +1,9 @@
-from bigO import bigO
+from bigO import BigO
 
 
 def isSorted(func):
     def wrapper(array, *args):
-        lib = bigO()
+        lib = BigO()
 
         result = func(array, *args)
 

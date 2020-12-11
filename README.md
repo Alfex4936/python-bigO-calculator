@@ -90,10 +90,10 @@ Info:
 ## Usage
 
 ```py
-from bigO import bigO
+from bigO import BigO
 from bigO import algorithm
 
-lib = bigO()
+lib = BigO()
 
 lib.test(bubbleSort, "random")
 lib.test_all(bubbleSort)
@@ -105,7 +105,7 @@ lib.compare(algorithm.insertSort, algorithm.bubbleSort, "all", 5000)
 ## Quick Sort Example
 
 ```py
-from bigO import bigO
+from bigO import BigO
 from random import randint
 
 def quickSort(array):  # in-place | not-stable
@@ -128,35 +128,34 @@ def quickSort(array):  # in-place | not-stable
     return quickSort(smaller) + equal + quickSort(larger)
 
 
-tester = bigO()
-complexity, time = tester.test(quickSort, "random")
-complexity, time = tester.test(quickSort, "sorted")
-complexity, time = tester.test(quickSort, "reversed")
-complexity, time = tester.test(quickSort, "partial")
-complexity, time = tester.test(quickSort, "Ksorted")
+lib = BigO()
+complexity = lib.test(quickSort, "random")
+complexity = lib.test(quickSort, "sorted")
+complexity = lib.test(quickSort, "reversed")
+complexity = lib.test(quickSort, "partial")
+complexity = lib.test(quickSort, "Ksorted")
 
 ''' Result
 Running quickSort(random array)...
 Completed quickSort(random array): O(nlog(n))
-Time took: 0.35816s
+
 Running quickSort(sorted array)...
 Completed quickSort(sorted array): O(nlog(n))
-Time took: 0.37821s
+
 Running quickSort(reversed array)...
 Completed quickSort(reversed array): O(nlog(n))
-Time took: 0.38500s
+
 Running quickSort(partial array)...
 Completed quickSort(partial array): O(nlog(n))
-Time took: 0.35820s
+
 Running quickSort(Ksorted array)...
 Completed quickSort(ksorted array): O(nlog(n))
-Time took: 0.38140s
 '''
 ```
 
 ## Selection Sort Example
 ```py
-from bigO import bigO
+from bigO import BigO
 
 def selectionSort(array):  # in-place, unstable
     '''
@@ -175,29 +174,24 @@ def selectionSort(array):  # in-place, unstable
     return array
 
 
-tester = bigO()
-complexity, time = tester.test(selectionSort, "random")
-complexity, time = tester.test(selectionSort, "sorted")
-complexity, time = tester.test(selectionSort, "reversed")
-complexity, time = tester.test(selectionSort, "partial")
-complexity, time = tester.test(selectionSort, "Ksorted")
+lib = BigO()
+complexity = lib.test(selectionSort, "random")
+complexity = lib.test(selectionSort, "sorted")
+complexity = lib.test(selectionSort, "reversed")
+complexity = lib.test(selectionSort, "partial")
+complexity = lib.test(selectionSort, "Ksorted")
 
 ''' Result
 Running selectionSort(random array)...
 Completed selectionSort(random array): O(n^2)
-Time took: 4.04027s
-Running selectionSort(reversed array)...
-Completed selectionSort(reversed array): O(n^2)
-Time took: 4.04918s
 Running selectionSort(sorted array)...
 Completed selectionSort(sorted array): O(n^2)
-Time took: 3.97238s
+Running selectionSort(reversed array)...
+Completed selectionSort(reversed array): O(n^2)
 Running selectionSort(partial array)...
 Completed selectionSort(partial array): O(n^2)
-Time took: 4.02878s
 Running selectionSort(Ksorted array)...
 Completed selectionSort(ksorted array): O(n^2)
-Time took: 4.05617s
 '''
 ```
 
@@ -207,9 +201,9 @@ We can test all "random", "sorted", "reversed", "partial", "Ksorted", "almost_eq
 and it shows, best, average and worst time complexity
 
 ```py
-from bigO import bigO
+from bigO import BigO
 
-lib = bigO()
+lib = BigO()
 
 lib.test_all(bubbleSort)
 lib.test_all(insertSort)
@@ -242,10 +236,10 @@ array: "random", "big", "sorted", "partial", "reversed", "Ksorted",
         "hole", "equal", "almost_equal" or your custom array.
 
 ```py
-from bigO import bigO
+from bigO import BigO
 from bigO import algorithm
 
-lib = bigO()
+lib = BigO()
 
 timeTook, result = lib.runtime(algorithm.bubbleSort, "random", 5000)
 
@@ -267,7 +261,7 @@ array: "random", "big", "sorted", "partial", "reversed", "Ksorted",
         "hole", "equal", "almost_equal", "all" or your custom array.
 
 ```py
-lib = bigO()
+lib = BigO()
 
 result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 5000)
 result = lib.compare(algorithm.insertSort, algorithm.insertSortOptimized, "reversed", 5000)
@@ -307,7 +301,7 @@ Otherwise, it shows like,
 "At N index: [...100, -72, 121...]
 
 ```py
-from bigO import bigO
+from bigO import BigO
 from bigO import utils
 
 @utils.isSorted
@@ -327,7 +321,7 @@ def bubbleSort(array):  # in-place | stable
 
 
 if __name__ == "__main__":
-    bubbleSort(bigO.genRandomArray(100))
+    bubbleSort(BigO.genRandomArray(100))
 
 ''' Result
 bubbleSort doesn't sort correctly.
@@ -337,9 +331,9 @@ At 99 index: [...99, -76]
 
 ## Array generators
 ```py
-from bigO import bigO
+from bigO import BigO
 
-lib = bigO()
+lib = BigO()
 
 arr = lib.genRandomArray(100)
 arr = lib.genRandomBigArray(100)

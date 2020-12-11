@@ -1,9 +1,9 @@
-from bigO import bigO
+from bigO import BigO
 from bigO import algorithm
 
 
 def test_run():
-    lib = bigO()
+    lib = BigO()
 
     result = lib.compare(algorithm.bubbleSort, algorithm.insertSort, "reversed", 5000)
     result = lib.compare(
@@ -20,7 +20,7 @@ def test_run():
 
 
 def test_quickcomp():
-    lib = bigO()
+    lib = BigO()
 
     # Hoare + Tail recur should be faster than random pivot choosing recursive one
     result = lib.compare(algorithm.quickSort, algorithm.quickSortHoare, "random", 50000)
@@ -58,7 +58,7 @@ def test_quickcomp():
 
 
 def test_go():
-    lib = bigO()
+    lib = BigO()
 
     lib.compare(algorithm.goSort, algorithm.introSort, "random", 100000)
     lib.compare(algorithm.goSort, algorithm.quickSortHoare, "random", 10000)
@@ -71,7 +71,7 @@ def test_go():
 
 
 def test_mini():
-    lib = bigO()
+    lib = BigO()
 
     lib.compare(algorithm.insertSortOptimized, algorithm.insertSort, "random", 16)
 
@@ -85,7 +85,7 @@ def test_mini():
 
 
 def test_all():
-    lib = bigO()
+    lib = BigO()
     result = lib.compare(
         algorithm.quickSortHoare, algorithm.quickSortHeap, "all", 50000
     )
@@ -97,6 +97,6 @@ def test_all():
 
 
 def test_custom():
-    lib = bigO()
+    lib = BigO()
     lib.compare(algorithm.doubleSelectionSort, algorithm.selectionSort, "all", 5000)
 

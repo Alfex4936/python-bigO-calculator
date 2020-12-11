@@ -1,8 +1,9 @@
-from .bigO import bigO
+from .BigO import BigO
 
 __all__ = [
-    "bigO",
+    "BigO",
     "algorithm",
+    "utils",
 ]
 
-__version__ = "0.0.9.8.2"
+__version__ = "0.0.9.8.3"

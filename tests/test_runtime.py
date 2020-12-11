@@ -1,9 +1,9 @@
-from bigO import bigO
+from bigO import BigO
 from bigO import algorithm
 
 
 def test_run():
-    lib = bigO()
+    lib = BigO()
 
     lib.runtime(sorted, "random", 5000)
     lib.runtime(algorithm.bubbleSort, "random", 5000)
@@ -36,7 +36,7 @@ def brokenBubble(array):
 
 
 def test_custom():
-    lib = bigO()
+    lib = BigO()
 
     arr = ["dbc", "bbc", "ccd", "ef", "az"]
     time, result = lib.runtime(brokenBubble, arr)
@@ -46,7 +46,7 @@ def test_custom():
 
 
 def test_str_array():
-    lib = bigO()
+    lib = BigO()
 
     time, result = lib.runtime(algorithm.bubbleSort, "string", 10)
     print(result)
@@ -59,17 +59,17 @@ def test_str_array():
 
 
 def test_big():
-    lib = bigO()
+    lib = BigO()
     lib.runtime(algorithm.bubbleSort, "random", 5000)
     lib.runtime(algorithm.bubbleSort, "big", 5000)
 
 
 def test_epoch():
-    lib = bigO()
+    lib = BigO()
     lib.runtime(algorithm.quickSort, "random", 5000, 3, True)
     lib.runtime(algorithm.quickSortHoare, "random", 5000, 3, True)
 
 
 def test_heap():
-    lib = bigO()
+    lib = BigO()
     lib.runtime(algorithm.heapSort2, "random", 500)

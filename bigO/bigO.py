@@ -8,7 +8,17 @@ from timeit import default_timer
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 
-class bigO:
+class BigOException(Exception):
+    __module__ = Exception.__module__
+
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return self.value
+
+
+class BigO:
     """
     Big-O calculator
 
@@ -28,10 +38,10 @@ class bigO:
 
     Usage
     -----
-        from bigO import bigO
+        from bigO import BigO
         from bigO import algorithm
 
-        lib = bigO.bigO()
+        lib = BigO()
 
         lib.test(mySort, "random")
         lib.test_all(mySort)
@@ -131,7 +141,6 @@ class bigO:
         }.get(cplx, _bigO_O1)
 
     def _minimalLeastSq(self, arr: List[Any], times: List[float], function: Callable):
-        # sigmaGn = 0.0
         sigmaGnSquared = 0.0
         sigmaTime = 0.0
         sigmaTimeGn = 0.0
@@ -140,12 +149,11 @@ class bigO:
 
         for i in range(len(arr)):
             gnI = function(arr[i])
-            # sigmaGn = gnI
             sigmaGnSquared += gnI * gnI
             sigmaTime += times[i]
             sigmaTimeGn += times[i] * gnI
 
-        result = bigO()
+        result = BigO()
         result._cplx = self._OLambda
 
         result._coef = sigmaTimeGn / sigmaGnSquared
@@ -165,8 +173,6 @@ class bigO:
             times
         ), f"ERROR: Length mismatch between N:{len(n)} and TIMES:{len(times)}."
         assert len(n) >= 2, "ERROR: Need at least 2 runs."
-
-        bestFit = bigO()
 
         # assume that O1 is the best case
         bestFit = self._minimalLeastSq(n, times, self._fittingCurve(self._O1))
@@ -201,9 +207,8 @@ class bigO:
         return array
 
     @staticmethod
-    def genRandomString(stringLen: int = 10, size: int = 10):
-        if stringLen == None:
-            stringLen = size // 2
+    def genRandomString(size: int = 10, stringLen: int = 0):
+        stringLen = stringLen or size // 2
 
         letters = string.ascii_lowercase + string.digits
         array = [
@@ -227,7 +232,7 @@ class bigO:
         array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
         return array
 
-    def genKsortedArray(self, size: int = 10, k: int = None):
+    def genKsortedArray(self, size: int = 10, k: Optional[int] = None):
         def _reverseRange(array, a, b):
             i = a
             j = b - 1
@@ -241,7 +246,9 @@ class bigO:
         if k is None:
             k = size.bit_length()
 
-        assert size >= k, "K must be smaller than the size."
+        if size < k:
+            raise BigOException("K must be smaller than the size.")
+
         if k == 0:
             return self.genSortedArray(size)
         elif size == k:
@@ -322,13 +329,17 @@ class bigO:
             functionName (Callable): a function to call |
             array (str): "random", "big", "sorted", "reversed", "partial", "Ksorted", "string",
             "hole", "equal", "almost_equal" |
-            limit (bool): To terminate before it takes forever to sort (usually 10,000) |
-            prtResult (bool): Whether to print the result by itself (default = True)
+            limit (bool) = True: To terminate before it takes forever to sort (usually 10,000) |
+            prtResult (bool) = True: Whether to print the result by itself
 
         Returns:
             complexity (str) : ex) O(n)
 
         """
+        # if functionName.__code__.co_argcount - 1 != len(args):
+        #     raise BigOException(
+        #         f"{functionName.__name__} takes {functionName.__code__.co_argcount - 1} but got more {args}."
+        #     )
         if self._is_window:
             from win10toast import ToastNotifier
         else:
@@ -372,7 +383,7 @@ class bigO:
             elif array == "ksorted":
                 nums = self.genKsortedArray(size, size.bit_length())
             elif array == "string":
-                nums = self.genRandomString(stringLen=100, size=size)
+                nums = self.genRandomString(size=size, stringLen=100)
             elif array == "hole":
                 nums = self.genHoleArray(size)
             elif array == "equal":
@@ -404,9 +415,10 @@ class bigO:
                         msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
                     else:
                         msg = ""
-                    assert (
-                        isSorted
-                    ), f"{functionName.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
+                    if not isSorted:
+                        raise BigOException(
+                            f"{functionName.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
+                        )
 
             if (
                 timeTaken >= 4 and limit
@@ -481,7 +493,7 @@ class bigO:
         size: int = 0,
         epoch: int = 1,
         prtResult: bool = True,
-    ) -> Tuple[float, List[Any]]:
+    ) -> Tuple[float, Optional[List[Any]]]:
         """
         ex) runtime(bubbleSort, "random", 5000)
 
@@ -499,13 +511,24 @@ class bigO:
         if epoch < 1:
             epoch = 1
 
+        # TODO - runtime(lambda array, start, end: sort(array, start, end), "random", 5000)
+        # In case when we pass a function like
+        # lambda array, start, end: quickSort(array, start, end)
+        # isLambda = (
+        #     callable(function)
+        #     and function.__name__ == "<lambda>"
+        #     and len(signature(function).parameters) > 1
+        # )
+
         if isinstance(array, list):
             nums = array
             array = "custom"
             size = len(nums)
-            assert size != 0, "Length of array must greater than 0."
+            if size == 0:
+                raise BigOException("Length of array must be greater than 0.")
         else:
-            assert size != 0, "Length of array must greater than 0."
+            if size == 0:
+                raise BigOException("Length of array must be greater than 0.")
             array = array.lower()
             if array == "random":
                 nums = self.genRandomArray(size)
@@ -534,8 +557,14 @@ class bigO:
             print(f"Running {function.__name__}(len {size} {array} array)")
 
         timeTaken = 0.0
+        result = None
+        # args = None
+        # if isLambda:
+        #     result = function(nums, 0, len(nums) - 1)
 
         for _ in range(epoch):
+            # args = function.__code__.co_varnames
+            # args = (nums, 0, len(nums) - 1)
             timeStart = default_timer()
             result = function(nums)
             timeEnd = default_timer()

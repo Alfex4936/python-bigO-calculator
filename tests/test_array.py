@@ -1,8 +1,8 @@
-from bigO import bigO
+from bigO import BigO
 
 
 def test_gen():
-    gen = bigO()
+    gen = BigO()
     print(gen.genRandomArray(20))
     print(gen.genRandomString(5, 20))
     print(gen.genSortedArray(20))
@@ -22,7 +22,7 @@ def test_gen():
 
 
 def test_Ksorted():
-    gen = bigO()
+    gen = BigO()
 
     arr = gen.genKsortedArray(9, 1)
     assert isKSortedArray(arr, 1) == True

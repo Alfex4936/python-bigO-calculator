@@ -1,5 +1,5 @@
 from bigO import algorithm
-from bigO import bigO
+from bigO import BigO
 import pytest
 
 
@@ -24,7 +24,7 @@ def brokenBubble(array):
 
 
 def test_none():
-    tester = bigO.bigO()
+    tester = BigO()
 
     def countSort(arr):  # stable
         # Time Complexity : O(n) | Space Complexity : O(n)
@@ -47,83 +47,83 @@ def test_none():
 
 
 def test_Ksorted():
-    tester = bigO()
+    tester = BigO()
 
     # Results may vary, O(n) possible
-    complexity, _ = tester.test(algorithm.introSort, "Ksorted")
-    complexity, _ = tester.test(algorithm.quickSort, "Ksorted")
-    complexity, _ = tester.test(algorithm.timSort, "Ksorted")
-    complexity, _ = tester.test(algorithm.countSort, "Ksorted")
+    complexity = tester.test(algorithm.introSort, "Ksorted")
+    complexity = tester.test(algorithm.quickSort, "Ksorted")
+    complexity = tester.test(algorithm.timSort, "Ksorted")
+    complexity = tester.test(algorithm.countSort, "Ksorted")
 
 
 def test_empty():
-    big = bigO()
-    cplx, _ = big.test(empty, "random")
+    big = BigO()
+    cplx = big.test(empty, "random")
 
 
 @pytest.mark.timeout(600)
 def test_bubble():
-    tester = bigO()
+    tester = BigO()
 
-    complexity, _ = tester.test(algorithm.bubbleSort, "random")
-    complexity, _ = tester.test(algorithm.bubbleSort, "sorted")
-    complexity, _ = tester.test(algorithm.bubbleSort, "reversed")
-    complexity, _ = tester.test(algorithm.bubbleSort, "partial")
-    complexity, _ = tester.test(algorithm.bubbleSort, "Ksorted")
-    complexity, _ = tester.test(algorithm.bubbleSort, "almost_equal")
-    complexity, _ = tester.test(algorithm.bubbleSort, "equal")
-    complexity, _ = tester.test(algorithm.bubbleSort, "hole")
+    complexity = tester.test(algorithm.bubbleSort, "random")
+    # complexity = tester.test(algorithm.bubbleSort, "sorted")
+    # complexity = tester.test(algorithm.bubbleSort, "reversed")
+    # complexity = tester.test(algorithm.bubbleSort, "partial")
+    # complexity = tester.test(algorithm.bubbleSort, "Ksorted")
+    # complexity = tester.test(algorithm.bubbleSort, "almost_equal")
+    # complexity = tester.test(algorithm.bubbleSort, "equal")
+    # complexity = tester.test(algorithm.bubbleSort, "hole")
 
 
 def test_brokenBubble():
-    tester = bigO()
-    _, result = tester.test(brokenBubble, "random")
+    tester = BigO()
+    _ = tester.test(brokenBubble, "random")
     # will assert at index 0
 
 
 def test_count():
-    tester = bigO()
+    tester = BigO()
 
     # Results may vary
-    complexity, _ = tester.test(algorithm.countSort, "random")
+    complexity = tester.test(algorithm.countSort, "random")
     assert complexity == "O(n)"
-    complexity, _ = tester.test(algorithm.countSort, "sorted")
+    complexity = tester.test(algorithm.countSort, "sorted")
     assert complexity == "O(n)"
-    complexity, _ = tester.test(algorithm.countSort, "reversed")
+    complexity = tester.test(algorithm.countSort, "reversed")
     assert complexity == "O(n)"
-    complexity, _ = tester.test(algorithm.countSort, "partial")
+    complexity = tester.test(algorithm.countSort, "partial")
     assert complexity == "O(n)"
-    complexity, _ = tester.test(algorithm.countSort, "Ksorted")
+    complexity = tester.test(algorithm.countSort, "Ksorted")
     assert complexity == "O(n)"
 
 
 @pytest.mark.timeout(600)
 def test_insertion():
-    tester = bigO()
+    tester = BigO()
 
-    complexity, _ = tester.test(algorithm.insertSort, "random")
-    complexity, _ = tester.test(algorithm.insertSort, "sorted")
-    complexity, _ = tester.test(algorithm.insertSort, "reversed")
-    complexity, _ = tester.test(algorithm.insertSort, "partial")
-    complexity, _ = tester.test(algorithm.insertSort, "Ksorted")
-    complexity, _ = tester.test(algorithm.insertSort, "string")
+    complexity = tester.test(algorithm.insertSort, "random")
+    complexity = tester.test(algorithm.insertSort, "sorted")
+    complexity = tester.test(algorithm.insertSort, "reversed")
+    complexity = tester.test(algorithm.insertSort, "partial")
+    complexity = tester.test(algorithm.insertSort, "Ksorted")
+    complexity = tester.test(algorithm.insertSort, "string")
 
 
 def test_intro():
-    tester = bigO()
+    tester = BigO()
 
     # Results may vary, O(n) possible
-    complexity, _ = tester.test(algorithm.introSort, "random")
-    complexity, _ = tester.test(algorithm.introSort, "sorted")
-    complexity, _ = tester.test(algorithm.introSort, "reversed")
-    complexity, _ = tester.test(algorithm.introSort, "partial")
-    complexity, _ = tester.test(algorithm.introSort, "Ksorted")
+    complexity = tester.test(algorithm.introSort, "random")
+    complexity = tester.test(algorithm.introSort, "sorted")
+    complexity = tester.test(algorithm.introSort, "reversed")
+    complexity = tester.test(algorithm.introSort, "partial")
+    complexity = tester.test(algorithm.introSort, "Ksorted")
     # median of three won't work on string array
 
 
 @pytest.mark.timeout(600)
 def test_selection():
-    tester = bigO()
+    tester = BigO()
 
     tester.test(algorithm.selectionSort, "random")
     tester.test(algorithm.selectionSort, "reversed")
@@ -134,53 +134,53 @@ def test_selection():
 
 
 def test_timsort():
-    tester = bigO()
+    tester = BigO()
 
     # Results may vary
-    complexity, _ = tester.test(algorithm.timSort, "random")
-    complexity, _ = tester.test(algorithm.timSort, "sorted")
-    complexity, _ = tester.test(algorithm.timSort, "reversed")
-    complexity, _ = tester.test(algorithm.timSort, "partial")
-    complexity, _ = tester.test(algorithm.timSort, "Ksorted")
-    complexity, _ = tester.test(algorithm.timSort, "hole")
+    complexity = tester.test(algorithm.timSort, "random")
+    complexity = tester.test(algorithm.timSort, "sorted")
+    complexity = tester.test(algorithm.timSort, "reversed")
+    complexity = tester.test(algorithm.timSort, "partial")
+    complexity = tester.test(algorithm.timSort, "Ksorted")
+    complexity = tester.test(algorithm.timSort, "hole")
 
 
 def test_heap():
-    tester = bigO()
-    complexity, _ = tester.test(algorithm.heapSort2, "random")
-    complexity, _ = tester.test(algorithm.heapSort2, "sorted")
-    complexity, _ = tester.test(algorithm.heapSort2, "reversed")
-    complexity, _ = tester.test(algorithm.heapSort2, "partial")
-    complexity, _ = tester.test(algorithm.heapSort2, "Ksorted")
+    tester = BigO()
+    complexity = tester.test(algorithm.heapSort2, "random")
+    complexity = tester.test(algorithm.heapSort2, "sorted")
+    complexity = tester.test(algorithm.heapSort2, "reversed")
+    complexity = tester.test(algorithm.heapSort2, "partial")
+    complexity = tester.test(algorithm.heapSort2, "Ksorted")
 
 
 def test_quickSort():
-    tester = bigO()
+    tester = BigO()
 
-    complexity, time = tester.test(algorithm.quickSort, "random")
-    complexity, time = tester.test(algorithm.quickSort, "sorted")
-    complexity, time = tester.test(algorithm.quickSort, "reversed")
-    complexity, time = tester.test(algorithm.quickSort, "partial")
-    complexity, time = tester.test(algorithm.quickSort, "Ksorted")
-    complexity, time = tester.test(algorithm.quickSort, "string")
+    complexity = tester.test(algorithm.quickSort, "random")
+    complexity = tester.test(algorithm.quickSort, "sorted")
+    complexity = tester.test(algorithm.quickSort, "reversed")
+    complexity = tester.test(algorithm.quickSort, "partial")
+    complexity = tester.test(algorithm.quickSort, "Ksorted")
+    complexity = tester.test(algorithm.quickSort, "string")
 
 
 def test_quickSort():
-    tester = bigO()
+    tester = BigO()
 
-    complexity, time = tester.test(algorithm.quickSortHoare, "random")
-    complexity, time = tester.test(algorithm.quickSortHoare, "sorted")
-    complexity, time = tester.test(algorithm.quickSortHoare, "reversed")
-    complexity, time = tester.test(algorithm.quickSortHoare, "partial")
-    complexity, time = tester.test(algorithm.quickSortHoare, "Ksorted")
-    complexity, time = tester.test(algorithm.quickSortHoare, "hole")
-    complexity, time = tester.test(algorithm.quickSortHoare, "equal")
-    complexity, time = tester.test(algorithm.quickSortHoare, "almost_equal")
-    complexity, time = tester.test(algorithm.quickSortHoare, "string")
+    complexity = tester.test(algorithm.quickSortHoare, "random")
+    complexity = tester.test(algorithm.quickSortHoare, "sorted")
+    complexity = tester.test(algorithm.quickSortHoare, "reversed")
+    complexity = tester.test(algorithm.quickSortHoare, "partial")
+    complexity = tester.test(algorithm.quickSortHoare, "Ksorted")
+    complexity = tester.test(algorithm.quickSortHoare, "hole")
+    complexity = tester.test(algorithm.quickSortHoare, "equal")
+    complexity = tester.test(algorithm.quickSortHoare, "almost_equal")
+    complexity = tester.test(algorithm.quickSortHoare, "string")
 
 
 def test_sort():
-    lib = bigO()
+    lib = BigO()
 
     lib.test(sorted, "random")
     lib.test(sorted, "sorted")
@@ -194,7 +194,7 @@ def test_sort():
 
 
 def test_all_cases():
-    lib = bigO()
+    lib = BigO()
 
     lib.test_all(sorted)
     lib.test_all(algorithm.bubbleSort)

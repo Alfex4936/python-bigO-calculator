@@ -1,22 +1,22 @@
-from bigO import bigO
+from bigO import BigO
 
 
 def test_cplx():
-    lib = bigO()
+    lib = BigO()
     assert lib._complexity2str(0) == "f(n)"
     assert lib._complexity2str(2) == "O(n)"
     assert lib._complexity2str(5) == "O(n^2)"
 
 
 def test_fitting():
-    lib = bigO()
+    lib = BigO()
     assert lib._fittingCurve(1)(100) == 1.0
     assert lib._fittingCurve(5)(2) == 4  # O(n^2)
     assert lib._fittingCurve(6)(2) == 8  # O(n^3)
 
 
 def test_estimate():
-    lib = bigO()
+    lib = BigO()
     n = [10, 100, 1000, 10000]
     times = [
         3.959999999736397e-06,

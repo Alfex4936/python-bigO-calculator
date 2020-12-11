@@ -1,4 +1,4 @@
-from bigO import bigO
+from bigO import BigO
 from bigO import utils
 
 
@@ -19,4 +19,4 @@ def bubbleSort(array):  # in-place | stable
 
 
 if __name__ == "__main__":
-    bubbleSort(bigO.genRandomArray(100))
+    bubbleSort(BigO.genRandomArray(100))
