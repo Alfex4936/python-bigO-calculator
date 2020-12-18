@@ -25,4 +25,4 @@ def test_estimate():
         1.62602698,
     ]
     result = lib._estimate(n, times)
-    print(result._to_str())
+    assert result._to_str() == "O(n^2)", "Estimation is wrong."
