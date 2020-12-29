@@ -1,22 +1,28 @@
-from bigO import BigO
+import pytest
 from bigO import algorithm
 
 
-def test_run():
-    lib = BigO()
+@pytest.fixture
+def BigO():
+    from bigO import BigO
 
-    lib.runtime(sorted, "random", 5000)
-    lib.runtime(algorithm.bubbleSort, "random", 5000)
-    lib.runtime(algorithm.countSort, "random", 5000)
-    lib.runtime(algorithm.binaryInsertSort, "random", 5000)
-    lib.runtime(algorithm.gnomeSort, "random", 5000)
-    lib.runtime(algorithm.heapSort, "random", 5000)
-    lib.runtime(algorithm.insertSort, "random", 5000)
-    lib.runtime(algorithm.insertSortOptimized, "random", 5000)
-    lib.runtime(algorithm.introSort, "random", 5000)
-    lib.runtime(algorithm.mergeSort, "random", 5000)
-    lib.runtime(algorithm.timSort, "random", 5000)
-    lib.runtime(algorithm.selectionSort, "random", 5000)
+    lib = BigO()
+    return lib
+
+
+def test_run(BigO):
+    BigO.runtime(sorted, "random", 5000)
+    BigO.runtime(algorithm.bubbleSort, "random", 5000)
+    BigO.runtime(algorithm.countSort, "random", 5000)
+    BigO.runtime(algorithm.binaryInsertSort, "random", 5000)
+    BigO.runtime(algorithm.gnomeSort, "random", 5000)
+    BigO.runtime(algorithm.heapSort, "random", 5000)
+    BigO.runtime(algorithm.insertSort, "random", 5000)
+    BigO.runtime(algorithm.insertSortOptimized, "random", 5000)
+    BigO.runtime(algorithm.introSort, "random", 5000)
+    BigO.runtime(algorithm.mergeSort, "random", 5000)
+    BigO.runtime(algorithm.timSort, "random", 5000)
+    BigO.runtime(algorithm.selectionSort, "random", 5000)
 
 
 def brokenBubble(array):
@@ -35,41 +41,34 @@ def brokenBubble(array):
     return array
 
 
-def test_custom():
-    lib = BigO()
-
+def test_custom(BigO):
     arr = ["dbc", "bbc", "ccd", "ef", "az"]
-    time, result = lib.runtime(brokenBubble, arr)
+    time, result = BigO.runtime(brokenBubble, arr)
 
     print(time)
     print(result)
 
 
-def test_str_array():
-    lib = BigO()
-
-    time, result = lib.runtime(algorithm.bubbleSort, "string", 10)
+def test_str_array(BigO):
+    time, result = BigO.runtime(algorithm.bubbleSort, "string", 10)
     print(result)
 
-    time, result = lib.runtime(algorithm.introSort, "string", 10)
+    time, result = BigO.runtime(algorithm.introSort, "string", 10)
     print(result)
 
-    time, result = lib.runtime(algorithm.quickSort, "string", 10)
+    time, result = BigO.runtime(algorithm.quickSort, "string", 10)
     print(result)
 
 
-def test_big():
-    lib = BigO()
-    lib.runtime(algorithm.bubbleSort, "random", 5000)
-    lib.runtime(algorithm.bubbleSort, "big", 5000)
+def test_big(BigO):
+    BigO.runtime(algorithm.bubbleSort, "random", 5000)
+    BigO.runtime(algorithm.bubbleSort, "big", 5000)
 
 
-def test_epoch():
-    lib = BigO()
-    lib.runtime(algorithm.quickSort, "random", 5000, 3, True)
-    lib.runtime(algorithm.quickSortHoare, "random", 5000, 3, True)
+def test_epoch(BigO):
+    BigO.runtime(algorithm.quickSort, "random", 5000, 3, True)
+    BigO.runtime(algorithm.quickSortHoare, "random", 5000, 3, True)
 
 
-def test_heap():
-    lib = BigO()
-    lib.runtime(algorithm.heapSort2, "random", 500)
+def test_heap(BigO):
+    BigO.runtime(algorithm.heapSort2, "random", 500)

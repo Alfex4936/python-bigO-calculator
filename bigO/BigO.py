@@ -469,7 +469,7 @@ class BigO:
 
         print(f"Running {function.__name__}(tests)")
         for test in result:
-            cplx, _ = self.test(function, test, prtResult=False)
+            cplx = self.test(function, test, prtResult=False)
             result[test] = cplx
             cplxInt = self._complexity2int(cplx)
 
