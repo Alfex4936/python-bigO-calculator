@@ -1,5 +1,4 @@
 import math
-import os
 import string
 import sys
 from collections import Counter
@@ -24,7 +23,7 @@ class BigO:
 
     Methods
     -------
-    test(function, array, limit=True, prtResult=True) -> Tuple[complexity, executionTime]:
+    test(function, array, limit=True, show_result=True) -> Tuple[complexity, executionTime]:
         Returns time complexity and the execution time to sort arrays with your function
 
     test_all(function) -> Dict[str, int]:
@@ -33,7 +32,7 @@ class BigO:
     runtime(function, array, size) -> Tuple[executionTime, sorted result]:
         Returns executionTime and the result
 
-    compare(function1, function2, array, size) -> Dict{functionName: executionTime}
+    compare(function1, function2, array, size) -> Dict{function: executionTime}
         Returns dictionary with execution time on each function
 
     Usage
@@ -50,7 +49,7 @@ class BigO:
     """
 
     __slots__ = (
-        "_is_window",
+        # "_is_window",
         "_coef",
         "_rms",
         "_cplx",
@@ -65,7 +64,7 @@ class BigO:
     )
 
     def __init__(self):
-        self._is_window: bool = os.name == "nt"
+        # self._is_window: bool = os.name == "nt"
         self._coef: float = 0.0
         self._rms: float = 0.0
         self._cplx: int = 0
@@ -85,9 +84,6 @@ class BigO:
             self._ON2,
             self._ON3,
         )
-
-    def __repr__(self):
-        return f"I'm using {'window' if self._is_window else 'posix'}"
 
     def _to_str(self) -> str:
         return self._complexity2str(self._cplx)
@@ -187,16 +183,31 @@ class BigO:
         return bestFit
 
     @staticmethod
-    def genRandomPositive(size: int = 10):
+    def gen_random_positive_ints(size: int = 10) -> List[int]:
+        """
+        Generate random positive ints
+
+        ex) [7, 5, 8, 4, 8, 10, 2, 6, 10, 6]
+        """
         return [randint(1, size) for _ in range(size)]
 
     @staticmethod
-    def genRandomArray(size: int = 10):
+    def gen_random_ints(size: int = 10) -> List[int]:
+        """
+        Generate random ints
+
+        ex) [-1, 10, -6, -1, -8, -9, 5, -2, 10, -9]
+        """
         return [randint(-size, size) for _ in range(size)]
 
     @staticmethod
-    def genRandomBigArray(size: int = 10):
-        array = []
+    def gen_random_big_ints(size: int = 10) -> List[int]:
+        """
+        Generate random big ints (More than 100 trillion)
+
+        ex) [-135088285944124, 783720798870257, -34720574126312, -718786035797451, 309948566813132, -300094477426098, 279527848265212, 483464802488144, -1002326358321167, -1030593724928167]
+        """
+        array: List[int] = []
         append = array.append
         for _ in range(size):
             isPositive = random() < 0.5
@@ -207,32 +218,58 @@ class BigO:
         return array
 
     @staticmethod
-    def genRandomString(size: int = 10, stringLen: int = 0):
+    def gen_random_strings(size: int = 10, stringLen: int = 0) -> List[str]:
+        """
+        Generate random strings
+
+        ex) ['ys4', 'u19iq', '93r6q', '9uao', 'i960', 'jw', 'tt', 'l', '2t99', 'f4l']
+        """
         stringLen = stringLen or size // 2
 
         letters = string.ascii_lowercase + string.digits
-        array = [
+        array: List[str] = [
             "".join(choice(letters) for _ in range(randint(1, stringLen)))
             for _ in range(size)
         ]  # secrets.choice?
         return array
 
     @staticmethod
-    def genSortedArray(size: int = 10):
+    def gen_sorted_ints(size: int = 10) -> List[int]:
+        """
+        Generate sorted ints from 0 to size -1
+
+        ex) [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        """
         return [i for i in range(size)]
 
     @staticmethod
-    def genReversedArray(size: int = 10):
+    def gen_reversed_ints(size: int = 10) -> List[int]:
+        """
+        Generate sorted ints from size - 1 to 0
+
+        ex) [-1, -2, -3, 1, 2, 3, 0, ... ]
+        """
         return [i for i in reversed(range(size))]
 
-    def genPartialArray(self, size: int = 10):
-        array = self.genRandomArray(size)
-        sorted_array = self.genSortedArray(size)
+    def gen_partial_ints(self, size: int = 10) -> List[int]:
+        """
+        Generate partially sorted ints from size - 1 to 0
+
+        ex) [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+        """
+        array = self.gen_random_ints(size)
+        sorted_array = self.gen_sorted_ints(size)
 
         array[size // 4 : size // 2] = sorted_array[size // 4 : size // 2]
         return array
 
-    def genKsortedArray(self, size: int = 10, k: Optional[int] = None):
+    def gen_ksorted_ints(self, size: int = 10, k: Optional[int] = None) -> List[int]:
+        """
+        Generate K sorted ints
+
+        ex) [-1, -2, -3, -4, -5, 0, 1, 2, 4, 3]
+        """
+
         def _reverseRange(array, a, b):
             i = a
             j = b - 1
@@ -250,9 +287,9 @@ class BigO:
             raise BigOException("K must be smaller than the size.")
 
         if k == 0:
-            return self.genSortedArray(size)
+            return self.gen_sorted_ints(size)
         elif size == k:
-            return self.genReversedArray(size)
+            return self.gen_reversed_ints(size)
 
         array = [value for value in range(-size // 2, size // 2)]
 
@@ -266,30 +303,48 @@ class BigO:
         return array
 
     @staticmethod
-    def genEqualArray(size: int = 10):
+    def gen_equal_ints(size: int = 10) -> List[int]:
+        """
+        Generate a list of one integer
+
+        ex) [-8, -8, -8, -8, -8, -8, -8, -8, -8, -8]
+        """
         n = randint(-size, size)
         return [n for _ in range(size)]
 
     @staticmethod
-    def genAlmostEqualArray(size: int = 10):
+    def gen_almost_equal_ints(size: int = 10) -> List[int]:
+        """
+        Generate a list of ints with small difference
+
+        ex) [9, 11, 9, 9, 11, 9, 10, 9, 10, 9]
+        """
         return [randint(-1, 1) + size for _ in range(size)]
 
-    def genHoleArray(
-        self, size: int = 10
-    ):  # returns equal array with only one different element
-        arr = self.genEqualArray(size)
+    @staticmethod
+    def gen_hole_ints(
+        size: int = 10,
+    ) -> List[int]:  # returns equal array with only one different element
+        """
+        Generate
+
+        ex) [-1, -2, -3, -4, -5, 0, 1, 2, 4, 3]
+        """
+        n = randint(-size, size)
+        arr = [n for _ in range(size)]  # gen_equal_ints
+
         arr[randint(-size, size)] = -sys.maxsize
         return arr
 
     @staticmethod
-    def isAscendingSorted(array: List[Any]):
+    def is_ascending_sorted(array: List[Any]):
         """Is correctly ascending sorted? Time: O(n)
 
         Args:
             array [List]: Array to check if it is sorted correctly
 
         Returns:
-            isSorted, index [bool, int]: returns True/False with unsorted index
+            is_sorted, index [bool, int]: returns True/False with unsorted index
         """
         # Ascending order
         for i in range(len(array) - 1):
@@ -299,14 +354,14 @@ class BigO:
         return True, None
 
     @staticmethod
-    def isDescendingSorted(array: List[Any]) -> Tuple[bool, Optional[int]]:
+    def is_descending_sorted(array: List[Any]) -> Tuple[bool, Optional[int]]:
         """Is correctly descending sorted? Time: O(n)
 
         Args:
             array [List]: Array to check if it is sorted correctly
 
         Returns:
-            isSorted, index [bool, int]: returns True/False with unsorted index
+            is_sorted, index [bool, int]: returns True/False with unsorted index
         """
         # Descending order
         for i in range(len(array) - 1, 0, -1):
@@ -317,96 +372,96 @@ class BigO:
 
     def test(
         self,
-        functionName: Callable,
+        function: Callable,
         array: str,
         limit: bool = True,
-        prtResult: bool = True,
+        show_result: bool = True,
     ) -> str:
         """
         ex) test(bubbleSort, "random")
 
         Args:
-            functionName (Callable): a function to call |
+            function (Callable): a function to call |
             array (str): "random", "big", "sorted", "reversed", "partial", "Ksorted", "string",
             "hole", "equal", "almost_equal" |
             limit (bool) = True: To terminate before it takes forever to sort (usually 10,000) |
-            prtResult (bool) = True: Whether to print the result by itself
+            show_result (bool) = True: Whether to print the result by itself
 
         Returns:
             complexity (str) : ex) O(n)
 
         """
-        # if functionName.__code__.co_argcount - 1 != len(args):
+        # if function.__code__.co_argcount - 1 != len(args):
         #     raise BigOException(
-        #         f"{functionName.__name__} takes {functionName.__code__.co_argcount - 1} but got more {args}."
+        #         f"{function.__name__} takes {function.__code__.co_argcount - 1} but got more {args}."
         #     )
-        if self._is_window:
-            from win10toast import ToastNotifier
-        else:
-            toaster = None
-            ToastNotifier = None
+
+        # if self._is_window:
+        #     from win10toast import ToastNotifier
+        # else:
+        #     toaster = None
+        #     ToastNotifier = None
 
         sizes: List[int] = [10, 100, 1000, 10000, 100000]
         maxIter: int = 5
         times: List[float] = []
-        isSlow: bool = False  # To see if sorting algorithm takes forever
+        is_slow: bool = False  # To see if sorting algorithm takes forever
 
-        if prtResult:
-            print(f"Running {functionName.__name__}({array} array)...")
-        if self._is_window:
-            toaster = ToastNotifier()
-            toaster.show_toast(
-                "Big-O Caculator",
-                f"Running {functionName.__name__}({array} array)...",
-                duration=2,
-            )
+        if show_result:
+            print(f"Running {function.__name__}({array} array)...")
+        # if self._is_window:
+        #     toaster = ToastNotifier()
+        #     toaster.show_toast(
+        #         "Big-O Caculator",
+        #         f"Running {function.__name__}({array} array)...",
+        #         duration=2,
+        #     )
 
         for size in sizes:
-            if isSlow:
+            if is_slow:
                 sizes = sizes[: len(times)]
                 break
 
-            timeTaken = 0.0
-            nums = []
+            sum_time = 0.0
 
             array = array.lower()
             if array == "random":
-                nums = self.genRandomArray(size)
+                nums: List[int] = self.gen_random_ints(size)
             elif array == "big":
-                nums = self.genRandomBigArray(size)
+                nums = self.gen_random_big_ints(size)
             elif array == "sorted":
-                nums = self.genSortedArray(size)
+                nums = self.gen_sorted_ints(size)
             elif array == "partial":
-                nums = self.genPartialArray(size)
+                nums = self.gen_partial_ints(size)
             elif array == "reversed":
-                nums = self.genReversedArray(size)
+                nums = self.gen_reversed_ints(size)
             elif array == "ksorted":
-                nums = self.genKsortedArray(size, size.bit_length())
+                nums = self.gen_ksorted_ints(size, size.bit_length())
             elif array == "string":
-                nums = self.genRandomString(size=size, stringLen=100)
+                nums = self.gen_random_strings(size=size, stringLen=100)
             elif array == "hole":
-                nums = self.genHoleArray(size)
+                nums = self.gen_hole_ints(size)
             elif array == "equal":
-                nums = self.genEqualArray(size)
+                nums = self.gen_equal_ints(size)
             elif array == "almost_equal":
-                nums = self.genAlmostEqualArray(size)
+                nums = self.gen_almost_equal_ints(size)
             # elif array == "custom":
             #    nums = custom
             #    assert len(nums) != 0, "Please, pass the custom array you want.
             else:  # default = random array
-                nums = self.genRandomArray(size)
+                nums = self.gen_random_ints(size)
 
             currentIter = 0
 
             while currentIter < maxIter:
                 start = default_timer()
-                result = functionName(nums)
+                result = function(nums)
                 end = default_timer()
-                timeTaken += end - start
+                sum_time += end - start
                 currentIter += 1
 
                 if result != None:
-                    isSorted, index = self.isAscendingSorted(result)
+                    is_sorted, index = self.is_ascending_sorted(result)
                     if index == 1:
                         msg = f"{result[index - 1]}, {result[index]}..."
                     elif index == len(result) - 1:
@@ -415,33 +470,32 @@ class BigO:
                         msg = f"...{result[index - 1]}, {result[index]}, {result[index + 1]}..."
                     else:
                         msg = ""
-                    if not isSorted:
+                    if not is_sorted:
                         raise BigOException(
-                            f"{functionName.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
+                            f"{function.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
                         )
 
             if (
-                timeTaken >= 4 and limit
+                sum_time >= 4 and limit
             ):  # if it takes more than 4 seconds to sort an array, then break it
-                isSlow = True
+                is_slow = True
 
-            timeTaken /= maxIter
-            times.append(timeTaken)
+            sum_time /= maxIter
+            times.append(sum_time)
 
         complexity = self._estimate(sizes, times)
         cplx = complexity._to_str()
         # estimatedTime = sum(times)
 
-        if prtResult:
-            print(f"Completed {functionName.__name__}({array} array): {cplx}")
-            # print(f"Time took: {estimatedTime:.5f}s")
+        if show_result:
+            print(f"Completed {function.__name__}({array} array): {cplx}")
 
-        if self._is_window:
-            toaster.show_toast(
-                "Big-O Caculator",
-                f"Completed {functionName.__name__}({array} array): {cplx}",
-                duration=3,
-            )
+        # if self._is_window:
+        #     toaster.show_toast(
+        #         "Big-O Caculator",
+        #         f"Completed {function.__name__}({array} array): {cplx}",
+        #         duration=3,
+        #     )
 
         return cplx
 
@@ -469,7 +523,7 @@ class BigO:
 
         print(f"Running {function.__name__}(tests)")
         for test in result:
-            cplx = self.test(function, test, prtResult=False)
+            cplx = self.test(function, test, show_result=False)
             result[test] = cplx
             cplxInt = self._complexity2int(cplx)
 
@@ -492,7 +546,7 @@ class BigO:
         array: Union[str, List[Any]],
         size: int = 0,
         epoch: int = 1,
-        prtResult: bool = True,
+        show_result: bool = True,
     ) -> Tuple[float, Optional[List[Any]]]:
         """
         ex) runtime(bubbleSort, "random", 5000)
@@ -503,7 +557,7 @@ class BigO:
             "hole", "equal", "almost_equal" or your custom array |
             size [int]: How big test array should be |
             epoch [int]: How many tests to run and calculte average |
-            prtResult (bool): Whether to print the result by itself (default = True) |
+            show_result (bool): Whether to print the result by itself (default = True) |
 
         Returns:
             Tuple[float, List[Any]]: An execution time and sorted result
@@ -531,32 +585,32 @@ class BigO:
                 raise BigOException("Length of array must be greater than 0.")
             array = array.lower()
             if array == "random":
-                nums = self.genRandomArray(size)
+                nums = self.gen_random_ints(size)
             elif array == "big":
-                nums = self.genRandomBigArray(size)
+                nums = self.gen_random_big_ints(size)
             elif array == "sorted":
-                nums = self.genSortedArray(size)
+                nums = self.gen_sorted_ints(size)
             elif array == "partial":
-                nums = self.genPartialArray(size)
+                nums = self.gen_partial_ints(size)
             elif array == "reversed":
-                nums = self.genReversedArray(size)
+                nums = self.gen_reversed_ints(size)
             elif array == "ksorted":
-                nums = self.genKsortedArray(size, size.bit_length())
+                nums = self.gen_ksorted_ints(size, size.bit_length())
             elif array == "string":
-                nums = self.genRandomString(size)
+                nums = self.gen_random_strings(size)
             elif array == "hole":
-                nums = self.genHoleArray(size)
+                nums = self.gen_hole_ints(size)
             elif array == "equal":
-                nums = self.genEqualArray(size)
+                nums = self.gen_equal_ints(size)
             elif array == "almost_equal":
-                nums = self.genAlmostEqualArray(size)
+                nums = self.gen_almost_equal_ints(size)
             else:  # default = random array
-                nums = self.genRandomArray(size)
+                nums = self.gen_random_ints(size)
 
-        if prtResult:
+        if show_result:
             print(f"Running {function.__name__}(len {size} {array} array)")
 
-        timeTaken = 0.0
+        sum_time = 0.0
         result = None
         # args = None
         # if isLambda:
@@ -565,14 +619,14 @@ class BigO:
         for _ in range(epoch):
             # args = function.__code__.co_varnames
             # args = (nums, 0, len(nums) - 1)
-            timeStart = default_timer()
+            start_time = default_timer()
             result = function(nums)
-            timeEnd = default_timer()
+            end_time = default_timer()
 
-            timeTaken += timeEnd - timeStart
+            sum_time += end_time - start_time
 
             if result != None:
-                isSorted, index = self.isAscendingSorted(result)
+                is_sorted, index = self.is_ascending_sorted(result)
                 if index == 1:
                     msg = f"{result[index - 1]}, {result[index]}..."
                 elif index == len(result) - 1:
@@ -582,18 +636,18 @@ class BigO:
                 else:
                     msg = ""
 
-                if not isSorted:
+                if not is_sorted:
                     # Just see the result if it doesn't sort correctly
                     print(
                         f"{function.__name__} doesn't sort correctly.\nAt {index} index: [{msg}]"
                     )
 
-        finalTime = timeTaken / epoch
+        estimated_time = sum_time / epoch
 
-        if prtResult:
-            print(f"Took {finalTime:.5f}s to sort {function.__name__}({array})")
+        if show_result:
+            print(f"Took {estimated_time:.5f}s to sort {function.__name__}({array})")
 
-        return finalTime, result
+        return estimated_time, result
 
     def compare(
         self,
@@ -608,7 +662,7 @@ class BigO:
         Args:
             function1 [Callable]: a function to compare |
             function2 [Callable]: a function to compare |
-            array [str]|[List]: "random", "big", "sorted", "partial", "reversed", "Ksorted", 
+            array [str]|[List]: "random", "big", "sorted", "partial", "reversed", "Ksorted",
             "hole", "equal", "almost_equal", "all" or your custom array |
             size [int]: How big test array should be |
 
@@ -636,12 +690,12 @@ class BigO:
             print(f"Running {function1.__name__}(tests) vs {function2.__name__}(tests)")
             for arr in test:
                 function1_time, _ = self.runtime(
-                    function1, arr, size, epoch=3, prtResult=False
+                    function1, arr, size, epoch=3, show_result=False
                 )
                 func1_sum += function1_time
 
                 function2_time, _ = self.runtime(
-                    function2, arr, size, epoch=3, prtResult=False
+                    function2, arr, size, epoch=3, show_result=False
                 )
                 func2_sum += function2_time
 
@@ -663,10 +717,10 @@ class BigO:
                 size = len(nums)
 
             function1_time, _ = self.runtime(
-                function1, array, size, epoch=3, prtResult=False
+                function1, array, size, epoch=3, show_result=False
             )
             function2_time, _ = self.runtime(
-                function2, array, size, epoch=3, prtResult=False
+                function2, array, size, epoch=3, show_result=False
             )
 
         timeDiff = abs(function1_time - function2_time)

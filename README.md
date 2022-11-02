@@ -57,16 +57,16 @@ Methods:
 ## Methods parameters
 ```py
 def test(**args):
-    functionName [Callable]: a function to call.
+    function [Callable]: a function to call.
     array [str]: "random", "big", "sorted", "reversed", "partial", "Ksorted", "string", "almost_equal", "equal", "hole".
     limit [bool] = True: To break before it takes "forever" to sort an array. (ex. selectionSort)
     prtResult [bool] = True: Whether to print result by itself
 
 def test_all(**args):
-    functionName [Callable]: a function to call.
+    function [Callable]: a function to call.
 
 def runtime(**args):
-    functionName [Callable]: a function to call.
+    function [Callable]: a function to call.
     array: "random", "big", "sorted", "partial", "reversed", "Ksorted" ,
         "hole", "equal", "almost_equal" or your custom array.
     size [int]: How big test array should be.
@@ -304,7 +304,7 @@ Otherwise, it shows like,
 from bigO import BigO
 from bigO import utils
 
-@utils.isSorted
+@utils.is_sorted
 def bubbleSort(array):  # in-place | stable
     isSorted = False
     counter = 1  # not correct
@@ -321,7 +321,7 @@ def bubbleSort(array):  # in-place | stable
 
 
 if __name__ == "__main__":
-    bubbleSort(BigO.genRandomArray(100))
+    bubbleSort(BigO.gen_random_ints(100))
 
 ''' Result
 bubbleSort doesn't sort correctly.
@@ -335,16 +335,16 @@ from bigO import BigO
 
 lib = BigO()
 
-arr = lib.genRandomArray(100)
-arr = lib.genRandomBigArray(100)
-arr = lib.genRandomString(100)
-arr = lib.genSortedArray(100)
-arr = lib.genReversedArray(100)
-arr = lib.genPartialArray(100)
-arr = lib.genKsortedArray(100)
-arr = lib.genAlmostEqualArray(100)
-arr = lib.genEqualArray(100)
-arr = lib.genHoleArray(100)
+arr = lib.gen_random_ints(100)
+arr = lib.gen_random_big_ints(100)
+arr = lib.gen_random_strings(100)
+arr = lib.gen_sorted_ints(100)
+arr = lib.gen_reversed_ints(100)
+arr = lib.gen_partial_ints(100)
+arr = lib.gen_ksorted_ints(100)
+arr = lib.gen_equal_ints(100)
+arr = lib.gen_almost_equal_ints(100)
+arr = lib.gen_hole_ints(100)
 
 ```
 
