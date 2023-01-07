@@ -270,7 +270,7 @@ class BigO:
         ex) [-1, -2, -3, -4, -5, 0, 1, 2, 4, 3]
         """
 
-        def _reverseRange(array, a, b):
+        def _reverse_range(array, a, b):
             i = a
             j = b - 1
             while i < j:
@@ -297,8 +297,8 @@ class BigO:
         while right >= size - k:
             right -= 1
 
-        _reverseRange(array, 0, k + 1)
-        _reverseRange(array, size - right, size)
+        _reverse_range(array, 0, k + 1)
+        _reverse_range(array, size - right, size)
 
         return array
 
@@ -438,7 +438,7 @@ class BigO:
             elif array == "ksorted":
                 nums = self.gen_ksorted_ints(size, size.bit_length())
             elif array == "string":
-                nums = self.gen_random_strings(size=size, stringLen=100)
+                nums = self.gen_random_strings(size=size, stringLen=100)  # type: ignore
             elif array == "hole":
                 nums = self.gen_hole_ints(size)
             elif array == "equal":

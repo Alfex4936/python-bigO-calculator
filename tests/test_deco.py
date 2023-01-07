@@ -1,8 +1,7 @@
-from bigO import BigO
-from bigO import utils
+from bigO import BigO, utils
 
 
-@utils.isSorted
+@utils.is_sorted
 def bubbleSort(array):  # in-place | stable
     isSorted = False
     counter = 1  # not correct
@@ -19,4 +18,4 @@ def bubbleSort(array):  # in-place | stable
 
 
 if __name__ == "__main__":
-    bubbleSort(BigO.genRandomArray(100))
+    bubbleSort(BigO.gen_random_ints(100))

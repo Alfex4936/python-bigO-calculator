@@ -1,4 +1,5 @@
 import pytest
+
 from bigO import algorithm
 
 
@@ -60,7 +61,7 @@ def test_Ksorted(BigO):
 
 
 def test_empty(BigO):
-    cplx = big.test(empty, "random")
+    cplx = BigO.test(empty, "random")
 
 
 @pytest.mark.timeout(600)

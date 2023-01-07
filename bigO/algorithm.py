@@ -20,7 +20,7 @@ def bubbleSort(array: list):
 
 
 def brickSort(array: list):
-    """ Odd-Even Sort"""
+    """Odd-Even Sort"""
     isSorted: bool = False
     n: int = len(array) - 1
 
@@ -307,7 +307,7 @@ def timSort(lst):
     """
     Python sort(), sorted() implementation
     from https://github.com/hu-ng/timsort/blob/master/timsort.py
-    
+
     Best : O(n) Time | O(n) Space
     Average : O(nlogn) Time | O(n) Space
     Worst : O(nlogn) Time | O(n) Space
@@ -857,7 +857,7 @@ def quickSort(array):  # in-place | not-stable
 def quickSortHoare(array, low=0, high=None):  # in-place | not-stable
     """
     QuickSort using tail recursive + insertion sort + hoare
-    
+
     Best : O(nlogn) Time | O(1) Space
     Average : O(nlogn) Time | O(1) Space
     Worst : O(nlogn) Time | O(1) Space
@@ -1189,7 +1189,7 @@ def goSort(array):
 
 def gravitySort(array):  # Bead Sort
     """Gravity Sort (Bead Sort)
-    
+
     Anti-gravity sort (works with negative integers well)
 
     """
@@ -1212,7 +1212,7 @@ def gravitySort(array):  # Bead Sort
 
 def doubleSelectionSort(array):
     """Double Selection Sort
-    
+
     Best : O(n^2) Time | O(1) Space
     Average : O(n^2) Time | O(1) Space
     Worst : O(n^2) Time | O(1) Space
